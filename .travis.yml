@@ -1,0 +1,37 @@
+language: node_js
+cache:
+  directories: node_modules
+node_js:
+  - '6'
+script:
+  - npm run lint
+  - npm test
+
+before_deploy: npm run dist
+deploy:
+  - provider: gcs
+    bucket: floq-test
+    local-dir: dist
+    upload-dir: balance
+    cache_control: "max-age=0"
+    acl: public-read
+    access_key_id: GOOGUTBTHMJF3QCW6R7F
+    secret_access_key:
+      secure: I/9aJ7u/BrImFT7GuBw+1zvj3oG/a8qKhJ14HnIvFsruglZQHl4sT+GzFRmMk+ZV43NW8Nfm4rL/uUt+cEWG4FRKebbNCH4ftueZi9UgDiotHSdOb5DVwBHgmzvGv7lt5mtGpceu7kTxW24hYXxu+q9o+pAaAjVonDMGLSk4P1wORHPEcdAZRlfrNcS55RZNgErDIteB5GbGo2f7ivKnQ0YvayLtupyi73+Ka68BBqnTDu1Y7akkdYq4dp6HD857aXhaZa+Dcsz6JkN2sSAGk0fAJ9VyPQi/pQWFA5D1i1fDillnA1beelXCWrfckPSzrb/nsJoK+srx9jvu7bxLu0NBL/ZwewrTSbr7nE9lmvG6qONxD7U/nBaC2iwSVJIXkQ392Ff2NiQ09htNCxr1w5eqT5s7d/4vlPJ/Yzkm+AWtQJfl2yzaK2k3Ev5gyFt3pa+EgB/wGiJW0u/8n5S0c5rcEROaKluryvOAcRQvmLXfK0FBljl3jf11gW+rO7DG4Dj2YeS67ZYzm+Gcmq3IK6k6gIC4KXuW/oZSGUM+wE7NndfwaYfNcanM1QS/KMuZbW3OTwS/R7wkBhWFWcAURyhKj+4rjvWawzFNn//8Kb0mQjFsnwwt1lBzNbeAH1QIaaFtDa0R4S7nUPHleRW9dkGV5iRsFWvL7Up4m6KIwyo=
+    skip_cleanup: true
+    on:
+      repo: blankoslo/floq-balance
+      branch: develop
+  - provider: gcs
+    bucket: floq
+    local-dir: dist
+    upload-dir: balance
+    cache_control: "max-age=3600"
+    acl: public-read
+    access_key_id: GOOGUTBTHMJF3QCW6R7F
+    secret_access_key:
+      secure: I/9aJ7u/BrImFT7GuBw+1zvj3oG/a8qKhJ14HnIvFsruglZQHl4sT+GzFRmMk+ZV43NW8Nfm4rL/uUt+cEWG4FRKebbNCH4ftueZi9UgDiotHSdOb5DVwBHgmzvGv7lt5mtGpceu7kTxW24hYXxu+q9o+pAaAjVonDMGLSk4P1wORHPEcdAZRlfrNcS55RZNgErDIteB5GbGo2f7ivKnQ0YvayLtupyi73+Ka68BBqnTDu1Y7akkdYq4dp6HD857aXhaZa+Dcsz6JkN2sSAGk0fAJ9VyPQi/pQWFA5D1i1fDillnA1beelXCWrfckPSzrb/nsJoK+srx9jvu7bxLu0NBL/ZwewrTSbr7nE9lmvG6qONxD7U/nBaC2iwSVJIXkQ392Ff2NiQ09htNCxr1w5eqT5s7d/4vlPJ/Yzkm+AWtQJfl2yzaK2k3Ev5gyFt3pa+EgB/wGiJW0u/8n5S0c5rcEROaKluryvOAcRQvmLXfK0FBljl3jf11gW+rO7DG4Dj2YeS67ZYzm+Gcmq3IK6k6gIC4KXuW/oZSGUM+wE7NndfwaYfNcanM1QS/KMuZbW3OTwS/R7wkBhWFWcAURyhKj+4rjvWawzFNn//8Kb0mQjFsnwwt1lBzNbeAH1QIaaFtDa0R4S7nUPHleRW9dkGV5iRsFWvL7Up4m6KIwyo=
+    skip_cleanup: true
+    on:
+      repo: blankoslo/floq-balance
+      branch: master
