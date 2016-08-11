@@ -1,16 +1,17 @@
 import React from 'react';
 import Row from './bodyRow';
 
-const BalanceViewBody = () => (
+const BalanceViewBody = (props) => (
   <tbody>
-    {Array(12).fill(1).map((e, index) =>
+    {props.projects.data.toIndexedSeq().map((p) =>
       <Row
-        key={index}
+        projectId={p.id}
       />)}
   </tbody>
 );
 
 BalanceViewBody.propTypes = {
+  projects: React.PropTypes.object
 };
 
 export default BalanceViewBody;

@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './header';
 import Body from './body';
 
-const BalanceViewTable = () => (
+const BalanceViewTable = (props) => (
   <div>
     <table className='mdl-data-table mdl-js-data-table mdl-shadow--2dp'>
       <Header
@@ -11,13 +11,13 @@ const BalanceViewTable = () => (
         'Grunnlag', 'Timetall på faktura', 'Fakturanummer', 'Fakturatype', 'Utgifter',
         'UL', 'Honorar	OT']}
       />
-      <Body />
+      <Body projects={props.projects} />
     </table>
   </div>
 );
 
 BalanceViewTable.propTypes = {
-
+  projects: React.PropTypes.object
 };
 
 export default BalanceViewTable;

@@ -1,17 +1,17 @@
 import React from 'react';
 import BalanceViewBodyCell from './bodyCell';
 
-const BalanceViewBodyRow = () => (
+const BalanceViewBodyRow = (props) => (
   <tr>
-    {Array(12).fill(1).map((e, index) =>
-      <BalanceViewBodyCell
-        key={index}
-      />)}
+    <BalanceViewBodyCell
+      value={props.projectId}
+    />
   </tr>
 );
 
 BalanceViewBodyRow.propTypes = {
-
+  projectId: React.PropTypes.string,
+  key: React.PropTypes.number
 };
 
 export default BalanceViewBodyRow;
