@@ -23,29 +23,3 @@ fetch(`${baseURL}/projects?select=id,name,billable&order=id.desc`, {
   headers
 }).then(response => response.json());
 
-export const getEmployees = () =>
-  fetch(`${baseURL}/employees?select=id,first_name,last_name&order=first_name.desc`, {
-    headers
-  }).then(response => response.json());
-
-export const getBalance = () => fetch(`${baseURL}/balance`, {
-  headers
-}).then(response => response.json());
-
-export const getWorkedDaysPerWeek = body => fetch(`${baseURL}/rpc/worked_days_per_week`, {
-  method: 'POST',
-  headers: dataHeaders,
-  body: JSON.stringify(body)
-}).then(response => response.json());
-
-export const addBalance = body => fetch(`${baseURL}/rpc/add_days_to_week`, {
-  method: 'POST',
-  headers: dataHeaders,
-  body: JSON.stringify(body)
-}).then(response => response.json());
-
-export const removeBalance = body => fetch(`${baseURL}/rpc/remove_days_from_week`, {
-  method: 'POST',
-  headers: dataHeaders,
-  body: JSON.stringify(body)
-}).then(response => response.json());
