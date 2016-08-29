@@ -9,15 +9,6 @@ class App extends Component {
     props.getProjects();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.location.query.year !== this.props.location.query.year) {
-  //     this.props.selectYear(nextProps.location.query.year);
-  //   }
-  //   if (nextProps.location.query.week !== this.props.location.query.week) {
-  //     this.props.selectWeek(nextProps.location.query.week);
-  //   }
-  // }
-
   render() {
     if (this.props.projects.loading) {
       return null;
@@ -36,8 +27,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-  location: React.PropTypes.object.isRequired,
-  params: React.PropTypes.object.isRequired,
   children: React.PropTypes.object,
 
   // mapStateToProps
