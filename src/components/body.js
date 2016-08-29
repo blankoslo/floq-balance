@@ -6,6 +6,7 @@ const BalanceViewBody = (props) => (
     {props.projects.data.toIndexedSeq().map((p) =>
       <Row
         projectId={p.id}
+        key={p.id}
       />)}
   </tbody>
 );

@@ -14,12 +14,7 @@ const headers = {
   Accept: 'application/json'
 };
 
-const dataHeaders = Object.assign({}, headers, {
-  'Content-Type': 'application/json; charset=utf-8'
-});
-
 export const getProjects = () =>
-fetch(`${baseURL}/projects?select=id,name,billable&order=id.desc`, {
-  headers
-}).then(response => response.json());
-
+  fetch(`${baseURL}/projects?select=id,name,billable&order=id.desc`, {
+    headers
+  }).then(response => response.json());

@@ -10,8 +10,7 @@ const BalanceViewBodyRow = (props) => (
 );
 
 BalanceViewBodyRow.propTypes = {
-  projectId: React.PropTypes.string,
-  key: React.PropTypes.number
+  projectId: React.PropTypes.string
 };
 
 export default BalanceViewBodyRow;

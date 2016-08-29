@@ -17,5 +17,3 @@ export const getProjects = () => ({
   type: GET_PROJECTS,
   payload: api.getProjects()
 });
-
-
