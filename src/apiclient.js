@@ -15,6 +15,6 @@ const headers = {
 };
 
 export const getProjects = () =>
-  fetch(`${baseURL}/projects?select=id,name,billable&order=id.desc`, {
+  fetch(`${baseURL}/projects?select=id,name,billable,customer{id,name}&billable=eq.billable&order=id.desc`, {
     headers
   }).then(response => response.json());
