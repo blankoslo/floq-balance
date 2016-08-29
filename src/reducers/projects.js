@@ -7,7 +7,7 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
     case GET_PROJECTS:
       return {
         loading: false,
-        data: new Immutable.OrderedMap(action.payload.map(e => [e.id, e]))
+        data: new Immutable.OrderedMap(action.payload.map(p => [p.id, p]))
             .sortBy(p => p.id.toLowerCase())
       };
     default:
