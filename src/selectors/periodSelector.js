@@ -2,12 +2,9 @@ import { createSelector } from 'reselect';
 import moment from 'moment';
 
 const getPeriod = (_year, _month) => {
-  let year;
-  let month;
-  if (isNaN(_year) || isNaN(_month)) {
-    year = 2016;
-    month = 1;
-  }
+  const year = isNaN(_year) ? 2016 : _year;
+  const month = isNaN(_month) ? 1 : _month;
+
   const startDate = moment().year(year).month(month - 1).date(1)
     .format('YYYY-MM-DD');
   const endDate = moment().year(year).month(month).date(0)
