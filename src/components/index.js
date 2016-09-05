@@ -13,7 +13,7 @@ const BalanceView = (props) => (
 );
 
 BalanceView.propTypes = {
-  projects: React.PropTypes.object
+  projects: React.PropTypes.object.isRequired
 };
 
 export default BalanceView;
