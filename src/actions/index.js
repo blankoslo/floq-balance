@@ -22,8 +22,6 @@ export const getProjects = () => ({
 export const getHoursPerProject = (startDate, endDate) => ({
   type: GET_HOURS_PER_PROJECT,
   payload: api.getHoursPerProject(
-    { in_start_date: startDate,
-      in_end_date: endDate
-    }
+    { in_start_date: startDate, in_end_date: endDate }
   )
 });

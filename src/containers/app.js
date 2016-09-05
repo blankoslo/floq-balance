@@ -38,14 +38,14 @@ App.propTypes = {
 
   // mapDispatchToProps
   getProjects: React.PropTypes.func.isRequired,
-  getHoursPerProject: React.PropTypes.func.isRequired
+  getHoursPerProject: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   projects: state.projects,
 
   startDate: periodSelector(state, ownProps).startDate,
-  endDate: periodSelector(state, ownProps).endDate
+  endDate: periodSelector(state, ownProps).endDate,
 });
 
 const mapDispatchToProps = {
