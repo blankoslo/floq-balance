@@ -1,11 +1,9 @@
-import { combineReducers } from 'redux';
-
 import ErrorReducer from './error';
 import ProjectsReducer from './projects';
 
-const rootReducer = combineReducers({
+const rootReducer = {
   error: ErrorReducer,
-  projects: ProjectsReducer,
-});
+  projects: ProjectsReducer
+};
 
 export default rootReducer;
