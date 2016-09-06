@@ -63,16 +63,13 @@ input, select {
   background-color: @inputColor;
 }
 
-table {
+table.balance-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 0.5rem;
   tr {
-    th {
-      padding: 0.5rem 1rem;
-    }
-    td {
-      padding: 0.5rem 1rem;
+    th, td {
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid @backgroundPanelColor;
     }
   }
 }

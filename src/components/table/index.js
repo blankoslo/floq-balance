@@ -5,7 +5,7 @@ import Body from './body';
 
 const BalanceViewTable = (props) => (
   <div>
-    <table className='mdl-data-table mdl-js-data-table mdl-shadow--2dp'>
+    <table className='balance-table'>
       <Header
       // TODO: Move into datastructure? as tuples together with value
         columnNames={new Immutable.List(['Kundekode', 'Engasjement', 'Brutto omsetning kunde',
