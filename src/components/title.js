@@ -5,7 +5,7 @@ const BalanceViewTitle = (props) => (
   <div className='balance-navigation'>
     <Link
       className='mdl-button mdl-js-button'
-      to={''}
+      to={props.navigation.previous}
     >
       <i className='material-icons'>arrow_back</i>
     </Link>
@@ -14,7 +14,7 @@ const BalanceViewTitle = (props) => (
     </div>
     <Link
       className='mdl-button mdl-js-button'
-      to={''}
+      to={props.navigation.next}
     >
       <i className='material-icons'>arrow_forward</i>
     </Link>
@@ -24,6 +24,7 @@ const BalanceViewTitle = (props) => (
 BalanceViewTitle.propTypes = {
   selectedYear: React.PropTypes.number.isRequired,
   selectedMonth: React.PropTypes.string.isRequired,
+  navigation: React.PropTypes.object.isRequired,
 };
 
 export default BalanceViewTitle;

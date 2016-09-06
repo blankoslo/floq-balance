@@ -7,6 +7,7 @@ const BalanceView = (props) => (
     <BalanceViewTitle
       selectedYear={props.title.year}
       selectedMonth={props.title.month}
+      navigation={props.title.navigation}
     />
     <BalanceViewTable tableBody={props.tableBody} />
   </div>
