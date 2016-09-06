@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BalanceViewBodyCell = (props) => (
+const BalanceViewBodyCell = props => (
   <td>
     {props.value}
   </td>
