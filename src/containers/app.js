@@ -17,10 +17,7 @@ class App extends Component {
     if (this.props.tableBody.loading) {
       return null;
     }
-
-    return (
-      <IndexComponent tableBody={this.props.tableBody.data} title={this.props.title} />
-    );
+    return <IndexComponent tableBody={this.props.tableBody.data} title={this.props.title} />;
   }
 }
 
