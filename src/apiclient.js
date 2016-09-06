@@ -14,7 +14,18 @@ const headers = {
   Accept: 'application/json'
 };
 
+const dataHeaders = Object.assign({}, headers, {
+  'Content-Type': 'application/json; charset=utf-8'
+});
+
 export const getProjects = () =>
-  fetch(`${baseURL}/projects?select=id,name,billable,customer{id,name}&billable=eq.billable&order=id.desc`, {
+  fetch(`${baseURL}/projects?select=id,name,billable,customer{id,name}`
+  + '&billable=eq.billable&order=id.desc', {
     headers
   }).then(response => response.json());
+
+export const getHoursPerProject = body => fetch(`${baseURL}/rpc/hours_per_project`, {
+  method: 'POST',
+  headers: dataHeaders,
+  body: JSON.stringify(body)
+}).then(response => response.json());

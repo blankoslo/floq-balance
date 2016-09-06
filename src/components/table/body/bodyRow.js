@@ -1,19 +1,31 @@
 import React from 'react';
 import Cell from './bodyCell';
 
-const BalanceViewBodyRow = (props) => (
+const BalanceViewBodyRow = props => (
   <tr>
     <Cell
-      value={props.project.customer.name}
+      value={props.data.customerCode.toString()}
     />
     <Cell
-      value={props.project.id}
+      value={props.data.projectId}
     />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={'JAJ'} />
+    <Cell value={props.data.hours.toString()} />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={''} />
+    <Cell value={''} />
   </tr>
 );
 
 BalanceViewBodyRow.propTypes = {
-  project: React.PropTypes.object.isRequired
+  data: React.PropTypes.object.isRequired
 };
 
 export default BalanceViewBodyRow;
