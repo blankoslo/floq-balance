@@ -12,7 +12,9 @@ const getPeriod = (_year, _month) => {
 
   return {
     startDate,
-    endDate
+    endDate,
+    year,
+    month: moment().month(month).format('MMMM'),
   };
 };
 

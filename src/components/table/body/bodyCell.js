@@ -7,7 +7,7 @@ const BalanceViewBodyCell = props => (
 );
 
 BalanceViewBodyCell.propTypes = {
-  value: React.PropTypes.string
+  value: React.PropTypes.string.isRequired
 };
 
 export default BalanceViewBodyCell;
