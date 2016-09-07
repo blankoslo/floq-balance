@@ -13,6 +13,13 @@ class App extends Component {
     props.getHoursPerProject(props.title.startDate, props.title.endDate);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.title.startDate !== this.props.title.startDate ||
+        nextProps.title.endDate !== this.props.title.endDate) {
+      nextProps.getHoursPerProject(nextProps.title.startDate, nextProps.title.endDate);
+    }
+  }
+
   render() {
     if (this.props.tableBody.loading) {
       return null;
