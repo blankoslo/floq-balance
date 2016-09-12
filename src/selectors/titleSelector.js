@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import moment from 'moment';
 
-const navigation = (year, month, pathname) => {
+export const navigation = (year, month, pathname) => {
   const nextMonth = moment().year(year).month(month + 1);
   const prevMonth = moment().year(year).month(month - 1);
   return {
