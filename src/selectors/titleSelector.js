@@ -10,13 +10,14 @@ export const navigation = (year, month, pathname) => {
   };
 };
 
-const getPeriod = (_year, _month, pathname) => {
+export const getPeriod = (_year, _month, pathname) => {
   const year = isNaN(_year) ? parseInt(moment().format('YYYY')) : _year;
+  // moment.js 0 indexes months, while input from url is 1 indexed
   const month = isNaN(_month) ? moment().month() : _month - 1;
 
-  const startDate = moment().year(year).month(month - 1).date(1)
+  const startDate = moment().year(year).month(month).date(1)
     .format('YYYY-MM-DD');
-  const endDate = moment().year(year).month(month).date(0)
+  const endDate = moment().year(year).month(month + 1).date(0)
     .format('YYYY-MM-DD');
 
   return {
