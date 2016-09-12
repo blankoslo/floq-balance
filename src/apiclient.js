@@ -19,7 +19,13 @@ const dataHeaders = Object.assign({}, headers, {
 });
 
 export const getProjects = () =>
-fetch(`${baseURL}/projects?select=id,name,billable&order=id.desc`, {
-  headers
-}).then(response => response.json());
+  fetch(`${baseURL}/projects?select=id,name,billable,customer{id,name}`
+  + '&billable=eq.billable&order=id.desc', {
+    headers
+  }).then(response => response.json());
 
+export const getHoursPerProject = body => fetch(`${baseURL}/rpc/hours_per_project`, {
+  method: 'POST',
+  headers: dataHeaders,
+  body: JSON.stringify(body)
+}).then(response => response.json());

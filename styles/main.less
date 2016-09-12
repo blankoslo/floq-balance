@@ -42,23 +42,6 @@ hr {
     border-bottom: 1px solid #eee;
 }
 
-div.icon-row {
-    display: flex;
-    flex-flow: row;
-}
-
-div.icon-row-icon {
-    width: 34px;
-}
-
-div.vert-spacer {
-    margin: 34px 0 34px 0;
-}
-
-hr.icon-margin {
-    margin-left: 34px;
-}
-
 label {
   width: 15rem;
   display: inline-block;
@@ -66,19 +49,6 @@ label {
 
 form {
   display: table;
-}
-
-div.formContainer {
-  background-color: @backgroundPanelColor;
-  padding: 0.5rem 1rem;
-}
-
-div.form-group {
-  display: table-cell;
-}
-
-div.form-row {
-  display: table-row;
 }
 
 input, select {
@@ -93,81 +63,22 @@ input, select {
   background-color: @inputColor;
 }
 
-div.container {
-  width: 1024px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.errorMessage {
-  input {
-    border-color: @errorColor;
-  }
-}
-
-.error {
-  color: red;
-
-}
-
-table {
+table.balance-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 0.5rem;
+  border-collapse: collapse;
+  border-spacing: 0;
   tr {
-
-    th {
-      // background-color: #0088cc;
-      padding: 0.5rem 1rem;
+    th, td {
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid @backgroundPanelColor;
     }
-
-    td {
-      padding: 0.5rem 1rem;
-      // background-color: #6699cc;
-    }
-
-
   }
-
 }
 
-div.detail-view {
-    /*
-    @media (min-width: 480px) {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
-    */
-}
-
-.main-color {
-    color: @purple;
-}
-
-.gray {
-    color: @gray;
-}
-
-.dark-gray {
-    color: @dark-gray;
-}
-
-p.emergency-contact {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-img.profile-pic {
-    width: 128px;
-    height: 128px;
-    border-radius: 64px;
-}
-
-div.center-text {
-    text-align: center
-}
-
-div.pull-right {
-    text-align: right;
+.balance-navigation {
+  display:flex;
+  direction: row;
+  align-items: center;
+  justify-content: space-between;
 }

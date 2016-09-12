@@ -5,13 +5,13 @@ import Col from './headerCol';
 const BalanceViewHeader = (props) => (
   <thead>
     <tr>
-      {props.columnNames.map((cn, index) => <Col columnName={cn} key={index} />)}
+      {props.columnNames.map(cn => <Col columnName={cn} key={cn} />)}
     </tr>
   </thead>
 );
 
 BalanceViewHeader.propTypes = {
-  columnNames: React.PropTypes.array.isRequired,
+  columnNames: React.PropTypes.object.isRequired,
 };
 
 export default BalanceViewHeader;

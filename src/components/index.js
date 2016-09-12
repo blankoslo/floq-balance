@@ -5,15 +5,17 @@ import BalanceViewTable from './table';
 const BalanceView = (props) => (
   <div>
     <BalanceViewTitle
-      selectedMonth={'Juli'}
-      selectedYear={2016}
+      selectedYear={props.title.year}
+      selectedMonth={props.title.month}
+      navigation={props.title.navigation}
     />
-    <BalanceViewTable projects={props.projects} />
+    <BalanceViewTable tableBody={props.tableBody} />
   </div>
 );
 
 BalanceView.propTypes = {
-  projects: React.PropTypes.object
+  tableBody: React.PropTypes.object.isRequired,
+  title: React.PropTypes.object.isRequired,
 };
 
 export default BalanceView;
