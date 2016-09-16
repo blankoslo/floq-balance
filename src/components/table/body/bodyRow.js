@@ -13,13 +13,13 @@ const BalanceViewBodyRow = props => (
     <Cell value={''} />
     <Cell value={''} />
     <Cell value={'JAJ'} />
-    <Cell value={props.data.hours.toString()} />
+    <Cell value={props.data.time_entry_hours.toString()} />
+    <Cell value={props.data.write_off_hours.toString()} />
     <Cell value={''} />
-    <Cell value={''} />
-    <Cell value={''} />
-    <Cell value={''} />
-    <Cell value={''} />
-    <Cell value={''} />
+    <Cell value={props.data.invoice_balance_hours.toString()} />
+    <Cell value={props.data.expense_money.toString()} />
+    <Cell value={props.data.subcontractor_money.toString()} />
+    <Cell value={props.data.invoice_balance_money.toString()} />
     <Cell value={''} />
   </tr>
 );
