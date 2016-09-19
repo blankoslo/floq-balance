@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProjects, getHoursPerProject } from '../actions/index';
+import { getProjects, getHoursPerProject, upsertInvoiceBalance, upsertWriteOff,
+  upsertExpense } from '../actions/index';
 import titleSelector from '../selectors/titleSelector';
 import tableBodySelector from '../selectors/tableBodySelector';
 import IndexComponent from '../components/index';
@@ -20,11 +21,19 @@ class App extends Component {
     }
   }
 
+  onWriteOffChange(projectId, minutes) {
+    this.props.upsertWriteOff(projectId, this.props.title.endDate, minutes);
+  }
+
   render() {
     if (this.props.tableBody.loading) {
       return null;
     }
-    return <IndexComponent tableBody={this.props.tableBody.data} title={this.props.title} />;
+    return (<IndexComponent
+      tableBody={this.props.tableBody.data}
+      title={this.props.title}
+      onWriteOffChange={this.onWriteOffChange}
+    />);
   }
 }
 
@@ -36,6 +45,9 @@ App.propTypes = {
   // mapDispatchToProps
   getProjects: React.PropTypes.func.isRequired,
   getHoursPerProject: React.PropTypes.func.isRequired,
+  upsertInvoiceBalance: React.PropTypes.func.isRequired,
+  upsertWriteOff: React.PropTypes.func.isRequired,
+  upsertExpense: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -45,7 +57,10 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   getProjects,
-  getHoursPerProject
+  getHoursPerProject,
+  upsertInvoiceBalance,
+  upsertWriteOff,
+  upsertExpense,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
