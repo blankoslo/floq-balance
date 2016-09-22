@@ -9,8 +9,8 @@ const Basis = props => (
 );
 
 Basis.propTypes = {
-  timeEntry: React.PropTypes.string.isRequired,
-  writeOff: React.PropTypes.string.isRequired,
+  timeEntry: React.PropTypes.number.isRequired,
+  writeOff: React.PropTypes.number.isRequired,
 };
 
 export default Basis;
