@@ -39,8 +39,10 @@ export const upsertInvoiceBalance = (project, date, minutes = null, money = null
 export const upsertWriteOff = (project, date, minutes) => ({
   type: UPSERT_WRITE_OFF,
   payload: api.upsertWriteOff(
-    { project, date, minutes }
-  )
+    { in_project: project, in_date: date, in_minutes: minutes }
+  ),
+  project,
+  minutes
 });
 
 export const upsertExpense = (project, date, type, money) => ({

@@ -21,18 +21,16 @@ class App extends Component {
     }
   }
 
-  onWriteOffChange(projectId, minutes) {
-    this.props.upsertWriteOff(projectId, this.props.title.endDate, minutes);
-  }
+  onWriteOffChange = (project, minutes) =>
+     this.props.upsertWriteOff(project, this.props.title.endDate, minutes);
 
   render() {
     if (this.props.tableBody.loading) {
       return null;
     }
     return (<IndexComponent
-      tableBody={this.props.tableBody.data}
+      tableBody={{ list: this.props.tableBody.data, onWriteOffChange: this.onWriteOffChange }}
       title={this.props.title}
-      onWriteOffChange={this.onWriteOffChange}
     />);
   }
 }

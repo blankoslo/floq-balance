@@ -1,5 +1,6 @@
 import React from 'react';
 import Cell from './bodyCell';
+import WriteOff from './writeOff';
 
 const BalanceViewBodyRow = props => (
   <tr>
@@ -14,7 +15,11 @@ const BalanceViewBodyRow = props => (
     <Cell value={''} />
     <Cell value={'JAJ'} />
     <Cell value={props.data.time_entry_hours.toString()} />
-    <Cell value={props.data.write_off_hours.toString()} />
+    <WriteOff
+      value={props.data.write_off_hours.toString()}
+      onChange={props.onWriteOffChange}
+      project={props.data.projectId}
+    />
     <Cell value={''} />
     <Cell value={props.data.invoice_balance_hours.toString()} />
     <Cell value={props.data.expense_money.toString()} />
@@ -25,7 +30,8 @@ const BalanceViewBodyRow = props => (
 );
 
 BalanceViewBodyRow.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: React.PropTypes.object.isRequired,
+  onWriteOffChange: React.PropTypes.func.isRequired
 };
 
 export default BalanceViewBodyRow;
