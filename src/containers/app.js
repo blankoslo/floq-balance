@@ -24,12 +24,19 @@ class App extends Component {
   onWriteOffChange = (project, minutes) =>
      this.props.upsertWriteOff(project, this.props.title.endDate, minutes);
 
+  onExpenseChange = (project, type, minutes) =>
+     this.props.upsertExpense(project, this.props.title.endDate, type, minutes);
+
   render() {
     if (this.props.tableBody.loading) {
       return null;
     }
     return (<IndexComponent
-      tableBody={{ list: this.props.tableBody.data, onWriteOffChange: this.onWriteOffChange }}
+      tableBody={{
+        list: this.props.tableBody.data,
+        onWriteOffChange: this.onWriteOffChange,
+        onExpenseChange: this.onExpenseChange,
+      }}
       title={this.props.title}
     />);
   }

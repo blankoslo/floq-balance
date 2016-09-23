@@ -7,6 +7,7 @@ const BalanceViewBody = (props) => (
       <Row
         data={row}
         onWriteOffChange={props.data.onWriteOffChange}
+        onExpenseChange={props.data.onExpenseChange}
         key={row.projectId}
       />)}
   </tbody>

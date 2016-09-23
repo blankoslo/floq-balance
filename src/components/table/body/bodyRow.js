@@ -2,6 +2,7 @@ import React from 'react';
 import Cell from './bodyCell';
 import WriteOff from './writeOff';
 import Basis from './basis';
+import Expense from './expense';
 
 const BalanceViewBodyRow = props => (
   <tr>
@@ -23,8 +24,18 @@ const BalanceViewBodyRow = props => (
     />
     <Basis timeEntry={props.data.time_entry_hours} writeOff={props.data.write_off_hours} />
     <Cell value={props.data.invoice_balance_hours.toString()} />
-    <Cell value={props.data.expense_money.toString()} />
-    <Cell value={props.data.subcontractor_money.toString()} />
+    <Expense
+      value={props.data.expense_money.toString()}
+      onChange={props.onExpenseChange}
+      project={props.data.projectId}
+      type={'other'}
+    />
+    <Expense
+      value={props.data.subcontractor_money.toString()}
+      onChange={props.onExpenseChange}
+      project={props.data.projectId}
+      type={'subcontractor'}
+    />
     <Cell value={props.data.invoice_balance_money.toString()} />
     <Cell value={''} />
   </tr>
@@ -32,7 +43,8 @@ const BalanceViewBodyRow = props => (
 
 BalanceViewBodyRow.propTypes = {
   data: React.PropTypes.object.isRequired,
-  onWriteOffChange: React.PropTypes.func.isRequired
+  onWriteOffChange: React.PropTypes.func.isRequired,
+  onExpenseChange: React.PropTypes.func.isRequired,
 };
 
 export default BalanceViewBodyRow;
