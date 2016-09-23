@@ -4,6 +4,7 @@ import WriteOff from './writeOff';
 import Basis from './basis';
 import Expense from './expense';
 import Fee from './fee';
+import BilledHours from './billedHours';
 
 const BalanceViewBodyRow = props => (
   <tr>
@@ -24,7 +25,12 @@ const BalanceViewBodyRow = props => (
       project={props.data.projectId}
     />
     <Basis timeEntry={props.data.time_entry_hours} writeOff={props.data.write_off_hours} />
-    <Cell value={props.data.invoice_balance_hours.toString()} />
+    <BilledHours
+      value={props.data.invoice_balance_hours.toString()}
+      onChange={props.onInvoiceBalanceChange}
+      fee={props.data.invoice_balance_money}
+      project={props.data.projectId}
+    />
     <Expense
       value={props.data.expense_money.toString()}
       onChange={props.onExpenseChange}
