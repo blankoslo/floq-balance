@@ -5,6 +5,7 @@ import Basis from './basis';
 import Expense from './expense';
 import Fee from './fee';
 import BilledHours from './billedHours';
+import HourlyRate from './hourlyRate';
 
 const BalanceViewBodyRow = props => (
   <tr>
@@ -49,7 +50,11 @@ const BalanceViewBodyRow = props => (
       billedHours={props.data.invoice_balance_hours}
       project={props.data.projectId}
     />
-    <Cell value={''} />
+    <HourlyRate
+      fee={props.data.invoice_balance_money}
+      expense={props.data.expense_money + props.data.subcontractor_money}
+      timeEntry={props.data.time_entry_hours}
+    />
   </tr>
 );
 
