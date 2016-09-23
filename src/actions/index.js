@@ -32,7 +32,7 @@ export const getHoursPerProject = (startDate, endDate) => ({
 export const upsertInvoiceBalance = (project, date, minutes = null, money = null) => ({
   type: UPSERT_INVOICE_BALANCE,
   payload: api.upsertInvoiceBalance(
-    { project, date, minutes, money }
+    { in_project: project, in_date: date, in_minutes: minutes, in_money: money }
   )
 });
 

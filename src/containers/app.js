@@ -27,6 +27,9 @@ class App extends Component {
   onExpenseChange = (project, type, minutes) =>
      this.props.upsertExpense(project, this.props.title.endDate, type, minutes);
 
+  onInvoiceBalanceChange = (project, minutes, money) =>
+    this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
+
   render() {
     if (this.props.tableBody.loading) {
       return null;
@@ -36,6 +39,7 @@ class App extends Component {
         list: this.props.tableBody.data,
         onWriteOffChange: this.onWriteOffChange,
         onExpenseChange: this.onExpenseChange,
+        onInvoiceBalanceChange: this.onInvoiceBalanceChange,
       }}
       title={this.props.title}
     />);
