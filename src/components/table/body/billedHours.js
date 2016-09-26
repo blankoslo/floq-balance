@@ -18,7 +18,7 @@ class BilledHoursCell extends Component {
     return (<td>
       <input
         type='text'
-        value={this.state.value}
+        value={Math.floor(this.state.value) === 0 ? '' : this.state.value}
         className={isValid(this.state.value) ? '' : 'field-error'}
         onChange={this.onChange}
       />

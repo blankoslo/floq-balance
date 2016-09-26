@@ -1,12 +1,9 @@
 import React from 'react';
 
-const Basis = props => (
-  <td>
-    {
-      props.timeEntry - props.writeOff
-    }
-  </td>
-);
+const Basis = props => {
+  const value = props.timeEntry - props.writeOff;
+  return <td>{Math.floor(value) === 0 ? '' : value}</td>;
+};
 
 Basis.propTypes = {
   timeEntry: React.PropTypes.number.isRequired,

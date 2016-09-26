@@ -15,7 +15,7 @@ const WriteOffCell = props => (
     {
       <input
         type='text'
-        defaultValue={props.value}
+        defaultValue={Math.floor(props.value) === 0 ? '' : props.value}
         onChange={onChange(props.onChange, props.project, props.value)}
       />
     }
