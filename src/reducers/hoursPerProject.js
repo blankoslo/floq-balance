@@ -1,6 +1,7 @@
 import * as Immutable from 'immutable';
 
-import { GET_HOURS_PER_PROJECT, UPSERT_WRITE_OFF, UPSERT_EXPENSE } from '../actions/index';
+import { GET_HOURS_PER_PROJECT, UPSERT_WRITE_OFF, UPSERT_EXPENSE,
+  UPSERT_INVOICE_BALANCE } from '../actions/index';
 
 export default (state = { loading: true, data: new Immutable.Map() }, action) => {
   switch (action.type) {
@@ -24,6 +25,18 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         data: state.data.set(
           action.project,
           { ...state.data.get(action.project), expense_money: action.money }
+        )
+      };
+    case UPSERT_INVOICE_BALANCE:
+      return {
+        loading: false,
+        data: state.data.set(
+          action.project,
+          {
+            ...state.data.get(action.project),
+            invoice_balance_money: action.money,
+            invoice_balance_minutes: action.minutes
+          }
         )
       };
     default:
