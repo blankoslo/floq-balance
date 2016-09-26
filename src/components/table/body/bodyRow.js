@@ -17,7 +17,11 @@ const BalanceViewBodyRow = props => (
     />
     <Cell value={''} />
     <Cell value={''} />
-    <Cell value={''} />
+    <Cell
+      value={props.data.hourly_rate_customer === 0
+        ? ''
+        : props.data.hourly_rate_customer.toFixed(1)}
+    />
     <Cell value={'JAJ'} />
     <Cell value={props.data.time_entry_hours.toString()} />
     <WriteOff
