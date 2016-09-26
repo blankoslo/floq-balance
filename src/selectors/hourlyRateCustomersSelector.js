@@ -11,9 +11,10 @@ const hourlyRateCustomers = (projects, hoursPerProject) => {
       const hourlyRate = value.time_entry_hours === 0 ? 0 :
         (value.invoice_balance_money - value.expense_money - value.subcontractor_money) /
           value.time_entry_hours || 0;
+
       return result.update(
         projects.data.get(key).customer.id,
-        hourlyRate,
+        0,
         x => x + hourlyRate
       );
     }, new Immutable.Map())
