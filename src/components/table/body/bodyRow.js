@@ -9,21 +9,13 @@ import HourlyRate from './hourlyRate';
 
 const BalanceViewBodyRow = props => (
   <tr>
-    <Cell
-      value={props.data.customerCode.toString()}
-    />
-    <Cell
-      value={props.data.projectId}
-    />
-    <Cell value={''} />
-    <Cell value={''} />
-    <Cell
-      value={props.data.hourly_rate_customer === 0
-        ? ''
-        : props.data.hourly_rate_customer.toFixed(1)}
-    />
-    <Cell value={'JAJ'} />
-    <Cell value={props.data.time_entry_hours.toString()} />
+    <td>{props.data.customerCode}</td>
+    <td>{props.data.projectId}</td>
+    <Cell value={props.data.net_turnover_customer} />
+    <Cell value={props.data.gross_turnover_customer} />
+    <Cell value={props.data.hourly_rate_customer} />
+    <td>JAJ</td>
+    <Cell value={props.data.time_entry_hours} />
     <WriteOff
       value={props.data.write_off_hours.toString()}
       onChange={props.onWriteOffChange}
