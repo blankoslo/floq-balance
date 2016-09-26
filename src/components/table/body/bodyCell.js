@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BalanceViewBodyCell = props => (
-  <td>{props.value}</td>
+  <td>{props.value === 0 ? '' : props.value}</td>
 );
 
 BalanceViewBodyCell.propTypes = {
