@@ -23,7 +23,7 @@ class ExpenseCell extends Component {
     return (<td>
       <input
         type='text'
-        value={Math.floor(this.state.value) === 0 ? '' : this.state.value}
+        value={this.state.value === '0' ? '' : this.state.value}
         className={isValid(this.state.value) ? '' : 'field-error'}
         onChange={this.onChange}
       />
@@ -32,7 +32,7 @@ class ExpenseCell extends Component {
 }
 
 ExpenseCell.propTypes = {
-  value: React.PropTypes.string.isRequired,
+  value: React.PropTypes.number.isRequired,
   project: React.PropTypes.string.isRequired,
   billedHours: React.PropTypes.number.isRequired,
   onChange: React.PropTypes.func.isRequired,

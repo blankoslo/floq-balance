@@ -7,7 +7,7 @@ const calculate = (fee, expense, timeEntry) => {
 
 const ExpenseCell = props => {
   const value = calculate(props.fee, props.expense, props.timeEntry);
-  return <td className='static-data'>{Math.floor(value) === 0 ? '' : value}</td>;
+  return <td className='static-data'>{Math.abs(value) < 0.01 ? '' : value}</td>;
 };
 
 ExpenseCell.propTypes = {
