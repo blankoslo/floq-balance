@@ -1,5 +1,5 @@
 import React from 'react';
-import Cell from './bodyCell';
+import Money from './calculatedMoney';
 import WriteOff from './writeOff';
 import Basis from './basis';
 import Expense from './expense';
@@ -11,11 +11,11 @@ const BalanceViewBodyRow = props => (
   <tr>
     <td className='static-data'>{props.data.customerCode}</td>
     <td className='static-data'>{props.data.projectId}</td>
-    <Cell value={props.data.net_turnover_customer} />
-    <Cell value={props.data.gross_turnover_customer} />
-    <Cell value={props.data.hourly_rate_customer} />
+    <Money value={props.data.net_turnover_customer} />
+    <Money value={props.data.gross_turnover_customer} />
+    <Money value={props.data.hourly_rate_customer} />
     <td className='static-data'>JAJ</td>
-    <Cell value={props.data.time_entry_hours} />
+    <Money value={props.data.time_entry_hours} />
     <WriteOff
       value={props.data.write_off_hours.toString()}
       onChange={props.onWriteOffChange}
