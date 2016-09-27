@@ -29,3 +29,21 @@ export const getHoursPerProject = body => fetch(`${baseURL}/rpc/hours_per_projec
   headers: dataHeaders,
   body: JSON.stringify(body)
 }).then(response => response.json());
+
+export const upsertInvoiceBalance = body => fetch(`${baseURL}/rpc/upsert_invoice_balance`, {
+  method: 'POST',
+  headers: dataHeaders,
+  body: JSON.stringify(body)
+}).then(response => response.json());
+
+export const upsertWriteOff = body => fetch(`${baseURL}/rpc/upsert_write_off`, {
+  method: 'POST',
+  headers: dataHeaders,
+  body: JSON.stringify(body)
+}).then(response => response.json());
+
+export const upsertExpense = body => fetch(`${baseURL}/rpc/upsert_expense`, {
+  method: 'POST',
+  headers: dataHeaders,
+  body: JSON.stringify(body)
+}).then(response => response.json());

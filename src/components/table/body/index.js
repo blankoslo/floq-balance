@@ -3,9 +3,12 @@ import Row from './bodyRow';
 
 const BalanceViewBody = (props) => (
   <tbody>
-    {props.data.map(row =>
+    {props.data.list.map(row =>
       <Row
         data={row}
+        onWriteOffChange={props.data.onWriteOffChange}
+        onExpenseChange={props.data.onExpenseChange}
+        onInvoiceBalanceChange={props.data.onInvoiceBalanceChange}
         key={row.projectId}
       />)}
   </tbody>

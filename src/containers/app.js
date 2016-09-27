@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProjects, getHoursPerProject } from '../actions/index';
+import { getProjects, getHoursPerProject, upsertInvoiceBalance, upsertWriteOff,
+  upsertExpense } from '../actions/index';
 import titleSelector from '../selectors/titleSelector';
 import tableBodySelector from '../selectors/tableBodySelector';
 import IndexComponent from '../components/index';
@@ -20,11 +21,28 @@ class App extends Component {
     }
   }
 
+  onWriteOffChange = (project, minutes) =>
+     this.props.upsertWriteOff(project, this.props.title.endDate, minutes);
+
+  onExpenseChange = (project, type, minutes) =>
+     this.props.upsertExpense(project, this.props.title.endDate, type, minutes);
+
+  onInvoiceBalanceChange = (project, minutes, money) =>
+    this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
+
   render() {
     if (this.props.tableBody.loading) {
       return null;
     }
-    return <IndexComponent tableBody={this.props.tableBody.data} title={this.props.title} />;
+    return (<IndexComponent
+      tableBody={{
+        list: this.props.tableBody.data,
+        onWriteOffChange: this.onWriteOffChange,
+        onExpenseChange: this.onExpenseChange,
+        onInvoiceBalanceChange: this.onInvoiceBalanceChange,
+      }}
+      title={this.props.title}
+    />);
   }
 }
 
@@ -36,6 +54,9 @@ App.propTypes = {
   // mapDispatchToProps
   getProjects: React.PropTypes.func.isRequired,
   getHoursPerProject: React.PropTypes.func.isRequired,
+  upsertInvoiceBalance: React.PropTypes.func.isRequired,
+  upsertWriteOff: React.PropTypes.func.isRequired,
+  upsertExpense: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -45,7 +66,10 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
   getProjects,
-  getHoursPerProject
+  getHoursPerProject,
+  upsertInvoiceBalance,
+  upsertWriteOff,
+  upsertExpense,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

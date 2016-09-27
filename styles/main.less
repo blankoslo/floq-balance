@@ -51,18 +51,6 @@ form {
   display: table;
 }
 
-input, select {
-  position: relative;
-  font-size: 16px;
-  border-style: none;
-  border-bottom: 1px solid black;
-  line-height: 19px;
-  padding: 6px 10px 5px;
-  width: 12rem;
-  margin-bottom: 1rem;
-  background-color: @inputColor;
-}
-
 table.balance-table {
   width: 100%;
   border-collapse: collapse;
@@ -72,6 +60,23 @@ table.balance-table {
       text-align: center;
       vertical-align: middle;
       border: 1px solid @backgroundPanelColor;
+      &.static-data {
+        color: grey;
+      }
+      input {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        outline: 0;
+        font-size: 16px;
+        border-style: none;
+        text-align: center;
+        width: 90%;
+
+        &.field-error {
+          border: 1px solid red;
+        }
+      }
     }
   }
 }
