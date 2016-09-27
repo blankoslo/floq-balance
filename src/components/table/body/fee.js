@@ -4,13 +4,14 @@ const isValid = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 
 class ExpenseCell extends Component {
   state = {
-    value: this.props.value
+    value: this.props.value.toString()
   };
 
   onChange = e => {
-    const newValue = e.target.value;
+    const newValue = e.target.value.trim() === '' ? '0' : e.target.value;
     this.setState({ value: newValue });
-    if (!isValid(newValue) || newValue === this.props.value) return;
+    if (newValue === this.props.value.toString()) return;
+    if (!isValid(newValue)) return;
     // TODO: Multiplying hours is kinda a hack, tweaking data in ways one shouldn't.
     // We should consequently use either hours or minutes in the frontend.
     // I'm suggesting minutes, as is what is stored in the database. Another extension

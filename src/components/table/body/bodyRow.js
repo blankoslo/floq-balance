@@ -41,7 +41,7 @@ const BalanceViewBodyRow = props => (
       type={'subcontractor'}
     />
     <Fee
-      value={props.data.invoice_balance_money.toString()}
+      value={props.data.invoice_balance_money}
       onChange={props.onInvoiceBalanceChange}
       billedHours={props.data.invoice_balance_hours}
       project={props.data.projectId}
