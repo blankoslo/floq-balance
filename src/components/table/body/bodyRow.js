@@ -29,13 +29,13 @@ const BalanceViewBodyRow = props => (
       project={props.data.projectId}
     />
     <Expense
-      value={props.data.expense_money.toString()}
+      value={props.data.expense_money}
       onChange={props.onExpenseChange}
       project={props.data.projectId}
       type={'other'}
     />
     <Expense
-      value={props.data.subcontractor_money.toString()}
+      value={props.data.subcontractor_money}
       onChange={props.onExpenseChange}
       project={props.data.projectId}
       type={'subcontractor'}

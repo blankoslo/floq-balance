@@ -4,13 +4,14 @@ const isValid = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 
 class ExpenseCell extends Component {
   state = {
-    value: this.props.value
+    value: this.props.value.toString()
   };
 
   onChange = e => {
-    const newValue = e.target.value;
+    const newValue = e.target.value.trim() === '' ? '0' : e.target.value;
     this.setState({ value: newValue });
-    if (!isValid(newValue) || newValue === this.props.value) return;
+    if (newValue === this.props.value.toString()) return;
+    if (!isValid(newValue)) return;
     this.props.onChange(this.props.project, this.props.type, Number(newValue));
   };
 
@@ -18,7 +19,7 @@ class ExpenseCell extends Component {
     return (<td>
       <input
         type='text'
-        value={Math.floor(this.state.value) === 0 ? '' : this.state.value}
+        value={this.state.value === '0' ? '' : this.state.value}
         className={isValid(this.state.value) ? '' : 'field-error'}
         onChange={this.onChange}
       />
@@ -27,7 +28,7 @@ class ExpenseCell extends Component {
 }
 
 ExpenseCell.propTypes = {
-  value: React.PropTypes.string.isRequired,
+  value: React.PropTypes.number.isRequired,
   project: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
