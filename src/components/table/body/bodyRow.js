@@ -11,8 +11,8 @@ const BalanceViewBodyRow = props => (
   <tr>
     <td className='static-data'>{props.data.customerCode}</td>
     <td className='static-data'>{props.data.projectId}</td>
-    <Money value={props.data.net_turnover_customer} />
     <Money value={props.data.gross_turnover_customer} />
+    <Money value={props.data.net_turnover_customer} />
     <Money value={props.data.hourly_rate_customer} />
     <td className='static-data'>JAJ</td>
     <Money value={props.data.time_entry_hours} />
