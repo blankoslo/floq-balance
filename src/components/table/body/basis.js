@@ -2,7 +2,7 @@ import React from 'react';
 
 const Basis = props => {
   const value = props.timeEntry - props.writeOff;
-  return <td className='static-data'>{Math.floor(value) === 0 ? '' : value}</td>;
+  return <td className='static-data'>{Math.abs(value) < 0.01 ? '' : value}</td>;
 };
 
 Basis.propTypes = {
