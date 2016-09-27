@@ -28,7 +28,7 @@ class BilledHoursCell extends Component {
 }
 
 BilledHoursCell.propTypes = {
-  value: React.PropTypes.string.isRequired,
+  value: React.PropTypes.number.isRequired,
   project: React.PropTypes.string.isRequired,
   fee: React.PropTypes.number.isRequired,
   onChange: React.PropTypes.func.isRequired,
