@@ -6,7 +6,6 @@ const BalanceViewBodyCell = props => (
 
 BalanceViewBodyCell.propTypes = {
   value: React.PropTypes.number.isRequired,
-  onChange: React.PropTypes.func,
 };
 
 export default BalanceViewBodyCell;
