@@ -1,29 +1,36 @@
-import React from 'react';
+// @flow
 
-const isFloat = (n) => Number(n) === n && n % 1 !== 0;
+import React, { Component } from 'react';
 
-const onChange = (func, project, oldVal) =>
-  e => {
-    const hours = e.target.value;
-    if (!hours || isNaN(hours) || isFloat(hours * 2) || hours < 0 || hours === oldVal) return;
-    const minutes = hours * 60;
-    func(project, minutes);
+const isValid = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
+
+class WriteOffCell extends Component {
+  state = {
+    value: this.props.value.toString()
   };
 
-const WriteOffCell = props => (
-  <td>
-    {
+  onChange = e => {
+    const newValue = e.target.value.trim() === '' ? '0' : e.target.value;
+    this.setState({ value: newValue });
+    if (this.props.value.toString() === newValue) return;
+    if (!isValid(newValue)) return;
+    this.props.onChange(this.props.project, newValue * 60);
+  };
+
+  render() {
+    return (<td>
       <input
         type='text'
-        defaultValue={Math.floor(props.value) === 0 ? '' : props.value}
-        onChange={onChange(props.onChange, props.project, props.value)}
+        value={this.state.value === '0' ? '' : this.state.value}
+        className={isValid(this.state.value) ? '' : 'field-error'}
+        onChange={this.onChange}
       />
-    }
-  </td>
-);
+    </td>);
+  }
+}
 
 WriteOffCell.propTypes = {
-  value: React.PropTypes.string.isRequired,
+  value: React.PropTypes.number.isRequired,
   project: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
 };

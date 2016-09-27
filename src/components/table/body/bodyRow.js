@@ -17,7 +17,7 @@ const BalanceViewBodyRow = props => (
     <td className='static-data'>JAJ</td>
     <Money value={props.data.time_entry_hours} />
     <WriteOff
-      value={props.data.write_off_hours.toString()}
+      value={props.data.write_off_hours}
       onChange={props.onWriteOffChange}
       project={props.data.projectId}
     />
