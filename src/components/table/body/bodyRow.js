@@ -23,7 +23,7 @@ const BalanceViewBodyRow = props => (
     />
     <Basis timeEntry={props.data.time_entry_hours} writeOff={props.data.write_off_hours} />
     <BilledHours
-      value={props.data.invoice_balance_hours.toString()}
+      value={props.data.invoice_balance_hours}
       onChange={props.onInvoiceBalanceChange}
       fee={props.data.invoice_balance_money}
       project={props.data.projectId}
