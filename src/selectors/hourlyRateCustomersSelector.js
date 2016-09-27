@@ -15,7 +15,8 @@ const hourlyRateCustomers = (projects, hoursPerProject) => {
         { money: 0, hours: 0 },
         x => ({ money: (x.money + money), hours: (x.hours + hours) })
       );
-    }, new Immutable.Map()).map(x => (x.money / x.hours) || 0)
+    }, new Immutable.Map())
+    .map(x => (x.hours ? (x.money / x.hours) : 0))
   };
 };
 
