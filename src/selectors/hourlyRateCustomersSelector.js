@@ -8,16 +8,15 @@ const hourlyRateCustomers = (projects, hoursPerProject) => {
   return {
     loading: false,
     data: hoursPerProject.data.reduce((result, value, key) => {
-      const hourlyRate = value.time_entry_hours === 0 ? 0 :
-        (value.invoice_balance_money - value.expense_money - value.subcontractor_money) /
-          value.time_entry_hours || 0;
-
+      const money = value.invoice_balance_money - value.expense_money - value.subcontractor_money;
+      const hours = value.time_entry_hours;
       return result.update(
         projects.data.get(key).customer.id,
-        0,
-        x => x + hourlyRate
+        { money: 0, hours: 0 },
+        x => ({ money: (x.money + money), hours: (x.hours + hours) })
       );
     }, new Immutable.Map())
+    .map(x => (x.hours ? (x.money / x.hours) : 0))
   };
 };
 

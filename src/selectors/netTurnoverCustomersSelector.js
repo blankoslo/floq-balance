@@ -8,7 +8,8 @@ const netTurnoverCustomers = (projects, hoursPerProject) => {
   return {
     loading: false,
     data: hoursPerProject.data.reduce((result, value, key) => {
-      const netTurnover = value.invoice_balance_money;
+      const netTurnover =
+        value.invoice_balance_money - value.expense_money - value.subcontractor_money;
       return result.update(
         projects.data.get(key).customer.id,
         0,

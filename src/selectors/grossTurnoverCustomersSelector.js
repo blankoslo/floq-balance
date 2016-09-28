@@ -7,15 +7,13 @@ const grossTurnoverCustomers = (projects, hoursPerProject) => {
   }
   return {
     loading: false,
-    data: hoursPerProject.data.reduce((result, value, key) => {
-      const grossTurnover =
-        value.invoice_balance_money - value.expense_money - value.subcontractor_money;
-      return result.update(
+    data: hoursPerProject.data.reduce((result, value, key) =>
+      result.update(
         projects.data.get(key).customer.id,
         0,
-        x => x + grossTurnover
-      );
-    }, new Immutable.Map())
+        x => x + value.invoice_balance_money
+      ), new Immutable.Map()
+    )
   };
 };
 
