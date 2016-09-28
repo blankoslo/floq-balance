@@ -24,7 +24,9 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         loading: false,
         data: state.data.set(
           action.project,
-          { ...state.data.get(action.project), expense_money: action.money }
+          action.expense_type === 'subcontractor'
+          ? { ...state.data.get(action.project), subcontractor_money: action.money }
+          : { ...state.data.get(action.project), expense_money: action.money }
         )
       };
     case UPSERT_INVOICE_BALANCE:

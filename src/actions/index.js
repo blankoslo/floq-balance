@@ -54,5 +54,6 @@ export const upsertExpense = (project, date, type, money) => ({
     { in_project: project, in_date: date, in_type: type, in_money: money }
   ),
   project,
+  expense_type: type,
   money,
 });
