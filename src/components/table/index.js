@@ -8,9 +8,9 @@ const BalanceViewTable = (props) => (
     <table className='balance-table'>
       <Header
       // TODO: Move into datastructure? as tuples together with value
-        columnNames={new Immutable.List(['Kundekode', 'Engasjement', 'Brutto omsetning kunde',
-        'Netto omsetning kunde', 'Oppnådd timespris Kunde', 'Ansvarlig', 'Timeføring',
-        'Avskrivning', 'Grunnlag', 'Fakturert timetall', 'Utgifter',
+        columnNames={new Immutable.List(['Kundekode', 'Oppnådd timespris Kunde',
+        'Brutto omsetning kunde', 'Netto omsetning kunde', 'Engasjement', 'Ansvarlig',
+        'Timeføring', 'Avskrivning', 'Grunnlag', 'Fakturert timetall', 'Utgifter',
         'Underleverandører', 'Honorar',	'Oppnådd timepris'])}
       />
       <Body data={props.tableBody} />
