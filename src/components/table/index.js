@@ -11,7 +11,7 @@ const BalanceViewTable = (props) => (
         columnNames={new Immutable.List(['Kundekode', 'Oppnådd timespris Kunde',
         'Brutto omsetning kunde', 'Netto omsetning kunde', 'Engasjement', 'Ansvarlig',
         'Timeføring', 'Avskrivning', 'Grunnlag', 'Fakturert timetall', 'Utgifter',
-        'Underleverandører', 'Honorar',	'Oppnådd timepris'])}
+        'Underleverandører', 'Honorar',	'Oppnådd timepris', 'Fakturastatus'])}
       />
       <Body data={props.tableBody} />
     </table>
