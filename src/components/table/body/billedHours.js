@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 
 const isValid = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
+const roundHalf = num => Math.round(num * 2) / 2;
+
 class BilledHoursCell extends Component {
   state = {
-    value: this.props.value.toString()
+    value: this.props.value === 0 ? '0' : roundHalf(this.props.value / 60).toString()
   };
 
   onChange = e => {

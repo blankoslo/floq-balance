@@ -12,11 +12,7 @@ class ExpenseCell extends Component {
     this.setState({ value: newValue });
     if (newValue === this.props.value.toString()) return;
     if (!isValid(newValue)) return;
-    // TODO: Multiplying hours is kinda a hack, tweaking data in ways one shouldn't.
-    // We should consequently use either hours or minutes in the frontend.
-    // I'm suggesting minutes, as is what is stored in the database. Another extension
-    // would be to use to upsert-functions for invoice_balanc. One for minutes / money
-    this.props.onChange(this.props.project, this.props.billedHours * 60, Number(newValue));
+    this.props.onChange(this.props.project, this.props.billedMinutes, Number(newValue));
   };
 
   render() {
@@ -34,7 +30,7 @@ class ExpenseCell extends Component {
 ExpenseCell.propTypes = {
   value: React.PropTypes.number.isRequired,
   project: React.PropTypes.string.isRequired,
-  billedHours: React.PropTypes.number.isRequired,
+  billedMinutes: React.PropTypes.number.isRequired,
   onChange: React.PropTypes.func.isRequired,
 };
 

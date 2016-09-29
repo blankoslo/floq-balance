@@ -16,7 +16,7 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         loading: false,
         data: state.data.set(
           action.project,
-          { ...state.data.get(action.project), write_off_hours: Math.round(action.minutes / 60, 1) }
+          { ...state.data.get(action.project), write_off_minutes: action.minutes }
         )
       };
     case UPSERT_EXPENSE:

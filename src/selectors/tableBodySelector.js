@@ -15,10 +15,10 @@ const getTableBody = (projects, hoursPerProject, hourlyRate, grossTurnover, netT
       result.push({
         projectId: value.project,
         customerCode: projects.data.get(key).customer.id,
-        time_entry_hours: value.time_entry_hours,
-        invoice_balance_hours: value.invoice_balance_hours,
+        time_entry_minutes: value.time_entry_minutes,
+        invoice_balance_minutes: value.invoice_balance_minutes,
         invoice_balance_money: value.invoice_balance_money,
-        write_off_hours: value.write_off_hours,
+        write_off_minutes: value.write_off_minutes,
         expense_money: value.expense_money,
         subcontractor_money: value.subcontractor_money,
         hourly_rate_customer: hourlyRate.data.get(projects.data.get(key).customer.id, 0),
