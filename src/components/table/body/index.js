@@ -9,6 +9,7 @@ const BalanceViewBody = (props) => (
         onWriteOffChange={props.data.onWriteOffChange}
         onExpenseChange={props.data.onExpenseChange}
         onInvoiceBalanceChange={props.data.onInvoiceBalanceChange}
+        onInvoiceStatusChange={props.data.onInvoiceStatusChange}
         key={row.projectId}
       />)}
   </tbody>

@@ -24,7 +24,7 @@ const getTableBody = (projects, hoursPerProject, hourlyRate, grossTurnover, netT
         hourly_rate_customer: hourlyRate.data.get(projects.data.get(key).customer.id, 0),
         gross_turnover_customer: grossTurnover.data.get(projects.data.get(key).customer.id, 0),
         net_turnover_customer: netTurnover.data.get(projects.data.get(key).customer.id, 0),
-        invoice_status: value.status,
+        status: value.status,
       })
     , new Immutable.List())
   };
