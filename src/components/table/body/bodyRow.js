@@ -46,7 +46,9 @@ const BalanceViewBodyRow = props => (
     />
     <Fee
       value={props.data.invoice_balance_money}
-      onChange={props.onInvoiceBalanceChange}
+      input={props.data.input.fee}
+      onInputChange={props.onInputChange}
+      onValueChange={props.onInvoiceBalanceChange}
       billedMinutes={props.data.invoice_balance_minutes}
       project={props.data.projectId}
     />
@@ -57,7 +59,7 @@ const BalanceViewBodyRow = props => (
     />
     <InvoiceStatus
       status={props.data.status}
-      onChange={props.onInvoiceStatusChange}
+      onChange={props.onStatusChange}
       project={props.data.projectId}
     />
   </tr>
@@ -68,7 +70,8 @@ BalanceViewBodyRow.propTypes = {
   onWriteOffChange: React.PropTypes.func.isRequired,
   onExpenseChange: React.PropTypes.func.isRequired,
   onInvoiceBalanceChange: React.PropTypes.func.isRequired,
-  onInvoiceStatusChange: React.PropTypes.func.isRequired,
+  onStatusChange: React.PropTypes.func.isRequired,
+  onInputChange: React.PropTypes.func.isRequired,
 };
 
 export default BalanceViewBodyRow;

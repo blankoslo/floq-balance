@@ -4,8 +4,8 @@ import hourlyRateCustomersSelector from './hourlyRateCustomersSelector';
 import grossTurnoverCustomersSelector from './grossTurnoverCustomersSelector';
 import netTurnoverCustomersSelector from './netTurnoverCustomersSelector';
 
-const getTableBody = (projects, hoursPerProject, hourlyRate, grossTurnover, netTurnover) => {
-  if (projects.loading || hoursPerProject.loading || hourlyRate.loading
+const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnover, netTurnover) => {
+  if (projects.loading || hoursPerProject.loading || input.loading || hourlyRate.loading
       || grossTurnover.loading || netTurnover.loading) {
     return { loading: true, data: new Immutable.List() };
   }
@@ -25,6 +25,7 @@ const getTableBody = (projects, hoursPerProject, hourlyRate, grossTurnover, netT
         gross_turnover_customer: grossTurnover.data.get(projects.data.get(key).customer.id, 0),
         net_turnover_customer: netTurnover.data.get(projects.data.get(key).customer.id, 0),
         status: value.status,
+        input: input.data.get(key),
       })
     , new Immutable.List())
   };
@@ -33,6 +34,7 @@ const getTableBody = (projects, hoursPerProject, hourlyRate, grossTurnover, netT
 export default createSelector(
   state => state.projects,
   state => state.hours_per_project,
+  state => state.input,
   hourlyRateCustomersSelector,
   grossTurnoverCustomersSelector,
   netTurnoverCustomersSelector,

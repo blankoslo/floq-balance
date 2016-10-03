@@ -8,6 +8,7 @@ export const UPSERT_INVOICE_BALANCE = 'UPSERT_INVOICE_BALANCE';
 export const UPSERT_WRITE_OFF = 'UPSERT_WRITE_OFF';
 export const UPSERT_EXPENSE = 'UPSERT_EXPENSE';
 export const UPSERT_INVOICE_STATUS = 'UPSERT_INVOICE_STATUS';
+export const CHANGE_INPUT = 'CHANGE_INPUT';
 
 export const apiError = (message) => ({
   type: API_ERROR,
@@ -59,11 +60,18 @@ export const upsertExpense = (project, date, type, money) => ({
   money,
 });
 
-export const upsertInvoiceStatus = (project, date, status) => ({
+export const upsertStatus = (project, date, status) => ({
   type: UPSERT_INVOICE_STATUS,
   payload: api.upsertInvoiceStatus(
     { in_project: project, in_date: date, in_status: status }
   ),
   project,
   status,
+});
+
+export const changeInput = (project, key, value) => ({
+  type: CHANGE_INPUT,
+  project,
+  key,
+  value,
 });

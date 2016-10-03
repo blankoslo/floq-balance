@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProjects, getHoursPerProject, upsertInvoiceBalance, upsertWriteOff,
-  upsertExpense, upsertInvoiceStatus } from '../actions/index';
+  upsertExpense, upsertStatus, changeInput } from '../actions/index';
 import titleSelector from '../selectors/titleSelector';
 import tableBodySelector from '../selectors/tableBodySelector';
 import IndexComponent from '../components/index';
@@ -30,8 +30,11 @@ class App extends Component {
   onInvoiceBalanceChange = (project, minutes, money) =>
     this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
 
-  onInvoiceStatusChange = (project, status) =>
-    this.props.upsertInvoiceStatus(project, this.props.title.endDate, status);
+  onStatusChange = (project, status) =>
+    this.props.upsertStatus(project, this.props.title.endDate, status);
+
+  onInputChange = (project, key, value) =>
+    this.props.changeInput(project, key, value);
 
   render() {
     if (this.props.tableBody.loading) {
@@ -43,7 +46,8 @@ class App extends Component {
         onWriteOffChange: this.onWriteOffChange,
         onExpenseChange: this.onExpenseChange,
         onInvoiceBalanceChange: this.onInvoiceBalanceChange,
-        onInvoiceStatusChange: this.onInvoiceStatusChange,
+        onStatusChange: this.onStatusChange,
+        onInputChange: this.onInputChange,
       }}
       title={this.props.title}
     />);
@@ -61,7 +65,8 @@ App.propTypes = {
   upsertInvoiceBalance: React.PropTypes.func.isRequired,
   upsertWriteOff: React.PropTypes.func.isRequired,
   upsertExpense: React.PropTypes.func.isRequired,
-  upsertInvoiceStatus: React.PropTypes.func.isRequired,
+  upsertStatus: React.PropTypes.func.isRequired,
+  changeInput: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -75,7 +80,8 @@ const mapDispatchToProps = {
   upsertInvoiceBalance,
   upsertWriteOff,
   upsertExpense,
-  upsertInvoiceStatus,
+  upsertStatus,
+  changeInput,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
