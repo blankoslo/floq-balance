@@ -1,12 +1,14 @@
 import React from 'react';
-import Money from './calculatedMoney';
-import WriteOff from './writeOff';
+
+import WriteOff from './editables/writeOff';
+import Expense from './editables/expense';
+import Fee from './editables/fee';
+import BilledHours from './editables/billedHours';
+import InvoiceStatus from './editables/invoiceStatus';
+
+import Money from './money';
 import Basis from './basis';
-import Expense from './expense';
-import Fee from './fee';
-import BilledHours from './billedHours';
 import HourlyRate from './hourlyRate';
-import InvoiceStatus from './invoiceStatus';
 
 const BalanceViewBodyRow = props => (
   <tr>
