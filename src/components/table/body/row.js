@@ -6,19 +6,19 @@ import Fee from './editables/fee';
 import BilledHours from './editables/billedHours';
 import InvoiceStatus from './editables/invoiceStatus';
 
-import Money from './money';
+import Decimal from './decimal';
 import Basis from './basis';
 import HourlyRate from './hourlyRate';
 
 const BalanceViewBodyRow = props => (
   <tr>
     <td className='static-data'>{props.data.customerCode}</td>
-    <Money value={props.data.gross_turnover_customer} />
-    <Money value={props.data.net_turnover_customer} />
-    <Money value={props.data.hourly_rate_customer} />
+    <Decimal value={props.data.gross_turnover_customer} />
+    <Decimal value={props.data.net_turnover_customer} />
+    <Decimal value={props.data.hourly_rate_customer} />
     <td className='static-data'>{props.data.projectId}</td>
     <td className='static-data'>JAJ</td>
-    <td className='static-data'>{(props.data.time_entry_minutes / 60).toFixed(1)}</td>
+    <Decimal value={props.data.time_entry_minutes / 60} />
     <WriteOff
       value={props.data.write_off_minutes}
       onChange={props.onWriteOffChange}
