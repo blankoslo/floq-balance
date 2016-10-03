@@ -21,7 +21,9 @@ const BalanceViewBodyRow = props => (
     <Decimal value={props.data.time_entry_minutes / 60} />
     <WriteOff
       value={props.data.write_off_minutes}
-      onChange={props.onWriteOffChange}
+      input={props.data.input.writeOff}
+      onInputChange={props.onInputChange}
+      onValueChange={props.onWriteOffChange}
       project={props.data.projectId}
     />
     <Basis
@@ -30,19 +32,25 @@ const BalanceViewBodyRow = props => (
     />
     <BilledHours
       value={props.data.invoice_balance_minutes}
-      onChange={props.onInvoiceBalanceChange}
+      input={props.data.input.billedHours}
+      onInputChange={props.onInputChange}
+      onValueChange={props.onInvoiceBalanceChange}
       fee={props.data.invoice_balance_money}
       project={props.data.projectId}
     />
     <Expense
       value={props.data.expense_money}
-      onChange={props.onExpenseChange}
+      input={props.data.input.expense}
+      onInputChange={props.onInputChange}
+      onValueChange={props.onExpenseChange}
       project={props.data.projectId}
       type={'other'}
     />
     <Expense
       value={props.data.subcontractor_money}
-      onChange={props.onExpenseChange}
+      input={props.data.input.subcontractor}
+      onInputChange={props.onInputChange}
+      onValueChange={props.onExpenseChange}
       project={props.data.projectId}
       type={'subcontractor'}
     />

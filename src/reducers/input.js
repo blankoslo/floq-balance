@@ -1,6 +1,8 @@
 import * as Immutable from 'immutable';
 import { CHANGE_INPUT, GET_HOURS_PER_PROJECT } from '../actions/index';
 
+const roundHalf = num => Math.round(num * 2) / 2;
+
 export default (state = { loading: true, data: new Immutable.Map() }, action) => {
   switch (action.type) {
     case GET_HOURS_PER_PROJECT:
@@ -10,8 +12,8 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
           result.set(
             entry.project,
             {
-              writeOff: entry.write_off_minutes.toString(),
-              billedHours: entry.invoice_balance_minutes.toString(),
+              writeOff: roundHalf(entry.write_off_minutes / 60).toString(),
+              billedHours: roundHalf(entry.invoice_balance_minutes / 60).toString(),
               expense: entry.expense_money.toString(),
               subcontractor: entry.subcontractor_money.toString(),
               fee: entry.invoice_balance_money.toString(),
