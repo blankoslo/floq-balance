@@ -1,9 +1,10 @@
 import * as Immutable from 'immutable';
 
 import { GET_HOURS_PER_PROJECT, UPSERT_WRITE_OFF, UPSERT_EXPENSE,
-  UPSERT_INVOICE_BALANCE } from '../actions/index';
+  UPSERT_INVOICE_BALANCE, UPSERT_INVOICE_STATUS } from '../actions/index';
 
 export default (state = { loading: true, data: new Immutable.Map() }, action) => {
+  const entry = state.data.get(action.project);
   switch (action.type) {
     case GET_HOURS_PER_PROJECT:
       return {
@@ -16,7 +17,10 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         loading: false,
         data: state.data.set(
           action.project,
-          { ...state.data.get(action.project), write_off_hours: Math.round(action.minutes / 60, 1) }
+          { ...entry,
+            write_off_minutes: action.minutes,
+            status: entry.status || 'not_done',
+          }
         )
       };
     case UPSERT_EXPENSE:
@@ -24,7 +28,17 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         loading: false,
         data: state.data.set(
           action.project,
-          { ...state.data.get(action.project), expense_money: action.money }
+          action.expense_type === 'subcontractor'
+          ? {
+            ...entry,
+            subcontractor_money: action.money,
+            status: entry.status || 'not_done'
+          }
+          : {
+            ...entry,
+            expense_money: action.money,
+            status: entry.status || 'not_done'
+          }
         )
       };
     case UPSERT_INVOICE_BALANCE:
@@ -33,9 +47,21 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         data: state.data.set(
           action.project,
           {
-            ...state.data.get(action.project),
+            ...entry,
             invoice_balance_money: action.money,
-            invoice_balance_minutes: action.minutes
+            invoice_balance_minutes: action.minutes,
+            status: entry.status || 'not_done',
+          }
+        )
+      };
+    case UPSERT_INVOICE_STATUS:
+      return {
+        loading: false,
+        data: state.data.set(
+          action.project,
+          {
+            ...entry,
+            status: action.status,
           }
         )
       };

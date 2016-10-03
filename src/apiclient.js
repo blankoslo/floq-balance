@@ -47,3 +47,9 @@ export const upsertExpense = body => fetch(`${baseURL}/rpc/upsert_expense`, {
   headers: dataHeaders,
   body: JSON.stringify(body)
 }).then(response => response.json());
+
+export const upsertInvoiceStatus = body => fetch(`${baseURL}/rpc/upsert_invoice_status`, {
+  method: 'POST',
+  headers: dataHeaders,
+  body: JSON.stringify(body)
+}).then(response => response.json());

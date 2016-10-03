@@ -1,5 +1,5 @@
 import React from 'react';
-import Row from './bodyRow';
+import Row from './row';
 
 const BalanceViewBody = (props) => (
   <tbody>
@@ -9,6 +9,8 @@ const BalanceViewBody = (props) => (
         onWriteOffChange={props.data.onWriteOffChange}
         onExpenseChange={props.data.onExpenseChange}
         onInvoiceBalanceChange={props.data.onInvoiceBalanceChange}
+        onStatusChange={props.data.onStatusChange}
+        onInputChange={props.data.onInputChange}
         key={row.projectId}
       />)}
   </tbody>
