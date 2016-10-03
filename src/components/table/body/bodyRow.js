@@ -55,7 +55,7 @@ const BalanceViewBodyRow = props => (
       expense={props.data.expense_money + props.data.subcontractor_money}
       timeEntryMinutes={props.data.time_entry_minutes}
     />
-    <InvoiceStatus />
+    <InvoiceStatus invoiceStatus={props.data.invoice_status} />
   </tr>
 );
 
