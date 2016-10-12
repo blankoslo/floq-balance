@@ -17,7 +17,12 @@ const BalanceViewBodyRow = props => (
     <Decimal value={props.data.net_turnover_customer} />
     <Decimal value={props.data.hourly_rate_customer} />
     <td className='uneditable'>{props.data.projectId}</td>
-    <td className='uneditable'>JAJ</td>
+    <td
+      className='uneditable'
+      title={props.data.responsible.name}
+    >
+      {props.data.responsible.initials}
+    </td>
     <Decimal value={props.data.time_entry_minutes / 60} />
     <WriteOff
       value={props.data.write_off_minutes}

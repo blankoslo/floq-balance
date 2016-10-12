@@ -4,6 +4,9 @@ import hourlyRateCustomersSelector from './hourlyRateCustomersSelector';
 import grossTurnoverCustomersSelector from './grossTurnoverCustomersSelector';
 import netTurnoverCustomersSelector from './netTurnoverCustomersSelector';
 
+const initials = name =>
+  name.split(' ').map(s => s.charAt(0).toUpperCase()).join('');
+
 const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnover, netTurnover) => {
   if (projects.loading || hoursPerProject.loading || input.loading || hourlyRate.loading
       || grossTurnover.loading || netTurnover.loading) {
@@ -14,10 +17,17 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
     loading: false,
     data: hoursPerProject.data
       .filter((v, k) => activeProjects.has(k) || v.time_entry_minutes > 0)
-      .reduce((result, value, key) =>
-        result.push({
+      .reduce((result, value, key) => {
+        const project = projects.data.get(key);
+        const name = `${project.responsible.first_name} ${project.responsible.last_name}`;
+        const responsible = {
+          name,
+          initials: initials(name)
+        };
+        return result.push({
           projectId: value.project,
           customerCode: projects.data.get(key).customer.id,
+          responsible,
           time_entry_minutes: value.time_entry_minutes,
           invoice_balance_minutes: value.invoice_balance_minutes,
           invoice_balance_money: value.invoice_balance_money,
@@ -29,7 +39,8 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
           net_turnover_customer: netTurnover.data.get(projects.data.get(key).customer.id, 0),
           status: value.status,
           input: input.data.get(key),
-        })
+        });
+      }
     , new Immutable.List())
   };
 };
