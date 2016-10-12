@@ -6,9 +6,9 @@ import Col from './headerCol';
 const columnNames = new Immutable.List(
   [
     { value: 'Kunde', title: 'Kundekode' },
-    { value: 'OT Kunde', title: 'Oppnådd timespris Kunde' },
-    { value: 'Brutto omsetning kunde', title: 'Brutto omsetning kunde' },
     { value: 'Netto omsetning kunde', title: 'Netto omsetning kunde' },
+    { value: 'Brutto omsetning kunde', title: 'Brutto omsetning kunde' },
+    { value: 'OT Kunde', title: 'Oppnådd timespris Kunde' },
     { value: 'Engasjement', title: 'Engasjement' },
     { value: 'Ansv.', title: 'Ansvarlig' },
     { value: 'Timeføring', title: 'Timeføring' },
