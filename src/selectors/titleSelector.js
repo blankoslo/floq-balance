@@ -13,19 +13,18 @@ export const navigation = (year, month, pathname) => {
 export const getPeriod = (_year, _month, pathname) => {
   const year = isNaN(_year) ? parseInt(moment().format('YYYY')) : _year;
   // moment.js 0 indexes months, while input from url is 1 indexed
-  const month = isNaN(_month) ? moment().month() : _month - 1;
+  // If _month is unspecified we want the previous month.
+  // If current month is january, we want december last year.
+  const month = isNaN(_month) ? moment().month() - 1 : _month - 1;
 
-  const startDate = moment().year(year).month(month).date(1)
-    .format('YYYY-MM-DD');
-  const endDate = moment().year(year).month(month + 1).date(0)
-    .format('YYYY-MM-DD');
+  const date = moment().year(year).month(month);
 
   return {
-    startDate,
-    endDate,
-    year,
-    month: moment().month(month).format('MMMM'),
-    navigation: navigation(year, month, pathname),
+    startDate: date.clone().startOf('month').format('YYYY-MM-DD'),
+    endDate: date.clone().endOf('month').format('YYYY-MM-DD'),
+    year: date.format('YYYY'),
+    month: date.format('MMMM'),
+    navigation: navigation(date.format('YYYY'), month, pathname),
   };
 };
 

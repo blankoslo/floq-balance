@@ -11,12 +11,12 @@ const BalanceViewInvoiceStatus = props => (
   <td>
     {props.status
       ?
-      <select
-        defaultValue={props.status}
-        onChange={e => props.onChange(props.project, e.target.value)}
-      >
-        {statuses.map(c => <option key={c.value} value={c.value}>{c.name}</option>)}
-      </select>
+        <select
+          defaultValue={props.status}
+          onChange={e => props.onChange(props.project, e.target.value)}
+        >
+          {statuses.map(c => <option key={c.value} value={c.value}>{c.name}</option>)}
+        </select>
       : ''
     }
   </td>

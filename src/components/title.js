@@ -22,7 +22,7 @@ const BalanceViewTitle = (props) => (
 );
 
 BalanceViewTitle.propTypes = {
-  selectedYear: React.PropTypes.number.isRequired,
+  selectedYear: React.PropTypes.string.isRequired,
   selectedMonth: React.PropTypes.string.isRequired,
   navigation: React.PropTypes.object.isRequired,
 };
