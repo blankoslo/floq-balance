@@ -6,8 +6,8 @@ import Col from './headerCol';
 const columnNames = new Immutable.List(
   [
     { value: 'Kunde', title: 'Kundekode' },
-    { value: 'Netto omsetning kunde', title: 'Netto omsetning kunde' },
     { value: 'Brutto omsetning kunde', title: 'Brutto omsetning kunde' },
+    { value: 'Netto omsetning kunde', title: 'Netto omsetning kunde' },
     { value: 'OT Kunde', title: 'Oppnådd timespris Kunde' },
     { value: 'Engasjement', title: 'Engasjement' },
     { value: 'Ansv.', title: 'Ansvarlig' },
