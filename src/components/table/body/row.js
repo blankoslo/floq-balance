@@ -13,8 +13,8 @@ import HourlyRate from './hourlyRate';
 const BalanceViewBodyRow = props => (
   <tr>
     <td className='uneditable'>{props.data.customerCode}</td>
-    <Decimal value={props.data.gross_turnover_customer} />
-    <Decimal value={props.data.net_turnover_customer} />
+    <Decimal value={props.data.gross_turnover_customer} decimals={0} />
+    <Decimal value={props.data.net_turnover_customer} decimals={0} />
     <Decimal value={props.data.hourly_rate_customer} />
     <td className='uneditable'>{props.data.projectId}</td>
     <td
