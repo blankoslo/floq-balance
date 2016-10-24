@@ -4,6 +4,7 @@ import { getProjects, getHoursPerProject, upsertInvoiceBalance, upsertWriteOff,
   upsertExpense, upsertStatus, changeInput } from '../actions/index';
 import titleSelector from '../selectors/titleSelector';
 import tableBodySelector from '../selectors/tableBodySelector';
+import footerSelector from '../selectors/footerSelector';
 import IndexComponent from '../components/index';
 
 class App extends Component {
@@ -41,13 +42,16 @@ class App extends Component {
       return null;
     }
     return (<IndexComponent
-      tableBody={{
-        list: this.props.tableBody.data,
-        onWriteOffChange: this.onWriteOffChange,
-        onExpenseChange: this.onExpenseChange,
-        onInvoiceBalanceChange: this.onInvoiceBalanceChange,
-        onStatusChange: this.onStatusChange,
-        onInputChange: this.onInputChange,
+      tableData={{
+        body: {
+          list: this.props.tableBody.data,
+          onWriteOffChange: this.onWriteOffChange,
+          onExpenseChange: this.onExpenseChange,
+          onInvoiceBalanceChange: this.onInvoiceBalanceChange,
+          onStatusChange: this.onStatusChange,
+          onInputChange: this.onInputChange,
+        },
+        footer: this.props.footer.data,
       }}
       title={this.props.title}
     />);
@@ -58,6 +62,7 @@ App.propTypes = {
   // mapStateToProps
   tableBody: React.PropTypes.object.isRequired,
   title: React.PropTypes.object.isRequired,
+  footer: React.PropTypes.object.isRequired,
 
   // mapDispatchToProps
   getProjects: React.PropTypes.func.isRequired,
@@ -72,6 +77,7 @@ App.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   tableBody: tableBodySelector(state, ownProps),
   title: titleSelector(state, ownProps),
+  footer: footerSelector(state, ownProps),
 });
 
 const mapDispatchToProps = {

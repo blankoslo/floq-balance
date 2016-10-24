@@ -7,14 +7,12 @@ import BilledHours from './editables/billedHours';
 import InvoiceStatus from './editables/invoiceStatus';
 
 import Decimal from './decimal';
-import Basis from './basis';
-import HourlyRate from './hourlyRate';
 
 const BalanceViewBodyRow = props => (
   <tr>
     <td className='uneditable'>{props.data.customerCode}</td>
-    <Decimal value={props.data.gross_turnover_customer} />
-    <Decimal value={props.data.net_turnover_customer} />
+    <Decimal value={props.data.gross_turnover_customer} decimals={0} />
+    <Decimal value={props.data.net_turnover_customer} decimals={0} />
     <Decimal value={props.data.hourly_rate_customer} />
     <td className='uneditable'>{props.data.projectId}</td>
     <td
@@ -31,16 +29,13 @@ const BalanceViewBodyRow = props => (
       onValueChange={props.onWriteOffChange}
       project={props.data.projectId}
     />
-    <Basis
-      timeEntryMinutes={props.data.time_entry_minutes}
-      writeOffMinutes={props.data.write_off_minutes}
-    />
+    <Decimal value={props.data.basis_minutes / 60} />
     <BilledHours
-      value={props.data.invoice_balance_minutes}
+      value={props.data.invoice_minutes}
       input={props.data.input.billedHours}
       onInputChange={props.onInputChange}
       onValueChange={props.onInvoiceBalanceChange}
-      fee={props.data.invoice_balance_money}
+      fee={props.data.invoice_money}
       project={props.data.projectId}
     />
     <Expense
@@ -60,18 +55,14 @@ const BalanceViewBodyRow = props => (
       type={'subcontractor'}
     />
     <Fee
-      value={props.data.invoice_balance_money}
+      value={props.data.invoice_money}
       input={props.data.input.fee}
       onInputChange={props.onInputChange}
       onValueChange={props.onInvoiceBalanceChange}
-      billedMinutes={props.data.invoice_balance_minutes}
+      billedMinutes={props.data.invoice_minutes}
       project={props.data.projectId}
     />
-    <HourlyRate
-      fee={props.data.invoice_balance_money}
-      expense={props.data.expense_money + props.data.subcontractor_money}
-      timeEntryMinutes={props.data.time_entry_minutes}
-    />
+    <Decimal value={props.data.hourly_rate} />
     <InvoiceStatus
       status={props.data.status}
       onChange={props.onStatusChange}

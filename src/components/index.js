@@ -9,12 +9,12 @@ const BalanceView = (props) => (
       selectedMonth={props.title.month}
       navigation={props.title.navigation}
     />
-    <BalanceViewTable tableBody={props.tableBody} />
+    <BalanceViewTable tableData={props.tableData} />
   </div>
 );
 
 BalanceView.propTypes = {
-  tableBody: React.PropTypes.object.isRequired,
+  tableData: React.PropTypes.object.isRequired,
   title: React.PropTypes.object.isRequired,
 };
 
