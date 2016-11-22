@@ -21,7 +21,7 @@ module.exports = {
     loaders: [
         { test: /\.less$/, loader: 'style!css!less' },
         { test: /\.js$/,
-          loaders: ['react-hot', 'babel'],
+          loaders: ['babel-loader'],
           exclude: /node_modules/,
           include: __dirname }
     ]
