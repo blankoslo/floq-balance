@@ -18,13 +18,12 @@ export const getPeriod = (_year, _month, pathname) => {
   const month = isNaN(_month) ? moment().month() - 1 : _month - 1;
 
   const date = moment().year(year).month(month);
-
   return {
     startDate: date.clone().startOf('month').format('YYYY-MM-DD'),
     endDate: date.clone().endOf('month').format('YYYY-MM-DD'),
     year: date.format('YYYY'),
     month: date.format('MMMM'),
-    navigation: navigation(date.format('YYYY'), month, pathname),
+    navigation: navigation(year, month, pathname),
   };
 };
 
