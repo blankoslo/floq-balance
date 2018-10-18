@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router';
+import PropTypes from "prop-types";
+import React from "react";
+import { Link } from "react-router";
 
 const BalanceViewTitle = (props) => (
   <div className='balance-navigation'>
@@ -22,9 +23,9 @@ const BalanceViewTitle = (props) => (
 );
 
 BalanceViewTitle.propTypes = {
-  selectedYear: React.PropTypes.string.isRequired,
-  selectedMonth: React.PropTypes.string.isRequired,
-  navigation: React.PropTypes.object.isRequired,
+  selectedYear: PropTypes.string.isRequired,
+  selectedMonth: PropTypes.string.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 export default BalanceViewTitle;

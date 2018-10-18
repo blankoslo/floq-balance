@@ -1,4 +1,5 @@
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 
 const statuses = [
   { value: 'not_done', name: 'Ikke ferdig' },
@@ -23,9 +24,9 @@ const BalanceViewInvoiceStatus = props => (
 );
 
 BalanceViewInvoiceStatus.propTypes = {
-  status: React.PropTypes.string,
-  project: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
+  status: PropTypes.string,
+  project: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default BalanceViewInvoiceStatus;

@@ -1,4 +1,5 @@
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 
 const decimals = input => (input === undefined || input === null ? 1 : input);
 
@@ -11,8 +12,8 @@ const BalanceViewBodyCell = props => (
 );
 
 BalanceViewBodyCell.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  decimals: React.PropTypes.number,
+  value: PropTypes.number.isRequired,
+  decimals: PropTypes.number
 };
 
 export default BalanceViewBodyCell;

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Dialog from "@material-ui/core/Dialog";
+import FlatButton from "@material-ui/core/FlatButton";
 
 import { clearApiError } from '../actions';
 
@@ -37,8 +38,8 @@ class ErrorDialog extends Component {
 }
 
 ErrorDialog.propTypes = {
-  error: React.PropTypes.string,
-  clearApiError: React.PropTypes.func
+  error: PropTypes.string,
+  clearApiError: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({

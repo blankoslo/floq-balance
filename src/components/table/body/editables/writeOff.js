@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
+import PropTypes from "prop-types";
+
+import React, { Component } from "react";
 
 const isValid = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
@@ -27,11 +29,11 @@ class WriteOffCell extends Component {
 }
 
 WriteOffCell.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  input: React.PropTypes.string.isRequired,
-  project: React.PropTypes.string.isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  onInputChange: React.PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired,
+  input: PropTypes.string.isRequired,
+  project: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default WriteOffCell;

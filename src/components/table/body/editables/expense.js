@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
+import PropTypes from "prop-types";
+
+import React, { Component } from "react";
 
 const isValid = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 
@@ -31,12 +33,12 @@ class Expense extends Component {
 }
 
 Expense.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  input: React.PropTypes.string.isRequired,
-  project: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-  onValueChange: React.PropTypes.func.isRequired,
-  onInputChange: React.PropTypes.func.isRequired,
+  value: PropTypes.number.isRequired,
+  input: PropTypes.string.isRequired,
+  project: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default Expense;

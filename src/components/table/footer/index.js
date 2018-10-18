@@ -1,5 +1,6 @@
-import React from 'react';
-import Decimal from '../body/decimal';
+import PropTypes from "prop-types";
+import React from "react";
+import Decimal from "../body/decimal";
 
 const FooterRow = (props) => (
   <tfoot>
@@ -24,7 +25,7 @@ const FooterRow = (props) => (
 );
 
 FooterRow.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };
 
 export default FooterRow;

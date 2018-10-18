@@ -1,7 +1,8 @@
-import React from 'react';
-import Header from './header';
-import Body from './body';
-import Footer from './footer';
+import PropTypes from "prop-types";
+import React from "react";
+import Header from "./header";
+import Body from "./body";
+import Footer from "./footer";
 
 const BalanceViewTable = (props) => (
   <div>
@@ -14,7 +15,7 @@ const BalanceViewTable = (props) => (
 );
 
 BalanceViewTable.propTypes = {
-  tableData: React.PropTypes.object.isRequired
+  tableData: PropTypes.object.isRequired
 };
 
 export default BalanceViewTable;

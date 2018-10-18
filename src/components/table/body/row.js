@@ -1,4 +1,5 @@
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 
 import WriteOff from './editables/writeOff';
 import Expense from './editables/expense';
@@ -72,12 +73,12 @@ const BalanceViewBodyRow = props => (
 );
 
 BalanceViewBodyRow.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  onWriteOffChange: React.PropTypes.func.isRequired,
-  onExpenseChange: React.PropTypes.func.isRequired,
-  onInvoiceBalanceChange: React.PropTypes.func.isRequired,
-  onStatusChange: React.PropTypes.func.isRequired,
-  onInputChange: React.PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  onWriteOffChange: PropTypes.func.isRequired,
+  onExpenseChange: PropTypes.func.isRequired,
+  onInvoiceBalanceChange: PropTypes.func.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired
 };
 
 export default BalanceViewBodyRow;

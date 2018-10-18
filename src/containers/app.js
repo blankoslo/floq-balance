@@ -1,11 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getProjects, getHoursPerProject, upsertInvoiceBalance, upsertWriteOff,
-  upsertExpense, upsertStatus, changeInput } from '../actions/index';
-import titleSelector from '../selectors/titleSelector';
-import tableBodySelector from '../selectors/tableBodySelector';
-import footerSelector from '../selectors/footerSelector';
-import IndexComponent from '../components/index';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  getProjects,
+  getHoursPerProject,
+  upsertInvoiceBalance,
+  upsertWriteOff,
+  upsertExpense,
+  upsertStatus,
+  changeInput
+} from "../actions/index";
+import titleSelector from "../selectors/titleSelector";
+import tableBodySelector from "../selectors/tableBodySelector";
+import footerSelector from "../selectors/footerSelector";
+import IndexComponent from "../components/index";
 
 class App extends Component {
   constructor(props) {
@@ -60,18 +68,18 @@ class App extends Component {
 
 App.propTypes = {
   // mapStateToProps
-  tableBody: React.PropTypes.object.isRequired,
-  title: React.PropTypes.object.isRequired,
-  footer: React.PropTypes.object.isRequired,
+  tableBody: PropTypes.object.isRequired,
+  title: PropTypes.object.isRequired,
+  footer: PropTypes.object.isRequired,
 
   // mapDispatchToProps
-  getProjects: React.PropTypes.func.isRequired,
-  getHoursPerProject: React.PropTypes.func.isRequired,
-  upsertInvoiceBalance: React.PropTypes.func.isRequired,
-  upsertWriteOff: React.PropTypes.func.isRequired,
-  upsertExpense: React.PropTypes.func.isRequired,
-  upsertStatus: React.PropTypes.func.isRequired,
-  changeInput: React.PropTypes.func.isRequired,
+  getProjects: PropTypes.func.isRequired,
+  getHoursPerProject: PropTypes.func.isRequired,
+  upsertInvoiceBalance: PropTypes.func.isRequired,
+  upsertWriteOff: PropTypes.func.isRequired,
+  upsertExpense: PropTypes.func.isRequired,
+  upsertStatus: PropTypes.func.isRequired,
+  changeInput: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({

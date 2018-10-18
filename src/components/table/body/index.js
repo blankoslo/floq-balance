@@ -1,5 +1,6 @@
-import React from 'react';
-import Row from './row';
+import PropTypes from "prop-types";
+import React from "react";
+import Row from "./row";
 
 const BalanceViewBody = (props) => (
   <tbody>
@@ -17,7 +18,7 @@ const BalanceViewBody = (props) => (
 );
 
 BalanceViewBody.propTypes = {
-  data: React.PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };
 
 export default BalanceViewBody;
