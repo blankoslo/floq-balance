@@ -1,18 +1,46 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { isValidElement } from "react";
 import BalanceViewTitle from "./title";
 // import BalanceViewTable from './table';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+
+const isValid = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 
 class BalanceView extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  render() {
-    const add = (a, b) => a + b;
+  renderEditable = cellInfo => {
+    const data = this.props.tableData.body.list;
+    const rowIdx = cellInfo.index;
+    const columnId = cellInfo.column.id;
+    const projectId = data[rowIdx]["projectId"];
 
+    const input = data[cellInfo.index]["input"]["expense"];
+    const value = data[rowIdx][columnId];
+
+    return (
+      <div
+        style={{ backgroundColor: "#fafafa" }}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const newValue = e.target.innerHTML.trim() === "" ? "0" : e.target.innerHTML;
+          this.props.tableData.body.onInputChange(projectId, columnId, newValue);
+          if (newValue === value.toString()) return;
+          if (!isValid(newValue)) return;
+          this.props.tableData.body.onExpenseChange(projectId, "other", Number(newValue));
+        }}
+        dangerouslySetInnerHTML={{
+          __html: input
+        }}
+      />
+    );
+  };
+
+  render() {
     const columns = [
       { accessor: "customerCode", Header: "Kunde", Footer: <strong>TOTAL:</strong> },
       { accessor: "gross_turnover_customer", Header: "Brutto omsetning kunde" },
@@ -51,7 +79,8 @@ class BalanceView extends React.Component {
       {
         accessor: "expense_money",
         Header: "Utgifter",
-        Footer: <strong>{this.props.tableData.footer.expense}</strong>
+        Footer: <strong>{this.props.tableData.footer.expense}</strong>,
+        Cell: this.renderEditable
       },
       {
         accessor: "subcontractor_money",
@@ -67,6 +96,8 @@ class BalanceView extends React.Component {
       { accessor: "status", Header: "Fak. Status" }
       // { accessor: 'input', Header: 'input' },
     ];
+
+    console.log(this.props.tableData);
 
     return (
       <div>
