@@ -19,11 +19,14 @@ module.exports = {
   module: {
     preLoaders: [{ test: /\.js?$/, loaders: ['eslint'] }],
     loaders: [
-        { test: /\.less$/, loader: 'style!css!less' },
-        { test: /\.js$/,
-          loaders: ['babel-loader'],
-          exclude: /node_modules/,
-          include: __dirname }
+      { test: /\.less$/, loader: "style!css!less" },
+      {
+        test: /\.js$/,
+        loaders: ["babel-loader"],
+        exclude: /node_modules/,
+        include: __dirname
+      },
+      { test: /\.css$/, loader: "style!css" }
     ]
   }
 };
