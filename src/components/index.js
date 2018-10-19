@@ -4,88 +4,27 @@ import BalanceViewTitle from "./title";
 // import BalanceViewTable from './table';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { ExpenseCell, WriteOffCell, FeeCell, BilledHoursCell } from "./editableCells";
+import {
+  ExpenseCell,
+  WriteOffCell,
+  FeeCell,
+  BilledHoursCell,
+  MonetaryStaticCell
+} from "./editableCells";
 
 class BalanceView extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  renderEditableCell = cellInfo => {
+  extractCommonCellProps = cellInfo => {
     const data = this.props.tableData.body.list;
     const rowIdx = cellInfo.index;
     const columnId = cellInfo.column.id;
     const projectId = data[rowIdx]["projectId"];
-
     const value = data[rowIdx][columnId];
 
-    if (columnId === "expense_money") {
-      return (
-        <ExpenseCell
-          projectId={projectId}
-          columnId={columnId}
-          onInputChange={this.props.tableData.body.onInputChange}
-          onValueChange={this.props.tableData.body.onExpenseChange}
-          value={value}
-          input={data[cellInfo.index]["input"]["expense"]}
-          type={"other"}
-        />
-      );
-    }
-    if (columnId === "write_off_minutes") {
-      return (
-        <WriteOffCell
-          projectId={projectId}
-          columnId={columnId}
-          onInputChange={this.props.tableData.body.onInputChange}
-          onValueChange={this.props.tableData.body.onWriteOffChange}
-          value={value}
-          input={data[cellInfo.index]["input"]["writeOff"]}
-        />
-      );
-    }
-    if (columnId === "invoice_money") {
-      return (
-        <FeeCell
-          projectId={projectId}
-          columnId={columnId}
-          onInputChange={this.props.tableData.body.onInputChange}
-          onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
-          value={value}
-          input={data[cellInfo.index]["input"]["fee"]}
-          billedMinutes={data[rowIdx]["invoice_minutes"]}
-        />
-      );
-    }
-    if (columnId === "invoice_minutes") {
-      return (
-        <BilledHoursCell
-          projectId={projectId}
-          columnId={columnId}
-          onInputChange={this.props.tableData.body.onInputChange}
-          onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
-          value={value}
-          input={data[cellInfo.index]["input"]["billedHours"]}
-          fee={data[rowIdx]["invoice_money"]}
-        />
-      );
-    }
-    if (columnId === "responsible") {
-      return <div>{data[cellInfo.index][columnId]["initials"]}</div>;
-    }
-    if (columnId === "subcontractor_money") {
-      return (
-        <ExpenseCell
-          projectId={projectId}
-          columnId={columnId}
-          onInputChange={this.props.tableData.body.onInputChange}
-          onValueChange={this.props.tableData.body.onExpenseChange}
-          value={value}
-          input={data[cellInfo.index]["input"]["subcontractor"]}
-          type={"subcontractor"}
-        />
-      );
-    }
+    return { data, rowIdx, columnId, projectId, value };
   };
 
   renderStaticCell = cellInfo => {
@@ -106,7 +45,7 @@ class BalanceView extends React.Component {
       return <div>{Math.abs(hours) < 0.1 ? "" : hours.toFixed(decimals(1))}</div>;
     }
     if (columnId === "gross_turnover_customer" || columnId === "net_turnover_customer") {
-      return <div>{Math.abs(value) < 0.1 ? "" : value.toFixed(0)}</div>;
+      return <MonetaryStaticCell value={value} />;
     }
     if (columnId === "hourly_rate_customer" || columnId === "hourly_rate") {
       return <div>{Math.abs(value) < 0.1 ? "" : value.toFixed(decimals(1))}</div>;
@@ -137,7 +76,20 @@ class BalanceView extends React.Component {
       {
         accessor: "write_off_minutes",
         Header: "Avskrivning",
-        Footer: <strong>{this.props.tableData.footer.write_off_minutes}</strong>
+        Footer: <strong>{this.props.tableData.footer.write_off_minutes}</strong>,
+        Cell: cellInfo => {
+          const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
+          return (
+            <WriteOffCell
+              projectId={projectId}
+              columnId={columnId}
+              onInputChange={this.props.tableData.body.onInputChange}
+              onValueChange={this.props.tableData.body.onWriteOffChange}
+              value={value}
+              input={data[cellInfo.index]["input"]["writeOff"]}
+            />
+          );
+        }
       },
       {
         accessor: "basis_minutes",
@@ -147,23 +99,82 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_minutes",
         Header: "Fak. timetall",
-        Footer: <strong>{this.props.tableData.footer.invoice_minutes}</strong>
+        Footer: <strong>{this.props.tableData.footer.invoice_minutes}</strong>,
+        Cell: cellInfo => {
+          const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
+            cellInfo
+          );
+          return (
+            <BilledHoursCell
+              projectId={projectId}
+              columnId={columnId}
+              onInputChange={this.props.tableData.body.onInputChange}
+              onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+              value={value}
+              input={data[cellInfo.index]["input"]["billedHours"]}
+              fee={data[rowIdx]["invoice_money"]}
+            />
+          );
+        }
       },
       {
         accessor: "expense_money",
         Header: "Utgifter",
         Footer: <strong>{this.props.tableData.footer.expense}</strong>,
-        Cell: this.renderEditable
+        Cell: cellInfo => {
+          const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
+          return (
+            <ExpenseCell
+              projectId={projectId}
+              columnId={columnId}
+              onInputChange={this.props.tableData.body.onInputChange}
+              onValueChange={this.props.tableData.body.onExpenseChange}
+              value={value}
+              input={data[cellInfo.index]["input"]["expense"]}
+              type={"other"}
+            />
+          );
+        }
       },
       {
         accessor: "subcontractor_money",
         Header: "UL",
-        Footer: <strong>{this.props.tableData.footer.subcontractor_expense}</strong>
+        Footer: <strong>{this.props.tableData.footer.subcontractor_expense}</strong>,
+        Cell: cellInfo => {
+          const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
+          return (
+            <ExpenseCell
+              projectId={projectId}
+              columnId={columnId}
+              onInputChange={this.props.tableData.body.onInputChange}
+              onValueChange={this.props.tableData.body.onExpenseChange}
+              value={value}
+              input={data[cellInfo.index]["input"]["subcontractor"]}
+              type={"subcontractor"}
+            />
+          );
+        }
       },
       {
         accessor: "invoice_money",
         Header: "Honorar",
-        Footer: <strong>{this.props.tableData.footer.fee}</strong>
+        Footer: <strong>{this.props.tableData.footer.fee}</strong>,
+        Cell: cellInfo => {
+          const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
+            cellInfo
+          );
+          return (
+            <FeeCell
+              projectId={projectId}
+              columnId={columnId}
+              onInputChange={this.props.tableData.body.onInputChange}
+              onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+              value={value}
+              input={data[cellInfo.index]["input"]["fee"]}
+              billedMinutes={data[rowIdx]["invoice_minutes"]}
+            />
+          );
+        }
       },
       { accessor: "hourly_rate", Header: "OT" },
       { accessor: "status", Header: "Fak. Status" }
