@@ -4,40 +4,113 @@ import BalanceViewTitle from "./title";
 // import BalanceViewTable from './table';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-
-const isValid = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
+import { ExpenseCell, WriteOffCell, FeeCell, BilledHoursCell } from "./editableCells";
 
 class BalanceView extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  renderEditable = cellInfo => {
+  renderEditableCell = cellInfo => {
     const data = this.props.tableData.body.list;
     const rowIdx = cellInfo.index;
     const columnId = cellInfo.column.id;
     const projectId = data[rowIdx]["projectId"];
 
-    const input = data[cellInfo.index]["input"]["expense"];
     const value = data[rowIdx][columnId];
 
-    return (
-      <div
-        style={{ backgroundColor: "#fafafa" }}
-        contentEditable
-        suppressContentEditableWarning
-        onBlur={e => {
-          const newValue = e.target.innerHTML.trim() === "" ? "0" : e.target.innerHTML;
-          this.props.tableData.body.onInputChange(projectId, columnId, newValue);
-          if (newValue === value.toString()) return;
-          if (!isValid(newValue)) return;
-          this.props.tableData.body.onExpenseChange(projectId, "other", Number(newValue));
-        }}
-        dangerouslySetInnerHTML={{
-          __html: input
-        }}
-      />
-    );
+    if (columnId === "expense_money") {
+      return (
+        <ExpenseCell
+          projectId={projectId}
+          columnId={columnId}
+          onInputChange={this.props.tableData.body.onInputChange}
+          onValueChange={this.props.tableData.body.onExpenseChange}
+          value={value}
+          input={data[cellInfo.index]["input"]["expense"]}
+          type={"other"}
+        />
+      );
+    }
+    if (columnId === "write_off_minutes") {
+      return (
+        <WriteOffCell
+          projectId={projectId}
+          columnId={columnId}
+          onInputChange={this.props.tableData.body.onInputChange}
+          onValueChange={this.props.tableData.body.onWriteOffChange}
+          value={value}
+          input={data[cellInfo.index]["input"]["writeOff"]}
+        />
+      );
+    }
+    if (columnId === "invoice_money") {
+      return (
+        <FeeCell
+          projectId={projectId}
+          columnId={columnId}
+          onInputChange={this.props.tableData.body.onInputChange}
+          onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+          value={value}
+          input={data[cellInfo.index]["input"]["fee"]}
+          billedMinutes={data[rowIdx]["invoice_minutes"]}
+        />
+      );
+    }
+    if (columnId === "invoice_minutes") {
+      return (
+        <BilledHoursCell
+          projectId={projectId}
+          columnId={columnId}
+          onInputChange={this.props.tableData.body.onInputChange}
+          onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+          value={value}
+          input={data[cellInfo.index]["input"]["billedHours"]}
+          fee={data[rowIdx]["invoice_money"]}
+        />
+      );
+    }
+    if (columnId === "responsible") {
+      return <div>{data[cellInfo.index][columnId]["initials"]}</div>;
+    }
+    if (columnId === "subcontractor_money") {
+      return (
+        <ExpenseCell
+          projectId={projectId}
+          columnId={columnId}
+          onInputChange={this.props.tableData.body.onInputChange}
+          onValueChange={this.props.tableData.body.onExpenseChange}
+          value={value}
+          input={data[cellInfo.index]["input"]["subcontractor"]}
+          type={"subcontractor"}
+        />
+      );
+    }
+  };
+
+  renderStaticCell = cellInfo => {
+    const data = this.props.tableData.body.list;
+    const rowIdx = cellInfo.index;
+    const columnId = cellInfo.column.id;
+    const projectId = data[rowIdx]["projectId"];
+
+    const value = data[rowIdx][columnId];
+
+    const decimals = input => (input === undefined || input === null ? 1 : input);
+
+    if (columnId === "responsible") {
+      return <div>{data[cellInfo.index][columnId]["initials"]}</div>;
+    }
+    if (columnId === "time_entry_minutes" || columnId === "basis_minutes") {
+      const hours = value / 60;
+      return <div>{Math.abs(hours) < 0.1 ? "" : hours.toFixed(decimals(1))}</div>;
+    }
+    if (columnId === "gross_turnover_customer" || columnId === "net_turnover_customer") {
+      return <div>{Math.abs(value) < 0.1 ? "" : value.toFixed(0)}</div>;
+    }
+    if (columnId === "hourly_rate_customer" || columnId === "hourly_rate") {
+      return <div>{Math.abs(value) < 0.1 ? "" : value.toFixed(decimals(1))}</div>;
+    }
   };
 
   render() {
