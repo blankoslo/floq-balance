@@ -1,45 +1,45 @@
 @import "reset.less";
 
-@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:100, 300, 400, 700);
 
 @errorColor: red;
 @backgroundPanelColor: #c3c3c3;
-@inputColor: #EEE;
+@inputColor: #eee;
 
 @purple: #414cb7;
 @gray: #9b9b9b;
 @dark-gray: #646464;
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 /** Copied h1-h6 font-sizes from Chrome 51*/
 h1 {
-    font-size: 2em;
+  font-size: 2em;
 }
 h2 {
-    font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 h3 {
-    font-size: 1.17em;
+  font-size: 1.17em;
 }
 
 h4 {
-    font-size: 1.00em;
+  font-size: 1em;
 }
 
 h5 {
-    font-size: 0.83em;
+  font-size: 0.83em;
 }
 
 h6 {
-    font-size: 0.67em;
+  font-size: 0.67em;
 }
 
 hr {
-    border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
 
 label {
@@ -56,7 +56,8 @@ table.balance-table {
   border-collapse: collapse;
   border-spacing: 0;
   tr {
-    th, td {
+    th,
+    td {
       text-align: center;
       vertical-align: middle;
       border: 1px solid @backgroundPanelColor;
@@ -101,8 +102,18 @@ table.balance-table {
 }
 
 .balance-navigation {
-  display:flex;
+  height: 45px;
+  display: flex;
   direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.ReactTable .rt-tbody .rt-td {
+  border-right: none;
+
+  &:focus-within {
+    border: 2px #5292f7 solid;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
 }

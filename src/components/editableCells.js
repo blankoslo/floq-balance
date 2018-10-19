@@ -17,7 +17,7 @@ export const MonetaryStaticCell = ({ value }) => {
 
 const EditableCell = ({ onBlurEventHandler, input }) => (
   <div
-    style={{ backgroundColor: "#fafafa", flexGrow: "1" }}
+    style={{ flexGrow: "1", outline: "none" }}
     contentEditable
     suppressContentEditableWarning
     onBlur={onBlurEventHandler}
