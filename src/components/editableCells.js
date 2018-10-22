@@ -3,6 +3,29 @@ import React from "react";
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
+const statuses = [
+  { value: "not_done", name: "Ikke ferdig" },
+  { value: "not_ok", name: "Ikke godkjent" },
+  { value: "ok", name: "Godkjent" },
+  { value: "sent", name: "Sendt" }
+];
+
+export const InvoiceStatusCell = ({ status, onChange, projectId }) => (
+  <div>
+    {status ? (
+      <select defaultValue={status} onChange={e => onChange(projectId, e.target.value)}>
+        {statuses.map(c => (
+          <option key={c.value} value={c.value}>
+            {c.name}
+          </option>
+        ))}
+      </select>
+    ) : (
+      ""
+    )}
+  </div>
+);
+
 export const MonetaryStaticCell = ({ value }) => {
   // const monataryFormatter = new Intl.NumberFormat("nb", {
   //   style: "currency",

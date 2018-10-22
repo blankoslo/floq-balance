@@ -9,7 +9,8 @@ import {
   WriteOffCell,
   FeeCell,
   BilledHoursCell,
-  MonetaryStaticCell
+  MonetaryStaticCell,
+  InvoiceStatusCell
 } from "./editableCells";
 
 class BalanceView extends React.Component {
@@ -176,9 +177,28 @@ class BalanceView extends React.Component {
           );
         }
       },
-      { accessor: "hourly_rate", Header: "OT" },
-      { accessor: "status", Header: "Fak. Status" }
-      // { accessor: 'input', Header: 'input' },
+      {
+        accessor: "hourly_rate",
+        Header: "OT",
+        Cell: this.renderStaticCell
+      },
+      {
+        accessor: "status",
+        Header: "Fak. Status",
+        Cell: cellInfo => {
+          const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
+            cellInfo
+          );
+          console.log(data);
+          return (
+            <InvoiceStatusCell
+              status={data[rowIdx]["status"]}
+              onChange={this.props.tableData.body.onStatusChange}
+              projectId={projectId}
+            />
+          );
+        }
+      }
     ];
 
     console.log(this.props.tableData);
