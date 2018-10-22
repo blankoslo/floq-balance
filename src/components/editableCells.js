@@ -16,7 +16,9 @@ export const InvoiceStatusCell = ({ status, onChange, projectId }) => (
     {status ? (
       <NativeSelect value={status} onChange={e => onChange(projectId, e.target.value)}>
         {statuses.map((option, key) => (
-          <option value={option.value}>{option.name}</option>
+          <option key={key} value={option.value}>
+            {option.name}
+          </option>
         ))}
       </NativeSelect>
     ) : (
@@ -34,7 +36,25 @@ export const MonetaryStaticCell = ({ value }) => {
 
   const monataryFormatter = new Intl.NumberFormat("nb");
 
-  return <div>{monataryFormatter.format(value)}</div>;
+  return <div>{monataryFormatter.format(value.toFixed(value % 1 ? 2 : 0))}</div>;
+};
+
+export const TextStaticCell = ({ value }) => {
+  return <div>{value}</div>;
+};
+
+export const DurationStaticCell = ({ value, hours, decimals }) => {
+  const numDecimals = input => (input === undefined || input === null ? 1 : input);
+  console.log(value);
+  return (
+    <div>
+      {Math.abs(value) < 0.1
+        ? ""
+        : hours
+          ? (value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0)
+          : value}
+    </div>
+  );
 };
 
 const EditableCell = ({ onBlurEventHandler, input }) => (

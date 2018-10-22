@@ -10,7 +10,9 @@ import {
   FeeCell,
   BilledHoursCell,
   MonetaryStaticCell,
-  InvoiceStatusCell
+  InvoiceStatusCell,
+  DurationStaticCell,
+  TextStaticCell
 } from "./editableCells";
 
 class BalanceView extends React.Component {
@@ -28,73 +30,75 @@ class BalanceView extends React.Component {
     return { data, rowIdx, columnId, projectId, value };
   };
 
-  renderStaticCell = cellInfo => {
-    const data = this.props.tableData.body.list;
-    const rowIdx = cellInfo.index;
-    const columnId = cellInfo.column.id;
-    const projectId = data[rowIdx]["projectId"];
-
-    const value = data[rowIdx][columnId];
-
-    const decimals = input => (input === undefined || input === null ? 1 : input);
-
-    if (columnId === "responsible") {
-      return <div>{data[cellInfo.index][columnId]["initials"]}</div>;
-    }
-    if (columnId === "time_entry_minutes" || columnId === "basis_minutes") {
-      const hours = value / 60;
-      return <div>{Math.abs(hours) < 0.1 ? "" : hours.toFixed(decimals(1))}</div>;
-    }
-    if (columnId === "gross_turnover_customer" || columnId === "net_turnover_customer") {
-      return <MonetaryStaticCell value={value} />;
-    }
-    if (columnId === "hourly_rate_customer" || columnId === "hourly_rate") {
-      return <div>{Math.abs(value) < 0.1 ? "" : value.toFixed(decimals(1))}</div>;
-    }
-  };
-
   render() {
     const columns = [
       {
         accessor: "customerCode",
-        Header: "Kunde"
+        Header: "Kunde",
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <TextStaticCell value={value} />;
+        }
       },
       {
         accessor: "gross_turnover_customer",
         Header: "Brutto omsetning kunde",
-        Cell: this.renderStaticCell
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <MonetaryStaticCell value={value} />;
+        }
       },
       {
         accessor: "net_turnover_customer",
         Header: "Netto omsetning kunde",
-        Footer: <strong>{this.props.tableData.footer.net_turnover}</strong>,
-        Cell: this.renderStaticCell
+        Footer: <MonetaryStaticCell value={this.props.tableData.footer.net_turnover} />,
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <MonetaryStaticCell value={value} />;
+        }
       },
       {
         accessor: "hourly_rate_customer",
         Header: "OT Kunde",
-        Footer: <strong>{this.props.tableData.footer.hourly_rate}</strong>,
-        Cell: this.renderStaticCell
+        Footer: <MonetaryStaticCell value={this.props.tableData.footer.hourly_rate} decimals={2} />,
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <MonetaryStaticCell value={value} />;
+        }
       },
       {
         accessor: "projectId",
-        Header: "Engasjement"
+        Header: "Engasjement",
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <TextStaticCell value={value} />;
+        }
       },
       {
         accessor: "responsible",
         Header: "Ansvarlig",
-        Cell: this.renderStaticCell
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <TextStaticCell value={value["initials"]} />;
+        }
       },
       {
         accessor: "time_entry_minutes",
         Header: "Timeføring",
-        Footer: <strong>{this.props.tableData.footer.time_entry_minutes}</strong>,
-        Cell: this.renderStaticCell
+        Footer: (
+          <DurationStaticCell value={this.props.tableData.footer.time_entry_minutes} hours={true} />
+        ),
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <DurationStaticCell value={value} hours={true} decimals={1} />;
+        }
       },
       {
         accessor: "write_off_minutes",
         Header: "Avskrivning",
-        Footer: <strong>{this.props.tableData.footer.write_off_minutes}</strong>,
+        Footer: (
+          <DurationStaticCell value={this.props.tableData.footer.write_off_minutes} hours={true} />
+        ),
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
@@ -112,13 +116,20 @@ class BalanceView extends React.Component {
       {
         accessor: "basis_minutes",
         Header: "Grunnlag",
-        Footer: <strong>{this.props.tableData.footer.basis_minutes}</strong>,
-        Cell: this.renderStaticCell
+        Footer: (
+          <DurationStaticCell value={this.props.tableData.footer.basis_minutes} hours={true} />
+        ),
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <DurationStaticCell value={value} hours={true} decimals={1} />;
+        }
       },
       {
         accessor: "invoice_minutes",
         Header: "Fak. timetall",
-        Footer: <strong>{this.props.tableData.footer.invoice_minutes}</strong>,
+        Footer: (
+          <DurationStaticCell value={this.props.tableData.footer.invoice_minutes} hours={true} />
+        ),
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -139,7 +150,7 @@ class BalanceView extends React.Component {
       {
         accessor: "expense_money",
         Header: "Utgifter",
-        Footer: <strong>{this.props.tableData.footer.expense}</strong>,
+        Footer: <MonetaryStaticCell value={this.props.tableData.footer.expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
@@ -158,7 +169,7 @@ class BalanceView extends React.Component {
       {
         accessor: "subcontractor_money",
         Header: "UL",
-        Footer: <strong>{this.props.tableData.footer.subcontractor_expense}</strong>,
+        Footer: <MonetaryStaticCell value={this.props.tableData.footer.subcontractor_expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
@@ -177,7 +188,7 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_money",
         Header: "Honorar",
-        Footer: <strong>{this.props.tableData.footer.fee}</strong>,
+        Footer: <MonetaryStaticCell value={this.props.tableData.footer.fee} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -198,15 +209,16 @@ class BalanceView extends React.Component {
       {
         accessor: "hourly_rate",
         Header: "OT",
-        Cell: this.renderStaticCell
+        Cell: cellInfo => {
+          const { value } = this.extractCommonCellProps(cellInfo);
+          return <MonetaryStaticCell value={value} />;
+        }
       },
       {
         accessor: "status",
         Header: "Fak. Status",
         Cell: cellInfo => {
-          const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
-            cellInfo
-          );
+          const { data, projectId, rowIdx } = this.extractCommonCellProps(cellInfo);
           console.log(data);
           return (
             <InvoiceStatusCell
