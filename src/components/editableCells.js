@@ -1,4 +1,5 @@
 import React from "react";
+import NativeSelect from "@material-ui/core/NativeSelect";
 
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
@@ -13,13 +14,11 @@ const statuses = [
 export const InvoiceStatusCell = ({ status, onChange, projectId }) => (
   <div>
     {status ? (
-      <select defaultValue={status} onChange={e => onChange(projectId, e.target.value)}>
-        {statuses.map(c => (
-          <option key={c.value} value={c.value}>
-            {c.name}
-          </option>
+      <NativeSelect value={status} onChange={e => onChange(projectId, e.target.value)}>
+        {statuses.map((option, key) => (
+          <option value={option.value}>{option.name}</option>
         ))}
-      </select>
+      </NativeSelect>
     ) : (
       ""
     )}
