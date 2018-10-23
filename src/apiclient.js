@@ -79,7 +79,7 @@ export const initateTimeTrackingReportDownload = (projectId, startDate, endDate)
 };
 
 const imitateFileDownload = (data, filename, type) => {
-  var file = new Blob([data], { type: type });
+  var file = new Blob([data]);
   if (window.navigator.msSaveOrOpenBlob)
     // IE10+
     window.navigator.msSaveOrOpenBlob(file, filename);
