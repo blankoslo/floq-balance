@@ -72,21 +72,21 @@ export const initateTimeTrackingReportDownload = (projectId, startDate, endDate)
     method: "GET",
     headers: reportingHeaders
   })
-    .then(response => response.text())
+    .then(response => response.arrayBuffer())
     .then(text =>
       imitateFileDownload(text, `timeføring__${projectId}__${startDate}-${endDate}`, "csv")
     );
 };
 
 const imitateFileDownload = (data, filename, type) => {
-  var file = new Blob([data], { type: type });
+  var file = new Blob([data]);
   if (window.navigator.msSaveOrOpenBlob)
     // IE10+
     window.navigator.msSaveOrOpenBlob(file, filename);
   else {
     // Others
     var a = document.createElement("a"),
-      url = URL.createObjectURL(file);
+      url = window.URL.createObjectURL(file);
     a.href = url;
     a.download = filename + "." + type;
     document.body.appendChild(a);
