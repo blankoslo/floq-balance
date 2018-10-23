@@ -70,7 +70,7 @@ class BalanceView extends React.Component {
         accessor: "projectId",
         Header: "Engasjement",
         Cell: cellInfo => {
-          const { value } = this.extractCommonCellProps(cellInfo);
+          const { value, projectId } = this.extractCommonCellProps(cellInfo);
           return <TextStaticCell value={value} />;
         }
       },
@@ -89,8 +89,18 @@ class BalanceView extends React.Component {
           <DurationStaticCell value={this.props.tableData.footer.time_entry_minutes} hours={true} />
         ),
         Cell: cellInfo => {
-          const { value } = this.extractCommonCellProps(cellInfo);
-          return <DurationStaticCell value={value} hours={true} decimals={1} />;
+          const { value, projectId } = this.extractCommonCellProps(cellInfo);
+          return (
+            <DurationStaticCell
+              value={value}
+              hours={true}
+              decimals={1}
+              className={"time-entry-minutes-cell"}
+              onClick={() => {
+                this.props.tableData.body.getMonthlyTimeTrackingReport(projectId);
+              }}
+            />
+          );
         }
       },
       {
@@ -236,7 +246,7 @@ class BalanceView extends React.Component {
     return (
       <div>
         <BalanceViewTitle
-          selectedYear={this.props.title.selectedYear}
+          selectedYear={this.props.title.year}
           selectedMonth={this.props.title.month}
           navigation={this.props.title.navigation}
         />

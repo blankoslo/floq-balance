@@ -43,11 +43,10 @@ export const TextStaticCell = ({ value }) => {
   return <div>{value}</div>;
 };
 
-export const DurationStaticCell = ({ value, hours, decimals }) => {
+export const DurationStaticCell = ({ value, hours, decimals, onClick, className }) => {
   const numDecimals = input => (input === undefined || input === null ? 1 : input);
-  console.log(value);
   return (
-    <div>
+    <div onClick={onClick} className={className}>
       {Math.abs(value) < 0.1
         ? ""
         : hours

@@ -10,6 +10,7 @@ import {
   upsertStatus,
   changeInput
 } from "../actions/index";
+import { initateTimeTrackingReportDownload } from "../apiclient";
 import titleSelector from "../selectors/titleSelector";
 import tableBodySelector from "../selectors/tableBodySelector";
 import footerSelector from "../selectors/footerSelector";
@@ -46,6 +47,14 @@ class App extends Component {
 
   onInputChange = (project, key, value) => this.props.changeInput(project, key, value);
 
+  getMonthlyTimeTrackingReport = projectId => {
+    initateTimeTrackingReportDownload(
+      projectId,
+      this.props.title.startDate,
+      this.props.title.endDate
+    );
+  };
+
   render() {
     if (this.props.tableBody.loading) {
       return null;
@@ -59,7 +68,8 @@ class App extends Component {
             onExpenseChange: this.onExpenseChange,
             onInvoiceBalanceChange: this.onInvoiceBalanceChange,
             onStatusChange: this.onStatusChange,
-            onInputChange: this.onInputChange
+            onInputChange: this.onInputChange,
+            getMonthlyTimeTrackingReport: this.getMonthlyTimeTrackingReport
           },
           footer: this.props.footer.data
         }}
