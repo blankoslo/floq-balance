@@ -58,7 +58,7 @@ export const DurationStaticCell = ({ value, hours, decimals, onClick, className 
 
 const EditableCell = ({ onBlurEventHandler, input }) => (
   <div
-    style={{ flexGrow: "1", outline: "none" }}
+    style={{ flexGrow: "1", outline: "none", display: "flex", justifyContent: "flex-end" }}
     contentEditable
     suppressContentEditableWarning
     onBlur={onBlurEventHandler}

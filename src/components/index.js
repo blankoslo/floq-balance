@@ -15,6 +15,20 @@ import {
   TextStaticCell
 } from "./editableCells";
 
+const numberColumns = new Map([
+  ["net_turnover_customer", true],
+  ["gross_turnover_customer", true],
+  ["hourly_rate_customer", true],
+  ["expense_money", true],
+  ["subcontractor_money", true],
+  ["invoice_money", true],
+  ["time_entry_minutes", true],
+  ["write_off_minutes", true],
+  ["basis_minutes", true],
+  ["invoice_minutes", true],
+  ["hourly_rate", true]
+]);
+
 class BalanceView extends React.Component {
   constructor(props) {
     super(props);
@@ -229,7 +243,6 @@ class BalanceView extends React.Component {
         Header: "Fak. Status",
         Cell: cellInfo => {
           const { data, projectId, rowIdx } = this.extractCommonCellProps(cellInfo);
-          console.log(data);
           return (
             <InvoiceStatusCell
               status={data[rowIdx]["status"]}
@@ -263,8 +276,18 @@ class BalanceView extends React.Component {
           getTrProps={() => {
             return { style: { height: "45px" } };
           }}
-          getTdProps={() => {
-            return { style: { display: "flex", justifyContent: "left", alignItems: "center" } };
+          getTdProps={(state, rowInfo, column, instance) => {
+            let style = { display: "flex", justifyContent: "center", alignItems: "center" };
+
+            if (numberColumns.has(column.id)) {
+              style = Object.assign(style, { justifyContent: "flex-end" });
+            }
+            return { style: style };
+          }}
+          getTfootTdProps={(state, rowInfo, column, instance) => {
+            let style = { display: "flex", justifyContent: "flex-end", alignItems: "center" };
+
+            return { style: style };
           }}
         />
       </div>
