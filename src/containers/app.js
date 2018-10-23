@@ -24,17 +24,19 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.title.startDate !== this.props.title.startDate ||
-        nextProps.title.endDate !== this.props.title.endDate) {
+    if (
+      nextProps.title.startDate !== this.props.title.startDate ||
+      nextProps.title.endDate !== this.props.title.endDate
+    ) {
       nextProps.getHoursPerProject(nextProps.title.startDate, nextProps.title.endDate);
     }
   }
 
   onWriteOffChange = (project, minutes) =>
-     this.props.upsertWriteOff(project, this.props.title.endDate, minutes);
+    this.props.upsertWriteOff(project, this.props.title.endDate, minutes);
 
   onExpenseChange = (project, type, minutes) =>
-     this.props.upsertExpense(project, this.props.title.endDate, type, minutes);
+    this.props.upsertExpense(project, this.props.title.endDate, type, minutes);
 
   onInvoiceBalanceChange = (project, minutes, money) =>
     this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
@@ -42,27 +44,28 @@ class App extends Component {
   onStatusChange = (project, status) =>
     this.props.upsertStatus(project, this.props.title.endDate, status);
 
-  onInputChange = (project, key, value) =>
-    this.props.changeInput(project, key, value);
+  onInputChange = (project, key, value) => this.props.changeInput(project, key, value);
 
   render() {
     if (this.props.tableBody.loading) {
       return null;
     }
-    return (<IndexComponent
-      tableData={{
-        body: {
-          list: this.props.tableBody.data,
-          onWriteOffChange: this.onWriteOffChange,
-          onExpenseChange: this.onExpenseChange,
-          onInvoiceBalanceChange: this.onInvoiceBalanceChange,
-          onStatusChange: this.onStatusChange,
-          onInputChange: this.onInputChange,
-        },
-        footer: this.props.footer.data,
-      }}
-      title={this.props.title}
-    />);
+    return (
+      <IndexComponent
+        tableData={{
+          body: {
+            list: this.props.tableBody.data,
+            onWriteOffChange: this.onWriteOffChange,
+            onExpenseChange: this.onExpenseChange,
+            onInvoiceBalanceChange: this.onInvoiceBalanceChange,
+            onStatusChange: this.onStatusChange,
+            onInputChange: this.onInputChange
+          },
+          footer: this.props.footer.data
+        }}
+        title={this.props.title}
+      />
+    );
   }
 }
 
@@ -85,7 +88,7 @@ App.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   tableBody: tableBodySelector(state, ownProps),
   title: titleSelector(state, ownProps),
-  footer: footerSelector(state, ownProps),
+  footer: footerSelector(state, ownProps)
 });
 
 const mapDispatchToProps = {
@@ -95,7 +98,10 @@ const mapDispatchToProps = {
   upsertWriteOff,
   upsertExpense,
   upsertStatus,
-  changeInput,
+  changeInput
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

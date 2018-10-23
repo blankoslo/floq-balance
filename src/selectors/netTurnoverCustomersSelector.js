@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import * as Immutable from 'immutable';
+import { createSelector } from "reselect";
+import * as Immutable from "immutable";
 
 const netTurnoverCustomers = (projects, hoursPerProject) => {
   if (projects.loading || hoursPerProject.loading) {
@@ -10,11 +10,7 @@ const netTurnoverCustomers = (projects, hoursPerProject) => {
     data: hoursPerProject.data.reduce((result, value, key) => {
       const netTurnover =
         value.invoice_balance_money - value.expense_money - value.subcontractor_money;
-      return result.update(
-        projects.data.get(key).customer.id,
-        0,
-        x => x + netTurnover
-      );
+      return result.update(projects.data.get(key).customer.id, 0, x => x + netTurnover);
     }, new Immutable.Map())
   };
 };
@@ -22,5 +18,5 @@ const netTurnoverCustomers = (projects, hoursPerProject) => {
 export default createSelector(
   state => state.projects,
   state => state.hours_per_project,
-  netTurnoverCustomers,
+  netTurnoverCustomers
 );

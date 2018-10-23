@@ -4,9 +4,9 @@ import Header from "./header";
 import Body from "./body";
 import Footer from "./footer";
 
-const BalanceViewTable = (props) => (
+const BalanceViewTable = props => (
   <div>
-    <table className='balance-table'>
+    <table className="balance-table">
       <Header />
       <Body data={props.tableData.body} />
       <Footer data={props.tableData.footer} />

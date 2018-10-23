@@ -55,24 +55,41 @@ class BalanceView extends React.Component {
 
   render() {
     const columns = [
-      { accessor: "customerCode", Header: "Kunde", Footer: <strong>TOTAL:</strong> },
-      { accessor: "gross_turnover_customer", Header: "Brutto omsetning kunde" },
+      {
+        accessor: "customerCode",
+        Header: "Kunde"
+      },
+      {
+        accessor: "gross_turnover_customer",
+        Header: "Brutto omsetning kunde",
+        Cell: this.renderStaticCell
+      },
       {
         accessor: "net_turnover_customer",
         Header: "Netto omsetning kunde",
-        Footer: <strong>{this.props.tableData.footer.net_turnover}</strong>
+        Footer: <strong>{this.props.tableData.footer.net_turnover}</strong>,
+        Cell: this.renderStaticCell
       },
       {
         accessor: "hourly_rate_customer",
         Header: "OT Kunde",
-        Footer: <strong>{this.props.tableData.footer.hourly_rate}</strong>
+        Footer: <strong>{this.props.tableData.footer.hourly_rate}</strong>,
+        Cell: this.renderStaticCell
       },
-      { accessor: "projectId", Header: "Engasjement" },
-      // { accessor: 'responsible', Header: 'Ansvarlig' },
+      {
+        accessor: "projectId",
+        Header: "Engasjement"
+      },
+      {
+        accessor: "responsible",
+        Header: "Ansvarlig",
+        Cell: this.renderStaticCell
+      },
       {
         accessor: "time_entry_minutes",
         Header: "Timeføring",
-        Footer: <strong>{this.props.tableData.footer.time_entry_minutes}</strong>
+        Footer: <strong>{this.props.tableData.footer.time_entry_minutes}</strong>,
+        Cell: this.renderStaticCell
       },
       {
         accessor: "write_off_minutes",
@@ -95,7 +112,8 @@ class BalanceView extends React.Component {
       {
         accessor: "basis_minutes",
         Header: "Grunnlag",
-        Footer: <strong>{this.props.tableData.footer.basis_minutes}</strong>
+        Footer: <strong>{this.props.tableData.footer.basis_minutes}</strong>,
+        Cell: this.renderStaticCell
       },
       {
         accessor: "invoice_minutes",
@@ -201,7 +219,7 @@ class BalanceView extends React.Component {
       }
     ];
 
-    console.log(this.props.tableData);
+    const heightLock = { height: window.innerHeight - 64 - 45 };
 
     return (
       <div>
@@ -211,10 +229,21 @@ class BalanceView extends React.Component {
           navigation={this.props.title.navigation}
         />
         <ReactTable
+          style={heightLock}
           data={this.props.tableData.body.list}
           columns={columns}
           defaultPageSize={100}
           className="-striped -highlight"
+          showPaginationBottom={false}
+          getTheadThProps={() => {
+            return { style: { outline: "none" } };
+          }}
+          getTrProps={() => {
+            return { style: { height: "45px" } };
+          }}
+          getTdProps={() => {
+            return { style: { display: "flex", justifyContent: "left", alignItems: "center" } };
+          }}
         />
       </div>
     );

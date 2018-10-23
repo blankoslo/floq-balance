@@ -1,4 +1,4 @@
-import { API_ERROR, API_ERROR_CLEAR } from '../actions/index';
+import { API_ERROR, API_ERROR_CLEAR } from "../actions/index";
 
 export default (state = null, action) => {
   switch (action.type) {

@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import Decimal from "../body/decimal";
 
-const FooterRow = (props) => (
+const FooterRow = props => (
   <tfoot>
-    <tr className='footer'>
+    <tr className="footer">
       <td>Totalt:</td>
       <Decimal value={props.data.fee} decimals={0} />
       <Decimal value={props.data.net_turnover} decimals={0} />

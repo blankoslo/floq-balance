@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import Row from "./row";
 
-const BalanceViewBody = (props) => (
+const BalanceViewBody = props => (
   <tbody>
-    {props.data.list.map(row =>
+    {props.data.list.map(row => (
       <Row
         data={row}
         onWriteOffChange={props.data.onWriteOffChange}
@@ -13,7 +13,8 @@ const BalanceViewBody = (props) => (
         onStatusChange={props.data.onStatusChange}
         onInputChange={props.data.onInputChange}
         key={row.projectId}
-      />)}
+      />
+    ))}
   </tbody>
 );
 

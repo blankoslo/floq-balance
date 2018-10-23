@@ -1,25 +1,22 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import WriteOff from './editables/writeOff';
-import Expense from './editables/expense';
-import Fee from './editables/fee';
-import BilledHours from './editables/billedHours';
-import InvoiceStatus from './editables/invoiceStatus';
+import WriteOff from "./editables/writeOff";
+import Expense from "./editables/expense";
+import Fee from "./editables/fee";
+import BilledHours from "./editables/billedHours";
+import InvoiceStatus from "./editables/invoiceStatus";
 
-import Decimal from './decimal';
+import Decimal from "./decimal";
 
 const BalanceViewBodyRow = props => (
   <tr>
-    <td className='uneditable'>{props.data.customerCode}</td>
+    <td className="uneditable">{props.data.customerCode}</td>
     <Decimal value={props.data.gross_turnover_customer} decimals={0} />
     <Decimal value={props.data.net_turnover_customer} decimals={0} />
     <Decimal value={props.data.hourly_rate_customer} />
-    <td className='uneditable'>{props.data.projectId}</td>
-    <td
-      className='uneditable'
-      title={props.data.responsible.name}
-    >
+    <td className="uneditable">{props.data.projectId}</td>
+    <td className="uneditable" title={props.data.responsible.name}>
       {props.data.responsible.initials}
     </td>
     <Decimal value={props.data.time_entry_minutes / 60} />
@@ -45,7 +42,7 @@ const BalanceViewBodyRow = props => (
       onInputChange={props.onInputChange}
       onValueChange={props.onExpenseChange}
       project={props.data.projectId}
-      type={'other'}
+      type={"other"}
     />
     <Expense
       value={props.data.subcontractor_money}
@@ -53,7 +50,7 @@ const BalanceViewBodyRow = props => (
       onInputChange={props.onInputChange}
       onValueChange={props.onExpenseChange}
       project={props.data.projectId}
-      type={'subcontractor'}
+      type={"subcontractor"}
     />
     <Fee
       value={props.data.invoice_money}
