@@ -109,7 +109,7 @@ export class FeeCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus}>
+      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
         {this.state.hasActiveFocus ? (
           <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
         ) : (
@@ -142,7 +142,7 @@ export class BilledHoursCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus}>
+      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
         {this.state.hasActiveFocus ? (
           <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
         ) : (
@@ -174,7 +174,7 @@ export class ExpenseCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus}>
+      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
         {this.state.hasActiveFocus ? (
           <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
         ) : (
@@ -208,7 +208,7 @@ export class WriteOffCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus}>
+      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
         {this.state.hasActiveFocus ? (
           <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
         ) : (
