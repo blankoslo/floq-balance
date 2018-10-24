@@ -28,12 +28,6 @@ export const InvoiceStatusCell = ({ status, onChange, projectId }) => (
 );
 
 export const MonetaryStaticCell = ({ value }) => {
-  // const monataryFormatter = new Intl.NumberFormat("nb", {
-  //   style: "currency",
-  //   currency: "NOK",
-  //   minimumFractionDigits: 2
-  // });
-
   const monataryFormatter = new Intl.NumberFormat("nb");
 
   return <div>{monataryFormatter.format(value.toFixed(value % 1 ? 2 : 0))}</div>;
@@ -43,11 +37,12 @@ export const TextStaticCell = ({ value }) => {
   return <div>{value}</div>;
 };
 
-export const DurationStaticCell = ({ value, hours, decimals, onClick, className }) => {
+export const DurationStaticCell = ({ value, decimals, onClick, className }) => {
   const numDecimals = input => (input === undefined || input === null ? 1 : input);
+  const durationFormatter = new Intl.NumberFormat("nb");
   return (
     <div onClick={onClick} className={className}>
-      {hours ? (value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0) : value}
+      {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
     </div>
   );
 };
