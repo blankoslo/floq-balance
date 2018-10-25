@@ -4,25 +4,24 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
-const statuses = [
-  { value: "not_done", name: "Ikke ferdig" },
-  { value: "not_ok", name: "Ikke godkjent" },
-  { value: "ok", name: "Godkjent" },
-  { value: "sent", name: "Sendt" }
-];
+export const statusLabelMap = new Map([
+  ["not_done", "Ikke ferdig"],
+  ["not_ok", "Ikke godkjent"],
+  ["ok", "Godkjent"],
+  ["sent", "Sendt"],
+  [null, "N/A"]
+]);
 
 export const InvoiceStatusCell = ({ status, onChange, projectId }) => (
   <div>
-    {status ? (
+    {status !== null ? (
       <NativeSelect value={status} onChange={e => onChange(projectId, e.target.value)}>
-        {statuses.map((option, key) => (
-          <option key={key} value={option.value}>
-            {option.name}
-          </option>
-        ))}
+        {Array.from(statusLabelMap).map(([key, value]) => {
+          return key === null ? undefined : <option value={key}>{value}</option>;
+        })}
       </NativeSelect>
     ) : (
-      ""
+      "N/A"
     )}
   </div>
 );

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { isValidElement } from "react";
 import BalanceViewTitle from "./title";
-// import BalanceViewTable from './table';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {
@@ -12,7 +11,8 @@ import {
   MonetaryStaticCell,
   InvoiceStatusCell,
   DurationStaticCell,
-  TextStaticCell
+  TextStaticCell,
+  statusLabelMap
 } from "./editableCells";
 
 const numberColumns = new Map([
@@ -28,6 +28,35 @@ const numberColumns = new Map([
   ["invoice_minutes", true],
   ["hourly_rate", true]
 ]);
+
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+
+const MultipleSelectFilter = ({ filter, onChange, filterValues, labelMap }) => (
+  <Select
+    onChange={e => onChange(e.target.value)}
+    value={filter ? filter.value : []}
+    multiple={true}
+    style={{ flexGrow: 1 }}
+  >
+    {filterValues.map((value, key) => {
+      return (
+        <MenuItem key={key} value={value}>
+          {labelMap ? labelMap.get(value) : value}
+        </MenuItem>
+      );
+    })}
+  </Select>
+);
+
+const multipleSelectFilterMethod = (filter, row, valueKey) => {
+  if (filter.value.length === 0) return true;
+  const filterMap = new Map(filter.value.map(value => [value, true]));
+  if (valueKey && filterMap.has(row[filter.id][valueKey])) return true;
+  if (filterMap.has(row[filter.id])) return true;
+
+  return false;
+};
 
 class BalanceView extends React.Component {
   constructor(props) {
@@ -52,6 +81,13 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <TextStaticCell value={value} />;
+        },
+        filterMethod: multipleSelectFilterMethod,
+        Filter: ({ filter, onChange }) => {
+          const filterValues = this.props.tableData.body.filterFieldValues.uniqueCustomerCodes;
+          return (
+            <MultipleSelectFilter onChange={onChange} filter={filter} filterValues={filterValues} />
+          );
         }
       },
       {
@@ -94,6 +130,16 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <TextStaticCell value={value["initials"]} />;
+        },
+        filterMethod: (filter, row) => {
+          return multipleSelectFilterMethod(filter, row, "initials");
+        },
+        Filter: ({ filter, onChange }) => {
+          const filterValues = this.props.tableData.body.filterFieldValues
+            .uniqueResponsibleInitials;
+          return (
+            <MultipleSelectFilter onChange={onChange} filter={filter} filterValues={filterValues} />
+          );
         }
       },
       {
@@ -250,6 +296,20 @@ class BalanceView extends React.Component {
               projectId={projectId}
             />
           );
+        },
+        filterMethod: (filter, row) => {
+          return multipleSelectFilterMethod(filter, row, undefined);
+        },
+        Filter: ({ filter, onChange }) => {
+          const filterValues = this.props.tableData.body.filterFieldValues.uniqueStatuses;
+          return (
+            <MultipleSelectFilter
+              onChange={onChange}
+              filter={filter}
+              filterValues={filterValues}
+              labelMap={statusLabelMap}
+            />
+          );
         }
       }
     ];
@@ -264,6 +324,7 @@ class BalanceView extends React.Component {
           navigation={this.props.title.navigation}
         />
         <ReactTable
+          filterable
           style={heightLock}
           data={this.props.tableData.body.list}
           columns={columns}
@@ -287,6 +348,11 @@ class BalanceView extends React.Component {
           getTfootTdProps={(state, rowInfo, column, instance) => {
             let style = { display: "flex", justifyContent: "flex-end", alignItems: "center" };
 
+            return { style: style };
+          }}
+          getTheadFilterThProps={(state, rowInfo, column, instance) => {
+            let style = { display: "flex" };
+            console.log(style);
             return { style: style };
           }}
         />

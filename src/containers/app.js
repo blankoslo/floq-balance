@@ -14,6 +14,7 @@ import { initateTimeTrackingReportDownload } from "../apiclient";
 import titleSelector from "../selectors/titleSelector";
 import tableBodySelector from "../selectors/tableBodySelector";
 import footerSelector from "../selectors/footerSelector";
+import filterFieldsSelector from "../selectors/filterFieldsSelector";
 import IndexComponent from "../components/index";
 
 class App extends Component {
@@ -64,6 +65,7 @@ class App extends Component {
         tableData={{
           body: {
             list: this.props.tableBody.data,
+            filterFieldValues: this.props.filterFieldValues,
             onWriteOffChange: this.onWriteOffChange,
             onExpenseChange: this.onExpenseChange,
             onInvoiceBalanceChange: this.onInvoiceBalanceChange,
@@ -98,7 +100,8 @@ App.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   tableBody: tableBodySelector(state, ownProps),
   title: titleSelector(state, ownProps),
-  footer: footerSelector(state, ownProps)
+  footer: footerSelector(state, ownProps),
+  filterFieldValues: filterFieldsSelector(state, ownProps)
 });
 
 const mapDispatchToProps = {
