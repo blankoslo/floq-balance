@@ -338,15 +338,25 @@ class BalanceView extends React.Component {
             return { style: { height: "45px" } };
           }}
           getTdProps={(state, rowInfo, column, instance) => {
-            let style = { display: "flex", justifyContent: "center", alignItems: "center" };
+            let style = {
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRight: "1px solid #dddddd"
+            };
 
             if (numberColumns.has(column.id)) {
-              style = Object.assign(style, { justifyContent: "flex-end" });
+              style = Object.assign(style, { justifyContent: "flex-end", paddingRight: "10px" });
             }
             return { style: style };
           }}
           getTfootTdProps={(state, rowInfo, column, instance) => {
-            let style = { display: "flex", justifyContent: "flex-end", alignItems: "center" };
+            let style = {
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              borderRight: "1px solid #dddddd"
+            };
 
             return { style: style };
           }}
@@ -354,6 +364,16 @@ class BalanceView extends React.Component {
             let style = { display: "flex" };
             console.log(style);
             return { style: style };
+          }}
+          getTfootProps={() => {
+            return {
+              style: {
+                boxShadow: "rgba(119, 119, 119, 0.5) 0px -10px 13px -8px",
+                height: "45px",
+                fontWeight: "500",
+                letterSpacing: "2px"
+              }
+            };
           }}
         />
       </div>
