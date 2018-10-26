@@ -11,11 +11,11 @@ export default (state = { loading: true, data: new Immutable.Map() }, action) =>
         data: action.payload.reduce(
           (result, entry) =>
             result.set(entry.project, {
-              writeOff: roundHalf(entry.write_off_minutes / 60).toString(),
-              billedHours: roundHalf(entry.invoice_balance_minutes / 60).toString(),
-              expense: entry.expense_money.toString(),
-              subcontractor: entry.subcontractor_money.toString(),
-              fee: entry.invoice_balance_money.toString()
+              write_off_minutes: roundHalf(entry.write_off_minutes / 60).toString(),
+              invoice_minutes: roundHalf(entry.invoice_balance_minutes / 60).toString(),
+              expense_money: entry.expense_money.toString(),
+              subcontractor_money: entry.subcontractor_money.toString(),
+              invoice_money: entry.invoice_balance_money.toString()
             }),
           new Immutable.Map()
         )

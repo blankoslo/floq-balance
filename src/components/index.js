@@ -28,6 +28,18 @@ const numberColumns = new Map([
   ["invoice_minutes", true],
   ["hourly_rate", true]
 ]);
+const staticColumns = new Map([
+  ["customerCode", true],
+  ["gross_turnover_customer", true],
+  ["net_turnover_customer", true],
+  ["hourly_rate_customer", true],
+  ["projectId", true],
+  ["responsible", true],
+  ["time_entry_minutes", true],
+  ["basis_minutes", true],
+  ["hourly_rate", true],
+  ["status", true]
+]);
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -178,7 +190,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onWriteOffChange}
               value={value}
-              input={data[cellInfo.index]["input"]["writeOff"]}
+              input={data[cellInfo.index]["input"][columnId]}
             />
           );
         }
@@ -211,7 +223,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
               value={value}
-              input={data[cellInfo.index]["input"]["billedHours"]}
+              input={data[cellInfo.index]["input"][columnId]}
               fee={data[rowIdx]["invoice_money"]}
             />
           );
@@ -223,6 +235,7 @@ class BalanceView extends React.Component {
         Footer: <MonetaryStaticCell value={this.props.tableData.footer.expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
+          console.log(this.props.tableData.body.list);
           return (
             <ExpenseCell
               projectId={projectId}
@@ -230,7 +243,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onExpenseChange}
               value={value}
-              input={data[cellInfo.index]["input"]["expense"]}
+              input={data[cellInfo.index]["input"][columnId]}
               type={"other"}
             />
           );
@@ -249,7 +262,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onExpenseChange}
               value={value}
-              input={data[cellInfo.index]["input"]["subcontractor"]}
+              input={data[cellInfo.index]["input"][columnId]}
               type={"subcontractor"}
             />
           );
@@ -270,7 +283,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
               value={value}
-              input={data[cellInfo.index]["input"]["fee"]}
+              input={data[cellInfo.index]["input"][columnId]}
               billedMinutes={data[rowIdx]["invoice_minutes"]}
             />
           );
@@ -348,6 +361,11 @@ class BalanceView extends React.Component {
             if (numberColumns.has(column.id)) {
               style = Object.assign(style, { justifyContent: "flex-end", paddingRight: "10px" });
             }
+
+            if (staticColumns.has(column.id)) {
+              style = Object.assign(style, { color: "rgba(119, 119, 119, 0.75)" });
+            }
+
             return { style: style };
           }}
           getTfootTdProps={(state, rowInfo, column, instance) => {
@@ -362,7 +380,6 @@ class BalanceView extends React.Component {
           }}
           getTheadFilterThProps={(state, rowInfo, column, instance) => {
             let style = { display: "flex" };
-            console.log(style);
             return { style: style };
           }}
           getTfootProps={() => {
