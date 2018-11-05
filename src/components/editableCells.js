@@ -15,7 +15,11 @@ export const statusLabelMap = new Map([
 export const InvoiceStatusCell = ({ status, onChange, projectId, className }) => (
   <div className={className ? className : "cell-static"}>
     {status !== null ? (
-      <NativeSelect value={status} onChange={e => onChange(projectId, e.target.value)}>
+      <NativeSelect
+        value={status}
+        onChange={e => onChange(projectId, e.target.value)}
+        inputProps={{ tabIndex: -1 }}
+      >
         {Array.from(statusLabelMap).map(([key, value]) => {
           return key === null ? (
             undefined
@@ -32,11 +36,11 @@ export const InvoiceStatusCell = ({ status, onChange, projectId, className }) =>
   </div>
 );
 
-export const MonetaryStaticCell = ({ value, className }) => {
+export const MonetaryStaticCell = ({ value, className, tabable }) => {
   const monataryFormatter = new Intl.NumberFormat("nb");
 
   return (
-    <div className={className ? className : "cell-static"}>
+    <div className={className ? className : "cell-static"} tabIndex={tabable ? 1 : -1}>
       {monataryFormatter.format(value.toFixed(value % 1 ? 2 : 0))}
     </div>
   );
@@ -46,11 +50,15 @@ export const TextStaticCell = ({ value }) => {
   return <div>{value}</div>;
 };
 
-export const DurationStaticCell = ({ value, decimals, onClick, className }) => {
+export const DurationStaticCell = ({ value, decimals, onClick, className, tabable }) => {
   const numDecimals = input => (input === undefined || input === null ? 1 : input);
   const durationFormatter = new Intl.NumberFormat("nb");
   return (
-    <div onClick={onClick} className={className ? className : "cell-static"}>
+    <div
+      onClick={onClick}
+      className={className ? className : "cell-static"}
+      tabIndex={tabable ? 1 : -1}
+    >
       {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
     </div>
   );
@@ -59,10 +67,11 @@ export const DurationStaticCell = ({ value, decimals, onClick, className }) => {
 class EditableCell extends React.Component {
   constructor(props) {
     super(props);
+    this.cellWrapper = React.createRef();
     this.inputCell = React.createRef();
-    // this.state = {
-    //   validInput: null
-    // };
+    this.state = {
+      validInput: true
+    };
   }
 
   componentDidMount() {
@@ -79,37 +88,51 @@ class EditableCell extends React.Component {
     selection.removeAllRanges();
     selection.addRange(range);
 
-    // Add eventlistener to trigger upsert upon ENTER keypress
-    node.addEventListener("keydown", e => {
+    // Add eventlistener to trigger upsert upon ENTER keydown
+    node.addEventListener("keypress", e => {
       if (e.keyCode === 13) {
         node.blur();
       }
     });
 
-    // node.addEventListener("input", e => {
-    //   this.validateInput(e.target.innerHTML);
-    // });
+    node.addEventListener("keydown", e => {
+      if (e.keyCode === 9) {
+        e.preventDefault();
+      }
+    });
+
+    node.addEventListener("input", e => {
+      this.validateInput(e.target.innerHTML);
+    });
   }
 
-  // validateInput = input => {
-  //   this.setState({ validInput: Boolean(this.props.inputValidator(input)) });
-  // };
+  handleOnBlur = e => {
+    if (!Boolean(this.props.inputValidator(e.target.innerHTML))) {
+      e.target.focus();
+      return;
+    }
+    this.props.onBlurEventHandler(e);
+  };
+
+  validateInput = input => {
+    this.setState({ validInput: Boolean(this.props.inputValidator(input)) });
+  };
 
   render() {
     const { onBlurEventHandler, input } = this.props;
 
-    // const className =
-    //   this.state.validInput === null ? "" : this.state.validInput ? "ce-valid" : "ce-invalid";
+    const className =
+      this.state.validInput === null ? "" : this.state.validInput ? "ce-valid" : "ce-invalid";
 
     return (
       // {<div className={`content-editable ${className}`}>}
-      <div className={"content-editable"}>
+      <div className={`content-editable ${className}`}>
         <div
           style={{ flexGrow: "1", outline: "none", display: "flex", justifyContent: "flex-end" }}
           ref={this.inputCell}
           contentEditable
           suppressContentEditableWarning
-          onBlur={onBlurEventHandler}
+          onBlur={this.handleOnBlur}
           dangerouslySetInnerHTML={{
             __html: input
           }}
@@ -122,9 +145,24 @@ class EditableCell extends React.Component {
 export class FeeCell extends React.Component {
   constructor(props) {
     super(props);
+    this.cellWrapper = React.createRef();
     this.state = {
       hasActiveFocus: false
     };
+  }
+
+  componentDidMount() {
+    const node = this.cellWrapper.current;
+    node.addEventListener("keydown", e => {
+      if (e.keyCode === 13) {
+        if (document.activeElement !== node.children[0]) {
+          node.blur();
+        } else {
+          this.setActiveFocus();
+          e.preventDefault();
+        }
+      }
+    });
   }
 
   onBlurEventHandler = e => {
@@ -142,11 +180,15 @@ export class FeeCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
+      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
         {this.state.hasActiveFocus ? (
-          <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
+          <EditableCell
+            input={this.props.input}
+            onBlurEventHandler={this.onBlurEventHandler}
+            inputValidator={isValidAmount}
+          />
         ) : (
-          <MonetaryStaticCell value={this.props.value} className={"cell-editable"} />
+          <MonetaryStaticCell value={this.props.value} className={"cell-editable"} tabable={1} />
         )}
       </div>
     );
@@ -156,10 +198,26 @@ export class FeeCell extends React.Component {
 export class BilledHoursCell extends React.Component {
   constructor(props) {
     super(props);
+    this.cellWrapper = React.createRef();
     this.state = {
       hasActiveFocus: false
     };
   }
+
+  componentDidMount() {
+    const node = this.cellWrapper.current;
+    node.addEventListener("keydown", e => {
+      if (e.keyCode === 13) {
+        if (document.activeElement !== node.children[0]) {
+          node.blur();
+        } else {
+          this.setActiveFocus();
+          e.preventDefault();
+        }
+      }
+    });
+  }
+
   onBlurEventHandler = e => {
     const newValue = e.target.innerHTML.trim() === "" ? "0" : e.target.innerHTML;
     this.props.onInputChange(this.props.projectId, this.props.columnId, newValue);
@@ -175,11 +233,20 @@ export class BilledHoursCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
+      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
         {this.state.hasActiveFocus ? (
-          <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
+          <EditableCell
+            input={this.props.input}
+            onBlurEventHandler={this.onBlurEventHandler}
+            inputValidator={isValidHours}
+          />
         ) : (
-          <DurationStaticCell value={this.props.value} hours={true} className={"cell-editable"} />
+          <DurationStaticCell
+            value={this.props.value}
+            hours={true}
+            className={"cell-editable"}
+            tabable={1}
+          />
         )}
       </div>
     );
@@ -188,10 +255,26 @@ export class BilledHoursCell extends React.Component {
 export class ExpenseCell extends React.Component {
   constructor(props) {
     super(props);
+    this.cellWrapper = React.createRef();
     this.state = {
       hasActiveFocus: false
     };
   }
+
+  componentDidMount() {
+    const node = this.cellWrapper.current;
+    node.addEventListener("keydown", e => {
+      if (e.keyCode === 13) {
+        if (document.activeElement !== node.children[0]) {
+          node.blur();
+        } else {
+          this.setActiveFocus();
+          e.preventDefault();
+        }
+      }
+    });
+  }
+
   onBlurEventHandler = e => {
     const newValue = e.target.innerHTML.trim() === "" ? "0" : e.target.innerHTML;
     this.props.onInputChange(this.props.projectId, this.props.columnId, newValue);
@@ -207,7 +290,7 @@ export class ExpenseCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
+      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
         {this.state.hasActiveFocus ? (
           <EditableCell
             input={this.props.input}
@@ -215,19 +298,33 @@ export class ExpenseCell extends React.Component {
             inputValidator={isValidAmount}
           />
         ) : (
-          <MonetaryStaticCell value={this.props.value} className={"cell-editable"} />
+          <MonetaryStaticCell value={this.props.value} className={"cell-editable"} tabable={1} />
         )}
       </div>
     );
   }
 }
-
 export class WriteOffCell extends React.Component {
   constructor(props) {
     super(props);
+    this.cellWrapper = React.createRef();
     this.state = {
       hasActiveFocus: false
     };
+  }
+
+  componentDidMount() {
+    const node = this.cellWrapper.current;
+    node.addEventListener("keydown", e => {
+      if (e.keyCode === 13) {
+        if (document.activeElement !== node.children[0]) {
+          node.blur();
+        } else {
+          this.setActiveFocus();
+          e.preventDefault();
+        }
+      }
+    });
   }
 
   onBlurEventHandler = e => {
@@ -245,11 +342,20 @@ export class WriteOffCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-editable-click-wrapper"}>
+      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
         {this.state.hasActiveFocus ? (
-          <EditableCell input={this.props.input} onBlurEventHandler={this.onBlurEventHandler} />
+          <EditableCell
+            input={this.props.input}
+            onBlurEventHandler={this.onBlurEventHandler}
+            inputValidator={isValidAmount}
+          />
         ) : (
-          <DurationStaticCell value={this.props.value} hours={true} className={"cell-editable"} />
+          <DurationStaticCell
+            value={this.props.value}
+            hours={true}
+            className={"cell-editable"}
+            tabable={1}
+          />
         )}
       </div>
     );

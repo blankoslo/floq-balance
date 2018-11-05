@@ -1,7 +1,9 @@
-.cell-editable-click-wrapper {
+.cell-click-wrapper {
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
+  align-items: center;
+  height: 100%;
 }
 
 .time-entry-minutes-cell {
@@ -10,14 +12,19 @@
 
 .cell-editable {
   font-weight: 400;
+  padding: 7px 5px;
+}
+
+.cell-editable:focus {
+  outline: none;
 }
 
 .ce-valid {
-  background-color: green;
+  background-color: #d2f8d2;
 }
 
 .ce-invalid {
-  background-color: red;
+  background-color: #f8d2d2;
 }
 
 .content-editable {
@@ -25,4 +32,8 @@
   flex-grow: 1;
   justify-content: flex-end;
   align-items: center;
+  height: 100%;
+  padding: 7px 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  z-index: 100;
 }

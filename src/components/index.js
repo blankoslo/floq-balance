@@ -235,7 +235,6 @@ class BalanceView extends React.Component {
         Footer: <MonetaryStaticCell value={this.props.tableData.footer.expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
-          console.log(this.props.tableData.body.list);
           return (
             <ExpenseCell
               projectId={projectId}
@@ -351,6 +350,7 @@ class BalanceView extends React.Component {
             return { style: { height: "45px" } };
           }}
           getTdProps={(state, rowInfo, column, instance) => {
+            let props = {};
             let style = {
               display: "flex",
               justifyContent: "center",
@@ -364,9 +364,15 @@ class BalanceView extends React.Component {
 
             if (staticColumns.has(column.id)) {
               style = Object.assign(style, { color: "rgba(119, 119, 119, 0.75)" });
+            } else {
+              style = Object.assign(style, { padding: 0 });
             }
 
-            return { style: style };
+            // if (!staticColumns.has(column.id)) {
+            //   props = Object.assign(props, { tabIndex: 1 });
+            // }
+
+            return Object.assign(props, { style: style });
           }}
           getTfootTdProps={(state, rowInfo, column, instance) => {
             let style = {
