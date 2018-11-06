@@ -4,9 +4,10 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
-const isValidNumberKey = keyCode =>
+const isValidDecimalKey = keyCode =>
   (keyCode >= 48 && keyCode <= 57) || keyCode === 44 ? true : false;
 const isSubmitKey = keyCode => (keyCode === 13 ? true : false);
+const isTabKey = keyCode => (keyCode === 9 ? true : false);
 
 export const statusLabelMap = new Map([
   ["not_done", "Ikke ferdig"],
@@ -22,7 +23,7 @@ export const InvoiceStatusCell = ({ status, onChange, projectId, className }) =>
       <NativeSelect
         value={status}
         onChange={e => onChange(projectId, e.target.value)}
-        inputProps={{ tabIndex: -1 }}
+        inputProps={{ tabIndex: 1 }}
       >
         {Array.from(statusLabelMap).map(([key, value]) => {
           return key === null ? (
@@ -54,19 +55,24 @@ export const TextStaticCell = ({ value }) => {
   return <div>{value}</div>;
 };
 
-export const DurationStaticCell = ({ value, decimals, onClick, className, tabable }) => {
-  const numDecimals = input => (input === undefined || input === null ? 1 : input);
-  const durationFormatter = new Intl.NumberFormat("nb");
-  return (
-    <div
-      onClick={onClick}
-      className={className ? className : "cell-static"}
-      tabIndex={tabable ? 1 : -1}
-    >
-      {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
-    </div>
-  );
-};
+export class DurationStaticCell extends React.Component {
+  render() {
+    const { value, decimals, onClick, className, tabable } = this.props;
+    const numDecimals = input => (input === undefined || input === null ? 1 : input);
+    const durationFormatter = new Intl.NumberFormat("nb");
+    return (
+      <div
+        onClick={onClick}
+        className={className ? className : "cell-static"}
+        tabIndex={tabable ? 1 : -1}
+      >
+        {durationFormatter.format(
+          (value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0)
+        )}
+      </div>
+    );
+  }
+}
 
 class EditableCell extends React.Component {
   constructor(props) {
@@ -74,7 +80,7 @@ class EditableCell extends React.Component {
     this.cellWrapper = React.createRef();
     this.inputCell = React.createRef();
     this.state = {
-      validInput: true
+      validInput: null
     };
   }
 
@@ -92,8 +98,13 @@ class EditableCell extends React.Component {
     selection.addRange(range);
 
     node.addEventListener("keydown", e => {
-      if (e.keyCode === 9) {
+      console.log(e.keyCode);
+      if (isTabKey(e.keyCode)) {
         e.preventDefault();
+      }
+
+      if (e.keyCode === 27) {
+        this.props.onBlurEventHandler(this.props.value.toString());
       }
     });
 
@@ -111,7 +122,6 @@ class EditableCell extends React.Component {
       e.target.focus();
       return;
     }
-    console.log(newValue);
     this.props.onBlurEventHandler(newValue);
   };
 
@@ -128,14 +138,14 @@ class EditableCell extends React.Component {
       <div
         className={`content-editable ${className}`}
         onKeyPressCapture={e => {
-          if (!isValidNumberKey(e.charCode)) {
+          if (!isValidDecimalKey(e.charCode)) {
             e.stopPropagation();
             e.preventDefault();
           }
 
           if (isSubmitKey(e.charCode)) {
-            e.stopPropagation();
-            e.preventDefault();
+            // e.stopPropagation();
+            // e.preventDefault();
             this.inputCell.current.blur();
           }
         }}
@@ -167,7 +177,7 @@ export class FeeCell extends React.Component {
   componentDidMount() {
     const node = this.cellWrapper.current;
     node.addEventListener("keydown", e => {
-      if (e.keyCode === 13) {
+      if (isSubmitKey(e.keyCode)) {
         if (document.activeElement !== node.children[0]) {
           node.blur();
         } else {
@@ -182,7 +192,6 @@ export class FeeCell extends React.Component {
     this.props.onInputChange(this.props.projectId, this.props.columnId, inputValue);
     this.setState({ hasActiveFocus: false });
     if (inputValue === this.props.value.toString()) return;
-    console.log("valid input");
     if (!isValidAmount(inputValue)) return;
     this.props.onValueChange(this.props.projectId, this.props.billedMinutes, Number(inputValue));
   };
@@ -193,11 +202,16 @@ export class FeeCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
+      <div
+        onDoubleClick={this.setActiveFocus}
+        className={"cell-click-wrapper"}
+        ref={this.cellWrapper}
+      >
         {this.state.hasActiveFocus ? (
           <EditableCell
             onBlurEventHandler={this.onBlurEventHandler}
             inputValidator={isValidAmount}
+            value={this.props.value}
             input={this.props.input}
           />
         ) : (
@@ -220,7 +234,7 @@ export class BilledHoursCell extends React.Component {
   componentDidMount() {
     const node = this.cellWrapper.current;
     node.addEventListener("keydown", e => {
-      if (e.keyCode === 13) {
+      if (isSubmitKey(e.keyCode)) {
         if (document.activeElement !== node.children[0]) {
           node.blur();
         } else {
@@ -235,7 +249,6 @@ export class BilledHoursCell extends React.Component {
     this.props.onInputChange(this.props.projectId, this.props.columnId, inputValue);
     this.setState({ hasActiveFocus: false });
     if (inputValue === this.props.value.toString()) return;
-    console.log("valid input");
     if (!isValidHours(inputValue)) return;
     this.props.onValueChange(this.props.projectId, Number(inputValue) * 60, this.props.fee);
   };
@@ -246,11 +259,16 @@ export class BilledHoursCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
+      <div
+        onDoubleClick={this.setActiveFocus}
+        className={"cell-click-wrapper"}
+        ref={this.cellWrapper}
+      >
         {this.state.hasActiveFocus ? (
           <EditableCell
             onBlurEventHandler={this.onBlurEventHandler}
             inputValidator={isValidHours}
+            value={this.props.value}
             input={this.props.input}
           />
         ) : (
@@ -274,25 +292,10 @@ export class ExpenseCell extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const node = this.cellWrapper.current;
-    node.addEventListener("keydown", e => {
-      if (e.keyCode === 13) {
-        if (document.activeElement !== node.children[0]) {
-          node.blur();
-        } else {
-          this.setActiveFocus();
-          e.preventDefault();
-        }
-      }
-    });
-  }
-
   onBlurEventHandler = inputValue => {
     this.props.onInputChange(this.props.projectId, this.props.columnId, inputValue);
     this.setState({ hasActiveFocus: false });
     if (inputValue === this.props.value.toString()) return;
-    console.log("valid input");
     if (!isValidAmount(inputValue)) return;
     this.props.onValueChange(this.props.projectId, this.props.type, Number(inputValue));
   };
@@ -303,11 +306,22 @@ export class ExpenseCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
+      <div
+        onDoubleClick={this.setActiveFocus}
+        className={"cell-click-wrapper"}
+        ref={this.cellWrapper}
+        onKeyPressCapture={e => {
+          if (isSubmitKey(e.charCode)) {
+            this.setActiveFocus();
+            e.preventDefault();
+          }
+        }}
+      >
         {this.state.hasActiveFocus ? (
           <EditableCell
             onBlurEventHandler={this.onBlurEventHandler}
             inputValidator={isValidAmount}
+            value={this.props.value}
             input={this.props.input}
           />
         ) : (
@@ -321,30 +335,16 @@ export class WriteOffCell extends React.Component {
   constructor(props) {
     super(props);
     this.cellWrapper = React.createRef();
+    this.cellStatic = React.createRef();
     this.state = {
-      hasActiveFocus: false
+      staticCellFocus: false
     };
-  }
-
-  componentDidMount() {
-    const node = this.cellWrapper.current;
-    node.addEventListener("keydown", e => {
-      if (e.keyCode === 13) {
-        if (document.activeElement !== node.children[0]) {
-          node.blur();
-        } else {
-          this.setActiveFocus();
-          e.preventDefault();
-        }
-      }
-    });
   }
 
   onBlurEventHandler = inputValue => {
     this.props.onInputChange(this.props.projectId, this.props.columnId, inputValue);
     this.setState({ hasActiveFocus: false });
     if (this.props.value.toString() === inputValue) return;
-    console.log("valid input");
     if (!isValidHours(inputValue)) return;
     this.props.onValueChange(this.props.projectId, Number(inputValue) * 60);
   };
@@ -355,15 +355,27 @@ export class WriteOffCell extends React.Component {
 
   render() {
     return (
-      <div onClick={this.setActiveFocus} className={"cell-click-wrapper"} ref={this.cellWrapper}>
+      <div
+        onDoubleClick={this.setActiveFocus}
+        className={"cell-click-wrapper"}
+        ref={this.cellWrapper}
+        onKeyPressCapture={e => {
+          if (isSubmitKey(e.charCode)) {
+            this.setActiveFocus();
+            e.preventDefault();
+          }
+        }}
+      >
         {this.state.hasActiveFocus ? (
           <EditableCell
             onBlurEventHandler={this.onBlurEventHandler}
-            inputValidator={isValidAmount}
+            inputValidator={isValidHours}
+            value={this.props.value}
             input={this.props.input}
           />
         ) : (
           <DurationStaticCell
+            ref={this.cellStatic}
             value={this.props.value}
             hours={true}
             className={"cell-editable"}
