@@ -56,7 +56,6 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
           input: input.data.get(key)
         });
       }, new Immutable.List())
-      .toJS()
   };
 };
 

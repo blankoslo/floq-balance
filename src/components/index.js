@@ -4,16 +4,16 @@ import BalanceViewTitle from "./title";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {
-  ExpenseCell,
-  WriteOffCell,
-  FeeCell,
-  BilledHoursCell,
+  EditableCell,
   MonetaryStaticCell,
   InvoiceStatusCell,
   DurationStaticCell,
   TextStaticCell,
   statusLabelMap
 } from "./editableCells";
+
+const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
+const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
 const numberColumns = new Map([
   ["net_turnover_customer", true],
@@ -79,8 +79,8 @@ class BalanceView extends React.Component {
     const data = this.props.tableData.body.list;
     const rowIdx = cellInfo.index;
     const columnId = cellInfo.column.id;
-    const projectId = data[rowIdx]["projectId"];
-    const value = data[rowIdx][columnId];
+    const projectId = data.get(rowIdx)["projectId"];
+    const value = data.get(rowIdx)[columnId];
 
     return { data, rowIdx, columnId, projectId, value };
   };
@@ -184,14 +184,17 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
-            <WriteOffCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onWriteOffChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-            />
+              inputValidator={isValidHours}
+              input={data.get(cellInfo.index)["input"][columnId]}
+            >
+              <DurationStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -217,15 +220,17 @@ class BalanceView extends React.Component {
             cellInfo
           );
           return (
-            <BilledHoursCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+              onValueChange={this.props.tableData.body.onInvoiceBalanceMinutesChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-              fee={data[rowIdx]["invoice_money"]}
-            />
+              inputValidator={isValidHours}
+              input={data.get(cellInfo.index)["input"][columnId]}
+            >
+              <DurationStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -236,15 +241,17 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
-            <ExpenseCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onExpenseChange}
+              onValueChange={this.props.tableData.body.onOtherExpenseChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-              type={"other"}
-            />
+              inputValidator={isValidAmount}
+              input={data.get(cellInfo.index)["input"][columnId]}
+            >
+              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -255,15 +262,17 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
-            <ExpenseCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onExpenseChange}
+              onValueChange={this.props.tableData.body.onSubcontractorExpenseChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-              type={"subcontractor"}
-            />
+              inputValidator={isValidAmount}
+              input={data.get(cellInfo.index)["input"][columnId]}
+            >
+              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -276,15 +285,17 @@ class BalanceView extends React.Component {
             cellInfo
           );
           return (
-            <FeeCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+              onValueChange={this.props.tableData.body.onInvoiceBalanceMoneyChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-              billedMinutes={data[rowIdx]["invoice_minutes"]}
-            />
+              inputValidator={isValidAmount}
+              input={data.get(cellInfo.index)["input"][columnId]}
+            >
+              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -303,7 +314,7 @@ class BalanceView extends React.Component {
           const { data, projectId, rowIdx } = this.extractCommonCellProps(cellInfo);
           return (
             <InvoiceStatusCell
-              status={data[rowIdx]["status"]}
+              status={data.get(rowIdx)["status"]}
               onChange={this.props.tableData.body.onStatusChange}
               projectId={projectId}
             />
@@ -339,6 +350,7 @@ class BalanceView extends React.Component {
           filterable
           style={heightLock}
           data={this.props.tableData.body.list}
+          resolveData={data => data.toArray().map(row => row)}
           columns={columns}
           defaultPageSize={100}
           className="-striped -highlight"
