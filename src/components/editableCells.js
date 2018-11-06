@@ -55,24 +55,19 @@ export const TextStaticCell = ({ value }) => {
   return <div>{value}</div>;
 };
 
-export class DurationStaticCell extends React.Component {
-  render() {
-    const { value, decimals, onClick, className, tabable } = this.props;
-    const numDecimals = input => (input === undefined || input === null ? 1 : input);
-    const durationFormatter = new Intl.NumberFormat("nb");
-    return (
-      <div
-        onClick={onClick}
-        className={className ? className : "cell-static"}
-        tabIndex={tabable ? 1 : -1}
-      >
-        {durationFormatter.format(
-          (value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0)
-        )}
-      </div>
-    );
-  }
-}
+export const DurationStaticCell = ({ value, decimals, onClick, className, tabable }) => {
+  const numDecimals = input => (input === undefined || input === null ? 1 : input);
+  const durationFormatter = new Intl.NumberFormat("nb");
+  return (
+    <div
+      onClick={onClick}
+      className={className ? className : "cell-static"}
+      tabIndex={tabable ? 1 : -1}
+    >
+      {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
+    </div>
+  );
+};
 
 class InputCell extends React.Component {
   constructor(props) {
