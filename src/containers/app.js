@@ -57,6 +57,7 @@ class App extends Component {
   };
 
   render() {
+    // this.props.tableBody.data.map(x => console.log(x));
     if (this.props.tableBody.loading) {
       return null;
     }

@@ -79,8 +79,8 @@ class BalanceView extends React.Component {
     const data = this.props.tableData.body.list;
     const rowIdx = cellInfo.index;
     const columnId = cellInfo.column.id;
-    const projectId = data[rowIdx]["projectId"];
-    const value = data[rowIdx][columnId];
+    const projectId = data.get(rowIdx)["projectId"];
+    const value = data.get(rowIdx)[columnId];
 
     return { data, rowIdx, columnId, projectId, value };
   };
@@ -190,7 +190,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onWriteOffChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
+              input={data.get(cellInfo.index)["input"][columnId]}
             />
           );
         }
@@ -223,8 +223,8 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-              fee={data[rowIdx]["invoice_money"]}
+              input={data.get(cellInfo.index)["input"][columnId]}
+              fee={data.get(rowIdx)["invoice_money"]}
             />
           );
         }
@@ -242,7 +242,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onExpenseChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
+              input={data.get(cellInfo.index)["input"][columnId]}
               type={"other"}
             />
           );
@@ -261,7 +261,7 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onExpenseChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
+              input={data.get(cellInfo.index)["input"][columnId]}
               type={"subcontractor"}
             />
           );
@@ -282,8 +282,8 @@ class BalanceView extends React.Component {
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
               value={value}
-              input={data[cellInfo.index]["input"][columnId]}
-              billedMinutes={data[rowIdx]["invoice_minutes"]}
+              input={data.get(cellInfo.index)["input"][columnId]}
+              billedMinutes={data.get(rowIdx)["invoice_minutes"]}
             />
           );
         }
@@ -303,7 +303,7 @@ class BalanceView extends React.Component {
           const { data, projectId, rowIdx } = this.extractCommonCellProps(cellInfo);
           return (
             <InvoiceStatusCell
-              status={data[rowIdx]["status"]}
+              status={data.get(rowIdx)["status"]}
               onChange={this.props.tableData.body.onStatusChange}
               projectId={projectId}
             />
@@ -339,6 +339,7 @@ class BalanceView extends React.Component {
           filterable
           style={heightLock}
           data={this.props.tableData.body.list}
+          resolveData={data => data.toArray().map(row => row)}
           columns={columns}
           defaultPageSize={100}
           className="-striped -highlight"
