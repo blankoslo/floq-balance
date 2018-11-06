@@ -107,8 +107,7 @@ App.propTypes = {
   getHoursPerProject: PropTypes.func.isRequired,
   upsertInvoiceBalance: PropTypes.func.isRequired,
   upsertWriteOff: PropTypes.func.isRequired,
-  onOtherExpenseChange: PropTypes.func.isRequired,
-  onSubcontractorExpenseChange: PropTypes.func.isRequired,
+  upsertExpense: PropTypes.func.isRequired,
   upsertStatus: PropTypes.func.isRequired,
   changeInput: PropTypes.func.isRequired
 };

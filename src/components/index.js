@@ -4,16 +4,16 @@ import BalanceViewTitle from "./title";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {
-  ExpenseCell,
-  WriteOffCell,
-  FeeCell,
-  BilledHoursCell,
+  EditableCell,
   MonetaryStaticCell,
   InvoiceStatusCell,
   DurationStaticCell,
   TextStaticCell,
   statusLabelMap
 } from "./editableCells";
+
+const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
+const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
 
 const numberColumns = new Map([
   ["net_turnover_customer", true],
@@ -184,14 +184,17 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
-            <WriteOffCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onWriteOffChange}
               value={value}
+              inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
-            />
+            >
+              <DurationStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -217,14 +220,17 @@ class BalanceView extends React.Component {
             cellInfo
           );
           return (
-            <BilledHoursCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onInvoiceBalanceMinutesChange}
               value={value}
+              inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
-            />
+            >
+              <DurationStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -235,14 +241,17 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
-            <ExpenseCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onOtherExpenseChange}
               value={value}
+              inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
-            />
+            >
+              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -253,14 +262,17 @@ class BalanceView extends React.Component {
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           return (
-            <ExpenseCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onSubcontractorExpenseChange}
               value={value}
+              inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
-            />
+            >
+              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
@@ -273,14 +285,17 @@ class BalanceView extends React.Component {
             cellInfo
           );
           return (
-            <FeeCell
+            <EditableCell
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
               onValueChange={this.props.tableData.body.onInvoiceBalanceMoneyChange}
               value={value}
+              inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
-            />
+            >
+              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+            </EditableCell>
           );
         }
       },
