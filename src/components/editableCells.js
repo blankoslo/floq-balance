@@ -174,7 +174,7 @@ export class FeeCell extends React.Component {
     this.setState({ hasActiveFocus: false });
     if (inputValue === this.props.value.toString()) return;
     if (!isValidAmount(inputValue)) return;
-    this.props.onValueChange(this.props.projectId, this.props.billedMinutes, Number(inputValue));
+    this.props.onValueChange(this.props.projectId, Number(inputValue));
   };
 
   setActiveFocus = () => {
@@ -221,7 +221,7 @@ export class BilledHoursCell extends React.Component {
     this.setState({ hasActiveFocus: false });
     if (inputValue === this.props.value.toString()) return;
     if (!isValidHours(inputValue)) return;
-    this.props.onValueChange(this.props.projectId, Number(inputValue) * 60, this.props.fee);
+    this.props.onValueChange(this.props.projectId, Number(inputValue));
   };
 
   setActiveFocus = () => {
@@ -267,7 +267,7 @@ export class ExpenseCell extends React.Component {
     this.setState({ hasActiveFocus: false });
     if (inputValue === this.props.value.toString()) return;
     if (!isValidAmount(inputValue)) return;
-    this.props.onValueChange(this.props.projectId, this.props.type, Number(inputValue));
+    this.props.onValueChange(this.props.projectId, Number(inputValue));
   };
 
   setActiveFocus = () => {
@@ -314,7 +314,7 @@ export class WriteOffCell extends React.Component {
     this.setState({ hasActiveFocus: false });
     if (this.props.value.toString() === inputValue) return;
     if (!isValidHours(inputValue)) return;
-    this.props.onValueChange(this.props.projectId, Number(inputValue) * 60);
+    this.props.onValueChange(this.props.projectId, Number(inputValue));
   };
 
   setActiveFocus = () => {

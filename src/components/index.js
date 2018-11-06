@@ -221,10 +221,9 @@ class BalanceView extends React.Component {
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+              onValueChange={this.props.tableData.body.onInvoiceBalanceMinutesChange}
               value={value}
               input={data.get(cellInfo.index)["input"][columnId]}
-              fee={data.get(rowIdx)["invoice_money"]}
             />
           );
         }
@@ -240,10 +239,9 @@ class BalanceView extends React.Component {
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onExpenseChange}
+              onValueChange={this.props.tableData.body.onOtherExpenseChange}
               value={value}
               input={data.get(cellInfo.index)["input"][columnId]}
-              type={"other"}
             />
           );
         }
@@ -259,10 +257,9 @@ class BalanceView extends React.Component {
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onExpenseChange}
+              onValueChange={this.props.tableData.body.onSubcontractorExpenseChange}
               value={value}
               input={data.get(cellInfo.index)["input"][columnId]}
-              type={"subcontractor"}
             />
           );
         }
@@ -280,10 +277,9 @@ class BalanceView extends React.Component {
               projectId={projectId}
               columnId={columnId}
               onInputChange={this.props.tableData.body.onInputChange}
-              onValueChange={this.props.tableData.body.onInvoiceBalanceChange}
+              onValueChange={this.props.tableData.body.onInvoiceBalanceMoneyChange}
               value={value}
               input={data.get(cellInfo.index)["input"][columnId]}
-              billedMinutes={data.get(rowIdx)["invoice_minutes"]}
             />
           );
         }

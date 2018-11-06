@@ -34,14 +34,26 @@ class App extends Component {
     }
   }
 
-  onWriteOffChange = (project, minutes) =>
-    this.props.upsertWriteOff(project, this.props.title.endDate, minutes);
+  onWriteOffChange = (project, hours) =>
+    this.props.upsertWriteOff(project, this.props.title.endDate, hours * 60);
 
-  onExpenseChange = (project, type, minutes) =>
-    this.props.upsertExpense(project, this.props.title.endDate, type, minutes);
+  onOtherExpenseChange = (project, money) =>
+    this.props.upsertExpense(project, this.props.title.endDate, "other", money);
 
-  onInvoiceBalanceChange = (project, minutes, money) =>
+  onSubcontractorExpenseChange = (project, money) =>
+    this.props.upsertExpense(project, this.props.title.endDate, "subcontractor", money);
+
+  onInvoiceBalanceMinutesChange = (project, hours) => {
+    const money = this.props.tableBody.data.find(row => row.projectId === project)["invoice_money"];
+    this.props.upsertInvoiceBalance(project, this.props.title.endDate, hours * 60, money);
+  };
+
+  onInvoiceBalanceMoneyChange = (project, money) => {
+    const minutes = this.props.tableBody.data.find(row => row.projectId === project)[
+      "invoice_minutes"
+    ];
     this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
+  };
 
   onStatusChange = (project, status) =>
     this.props.upsertStatus(project, this.props.title.endDate, status);
@@ -68,8 +80,10 @@ class App extends Component {
             list: this.props.tableBody.data,
             filterFieldValues: this.props.filterFieldValues,
             onWriteOffChange: this.onWriteOffChange,
-            onExpenseChange: this.onExpenseChange,
-            onInvoiceBalanceChange: this.onInvoiceBalanceChange,
+            onOtherExpenseChange: this.onOtherExpenseChange,
+            onSubcontractorExpenseChange: this.onSubcontractorExpenseChange,
+            onInvoiceBalanceMinutesChange: this.onInvoiceBalanceMinutesChange,
+            onInvoiceBalanceMoneyChange: this.onInvoiceBalanceMoneyChange,
             onStatusChange: this.onStatusChange,
             onInputChange: this.onInputChange,
             getMonthlyTimeTrackingReport: this.getMonthlyTimeTrackingReport
@@ -93,7 +107,8 @@ App.propTypes = {
   getHoursPerProject: PropTypes.func.isRequired,
   upsertInvoiceBalance: PropTypes.func.isRequired,
   upsertWriteOff: PropTypes.func.isRequired,
-  upsertExpense: PropTypes.func.isRequired,
+  onOtherExpenseChange: PropTypes.func.isRequired,
+  onSubcontractorExpenseChange: PropTypes.func.isRequired,
   upsertStatus: PropTypes.func.isRequired,
   changeInput: PropTypes.func.isRequired
 };
