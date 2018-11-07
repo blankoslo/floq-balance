@@ -25,6 +25,10 @@ class App extends Component {
     props.getHoursPerProject(props.title.startDate, props.title.endDate);
   }
 
+  componentDidMount() {
+    window.addEventListener("resize", () => this.forceUpdate());
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.title.startDate !== this.props.title.startDate ||
