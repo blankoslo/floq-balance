@@ -1,9 +1,6 @@
 import React from "react";
 import NativeSelect from "@material-ui/core/NativeSelect";
 
-// const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
-// const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
-
 const isValidDecimalKey = keyCode => (keyCode >= 48 && keyCode <= 57) || keyCode === 44;
 const isSubmitKey = keyCode => keyCode === 13;
 const isTabKey = keyCode => keyCode === 9;
@@ -18,7 +15,7 @@ export const statusLabelMap = new Map([
 ]);
 
 export const InvoiceStatusCell = ({ status, onChange, projectId, className }) => (
-  <div className={className ? className : "cell-static"}>
+  <div className={className ? className : "static-cell"}>
     {status !== null ? (
       <NativeSelect
         value={status}
@@ -43,9 +40,10 @@ export const InvoiceStatusCell = ({ status, onChange, projectId, className }) =>
 
 export const MonetaryStaticCell = ({ value, className, tabable }) => {
   const monataryFormatter = new Intl.NumberFormat("nb");
+  const tabIndex = tabable ? 1 : -1;
 
   return (
-    <div className={className ? className : "cell-static"} tabIndex={tabable ? 1 : -1}>
+    <div className={className ? className : "static-cell"} tabIndex={tabIndex}>
       {monataryFormatter.format(value.toFixed(value % 1 ? 2 : 0))}
     </div>
   );
@@ -58,12 +56,9 @@ export const TextStaticCell = ({ value }) => {
 export const DurationStaticCell = ({ value, decimals, onClick, className, tabable }) => {
   const numDecimals = input => (input === undefined || input === null ? 1 : input);
   const durationFormatter = new Intl.NumberFormat("nb");
+  const tabIndex = tabable ? 1 : -1;
   return (
-    <div
-      onClick={onClick}
-      className={className ? className : "cell-static"}
-      tabIndex={tabable ? 1 : -1}
-    >
+    <div onClick={onClick} className={className ? className : "static-cell"} tabIndex={tabIndex}>
       {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
     </div>
   );
@@ -72,7 +67,6 @@ export const DurationStaticCell = ({ value, decimals, onClick, className, tababl
 class InputCell extends React.Component {
   constructor(props) {
     super(props);
-    this.cellWrapper = React.createRef();
     this.inputCell = React.createRef();
     this.state = {
       validInput: null
@@ -93,19 +87,28 @@ class InputCell extends React.Component {
     selection.addRange(range);
   }
 
+  formatInnerHTML = innerHTML => {
+    return innerHTML.trim() === "" ? "0" : innerHTML.replace(",", ".");
+  };
+
   onCellInput = e => {
-    const newValue = e.target.innerHTML.trim() === "" ? "0" : e.target.innerHTML.replace(",", ".");
+    const newValue = this.formatInnerHTML(e.target.innerHTML);
     this.setState({ validInput: Boolean(this.props.inputValidator(newValue)) });
     e.preventDefault();
   };
 
   onCellBlur = e => {
-    const newValue = e.target.innerHTML.trim() === "" ? "0" : e.target.innerHTML.replace(",", ".");
+    const newValue = this.formatInnerHTML(e.target.innerHTML);
     if (!Boolean(this.props.inputValidator(newValue))) {
       e.target.focus();
       return;
     }
-    this.props.onBlurEventHandler(newValue);
+
+    // Commit changes
+    this.props.onInputChange(this.props.projectId, this.props.columnId, newValue);
+    if (this.props.value.toString() === newValue) return;
+    this.props.onValueChange(this.props.projectId, Number(newValue));
+    this.props.toggleInputCell();
   };
 
   onKeyPressCapture = e => {
@@ -131,17 +134,20 @@ class InputCell extends React.Component {
 
   render() {
     const className =
-      this.state.validInput === null ? "" : this.state.validInput ? "ce-valid" : "ce-invalid";
+      this.state.validInput === null
+        ? ""
+        : this.state.validInput
+          ? "input-cell-valid"
+          : "input-cell-invalid";
 
     return (
-      // {<div className={`content-editable ${className}`}>}
       <div
-        className={`content-editable ${className}`}
+        className={`input-cell-wrapper ${className}`}
         onKeyPressCapture={this.onKeyPressCapture}
         onKeyDown={this.onKeyDown}
       >
         <div
-          style={{ flexGrow: "1", outline: "none", display: "flex", justifyContent: "flex-end" }}
+          class={"input-cell"}
           ref={this.inputCell}
           contentEditable
           suppressContentEditableWarning
@@ -160,39 +166,34 @@ export class EditableCell extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      staticCellFocus: false
+      renderInputCell: false
     };
   }
 
-  onBlurEventHandler = inputValue => {
-    this.props.onInputChange(this.props.projectId, this.props.columnId, inputValue);
-    this.setState({ hasActiveFocus: false });
-    if (this.props.value.toString() === inputValue) return;
-    if (!this.props.inputValidator(inputValue)) return;
-    this.props.onValueChange(this.props.projectId, Number(inputValue));
-  };
-
-  setActiveFocus = () => {
-    this.setState({ hasActiveFocus: true });
+  toggleInputCell = () => {
+    this.setState({ renderInputCell: this.state.renderInputCell ? false : true });
   };
 
   render() {
     return (
       <div
-        onDoubleClick={this.setActiveFocus}
-        className={"cell-click-wrapper"}
-        ref={this.cellWrapper}
+        onDoubleClick={this.toggleInputCell}
+        className={"editable-cell-wrapper"}
         onKeyPressCapture={e => {
           if (isSubmitKey(e.charCode)) {
-            this.setActiveFocus();
+            this.toggleInputCell();
             e.preventDefault();
           }
         }}
       >
-        {this.state.hasActiveFocus ? (
+        {this.state.renderInputCell ? (
           <InputCell
-            onBlurEventHandler={this.onBlurEventHandler}
+            toggleInputCell={this.toggleInputCell}
             inputValidator={this.props.inputValidator}
+            onInputChange={this.props.onInputChange}
+            onValueChange={this.props.onValueChange}
+            projectId={this.props.projectId}
+            columnId={this.props.columnId}
             value={this.props.value}
             input={this.props.input}
           />

@@ -193,7 +193,7 @@ class BalanceView extends React.Component {
               inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <DurationStaticCell value={value} className={"cell-editable"} tabable={1} />
+              <DurationStaticCell value={value} className={"editable-cell"} tabable={1} />
             </EditableCell>
           );
         }
@@ -229,7 +229,7 @@ class BalanceView extends React.Component {
               inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <DurationStaticCell value={value} className={"cell-editable"} tabable={1} />
+              <DurationStaticCell value={value} className={"editable-cell"} tabable={1} />
             </EditableCell>
           );
         }
@@ -250,7 +250,7 @@ class BalanceView extends React.Component {
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+              <MonetaryStaticCell value={value} className={"editable-cell"} tabable={1} />
             </EditableCell>
           );
         }
@@ -271,7 +271,7 @@ class BalanceView extends React.Component {
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+              <MonetaryStaticCell value={value} className={"editable-cell"} tabable={1} />
             </EditableCell>
           );
         }
@@ -294,7 +294,7 @@ class BalanceView extends React.Component {
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <MonetaryStaticCell value={value} className={"cell-editable"} tabable={1} />
+              <MonetaryStaticCell value={value} className={"editable-cell"} tabable={1} />
             </EditableCell>
           );
         }

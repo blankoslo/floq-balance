@@ -1,4 +1,4 @@
-.cell-click-wrapper {
+.editable-cell-wrapper {
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
@@ -10,24 +10,31 @@
   cursor: pointer;
 }
 
-.cell-editable {
+.editable-cell {
   font-weight: 400;
   padding: 7px 5px;
 }
 
-.cell-editable:focus {
+.editable-cell:focus {
   outline: none;
 }
 
-.ce-valid {
+.input-cell {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+  outline: none;
+}
+
+.input-cell-valid {
   background-color: #d2f8d2;
 }
 
-.ce-invalid {
+.input-cell-invalid {
   background-color: #f8d2d2;
 }
 
-.content-editable {
+.input-cell-wrapper {
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
@@ -38,6 +45,6 @@
   z-index: 100;
 }
 
-.cell-static {
+.static-cell {
   outline: none;
 }
