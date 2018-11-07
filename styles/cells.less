@@ -1,9 +1,35 @@
+@import "colors.less";
+
 .editable-cell-wrapper {
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
   align-items: center;
   height: 100%;
+}
+
+.editable-cell-wrapper-input {
+  &:focus-within {
+    border: 2px @blank-purple solid !important;
+    background-color: fade(@blank-purple, 10%);
+  }
+}
+
+.editable-cell-wrapper-static {
+  &:focus-within {
+    border: 1px @blank-purple solid !important;
+    background-color: fade(@blank-purple, 10%);
+    animation: 800ms focus-border infinite alternate;
+  }
+}
+
+@keyframes focus-border {
+  from {
+    border-width: 1px;
+  }
+  to {
+    border-width: 2px;
+  }
 }
 
 .time-entry-minutes-cell {
@@ -27,11 +53,11 @@
 }
 
 .input-cell-valid {
-  background-color: #d2f8d2;
+  background-color: fade(@blank-green, 50%);
 }
 
 .input-cell-invalid {
-  background-color: #f8d2d2;
+  background-color: fade(@blank-pink, 50%);
 }
 
 .input-cell-wrapper {

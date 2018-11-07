@@ -1,0 +1,23 @@
+@import "colors.less";
+
+.ReactTable .rt-tbody .rt-td {
+  border-right: none;
+}
+
+.ReactTable.-striped .rt-tr.-odd {
+  background: fade(@blank-purple-dark, 5%);
+}
+
+.ReactTable .rt-thead .rt-th.-sort-desc,
+.ReactTable .rt-thead .rt-td.-sort-desc {
+  box-shadow: inset 0 -3px 0 0 @blank-yellow;
+}
+
+.ReactTable .rt-thead .rt-th.-sort-asc,
+.ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: inset 0 3px 0 0 @blank-pink;
+}
+
+.ReactTable .rt-thead .rt-resizable-header-content {
+  font-weight: 500;
+}

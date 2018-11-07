@@ -175,10 +175,14 @@ export class EditableCell extends React.Component {
   };
 
   render() {
+    const className = this.state.renderInputCell
+      ? "editable-cell-wrapper-input"
+      : "editable-cell-wrapper-static";
+
     return (
       <div
         onDoubleClick={this.toggleInputCell}
-        className={"editable-cell-wrapper"}
+        className={`editable-cell-wrapper ${className}`}
         onKeyPressCapture={e => {
           if (isSubmitKey(e.charCode)) {
             this.toggleInputCell();

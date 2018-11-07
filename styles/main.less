@@ -1,5 +1,6 @@
 @import "reset.less";
 @import "cells.less";
+@import "overrides.less";
 
 @font-face {
   font-family: "Roboto";
@@ -113,12 +114,10 @@ table.balance-table {
   direction: row;
   align-items: center;
   justify-content: space-between;
-}
 
-.ReactTable .rt-tbody .rt-td {
-  border-right: none;
-
-  &:focus-within {
-    border: 2px #5292f7 solid !important;
+  & .month-year-title h2 {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
   }
 }
