@@ -1,0 +1,84 @@
+@import "colors.less";
+
+.editable-cell-wrapper {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+.editable-cell-wrapper-input {
+  &:focus-within {
+    border: 2px @blank-purple solid !important;
+    background-color: fade(@blank-purple, 10%);
+  }
+}
+
+.editable-cell-wrapper-static {
+  &:focus-within {
+    border: 1px @blank-purple solid !important;
+    background-color: fade(@blank-purple, 10%);
+    animation: 800ms focus-border infinite alternate;
+  }
+}
+
+@keyframes focus-border {
+  from {
+    border-width: 1px;
+  }
+  to {
+    border-width: 2px;
+  }
+}
+
+.time-entry-minutes-cell {
+  cursor: pointer;
+}
+
+.editable-cell {
+  font-weight: 400;
+  padding: 7px 5px;
+}
+
+.editable-cell:focus {
+  outline: none;
+}
+
+.input-cell {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+  outline: none;
+}
+
+.input-cell-valid {
+  background-color: fade(@blank-green, 50%);
+}
+
+.input-cell-invalid {
+  background-color: fade(@blank-pink, 50%);
+}
+
+.input-cell-wrapper {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  padding: 7px 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+
+.static-cell {
+  outline: none;
+}
+
+.status-cell {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: stretch;
+  align-items: center;
+}

@@ -1,14 +1,11 @@
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 
-const BalanceViewBodyRow = (props) => (
-  <th title={props.title}>
-    {props.columnName}
-  </th>
-);
+const BalanceViewBodyRow = props => <th title={props.title}>{props.columnName}</th>;
 
 BalanceViewBodyRow.propTypes = {
-  columnName: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired,
+  columnName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default BalanceViewBodyRow;

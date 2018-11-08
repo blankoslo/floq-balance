@@ -1,0 +1,54 @@
+@import "colors.less";
+
+.ReactTable .rt-tbody .rt-td {
+  border-right: none;
+}
+
+.ReactTable .rt-thead .rt-th.-sort-desc,
+.ReactTable .rt-thead .rt-td.-sort-desc {
+  box-shadow: inset 0 -3px 0 0 @blank-yellow;
+}
+
+.ReactTable .rt-thead .rt-th.-sort-asc,
+.ReactTable .rt-thead .rt-td.-sort-asc {
+  box-shadow: inset 0 3px 0 0 @blank-pink;
+}
+
+.ReactTable .rt-thead .rt-resizable-header-content {
+  font-weight: 500;
+}
+
+.ReactTable .rt-tr-group {
+  flex: 0 0 auto;
+  height: 45px;
+}
+
+.ReactTable .rt-tbody .rt-tr-group:last-child {
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.15);
+  z-index: 0;
+}
+
+.ReactTable .rt-tbody .rt-tr-group {
+  z-index: 1;
+  background: @blank-white;
+}
+
+.ReactTable .rt-thead.-header {
+  z-index: 2;
+}
+
+.ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
+  background: rgb(254, 247, 184, 0.75);
+
+  .editable-cell-wrapper {
+    background: fade(@blank-purple-dark, 5%);
+  }
+
+  .editable-cell {
+    font-weight: 600;
+  }
+
+  .status-cell {
+    background: fade(@blank-purple-dark, 5%);
+  }
+}

@@ -1,15 +1,24 @@
-import { createSelector } from 'reselect';
-import * as Immutable from 'immutable';
-import hourlyRateCustomersSelector from './hourlyRateCustomersSelector';
-import grossTurnoverCustomersSelector from './grossTurnoverCustomersSelector';
-import netTurnoverCustomersSelector from './netTurnoverCustomersSelector';
+import { createSelector } from "reselect";
+import * as Immutable from "immutable";
+import hourlyRateCustomersSelector from "./hourlyRateCustomersSelector";
+import grossTurnoverCustomersSelector from "./grossTurnoverCustomersSelector";
+import netTurnoverCustomersSelector from "./netTurnoverCustomersSelector";
 
 const initials = name =>
-  name.split(' ').map(s => s.charAt(0).toUpperCase()).join('');
+  name
+    .split(" ")
+    .map(s => s.charAt(0).toUpperCase())
+    .join("");
 
 const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnover, netTurnover) => {
-  if (projects.loading || hoursPerProject.loading || input.loading || hourlyRate.loading
-      || grossTurnover.loading || netTurnover.loading) {
+  if (
+    projects.loading ||
+    hoursPerProject.loading ||
+    input.loading ||
+    hourlyRate.loading ||
+    grossTurnover.loading ||
+    netTurnover.loading
+  ) {
     return { loading: true, data: new Immutable.List() };
   }
   const activeProjects = projects.data.filter(x => x.active === true);
@@ -25,8 +34,8 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
           initials: initials(name)
         };
         const hourlyRateProject = value.time_entry_minutes
-          ? (value.invoice_balance_money - value.expense_money - value.subcontractor_money)
-            / (value.time_entry_minutes / 60) || 0
+          ? (value.invoice_balance_money - value.expense_money - value.subcontractor_money) /
+              (value.time_entry_minutes / 60) || 0
           : 0;
         return result.push({
           projectId: value.project,
@@ -44,10 +53,9 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
           subcontractor_money: value.subcontractor_money,
           hourly_rate: hourlyRateProject,
           status: value.status,
-          input: input.data.get(key),
+          input: input.data.get(key)
         });
-      }
-    , new Immutable.List())
+      }, new Immutable.List())
   };
 };
 
@@ -58,5 +66,5 @@ export default createSelector(
   hourlyRateCustomersSelector,
   grossTurnoverCustomersSelector,
   netTurnoverCustomersSelector,
-  getTableBody,
+  getTableBody
 );
