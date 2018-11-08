@@ -7,7 +7,7 @@ const BalanceViewTitle = props => (
     <Link className="mdl-button mdl-js-button" to={props.navigation.previous}>
       <i className="material-icons">arrow_back</i>
     </Link>
-    <div style={{ textAlign: "center" }}>
+    <div className="month-year-title">
       <h2>
         {props.selectedMonth} {props.selectedYear}
       </h2>
