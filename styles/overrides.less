@@ -21,3 +21,31 @@
 .ReactTable .rt-thead .rt-resizable-header-content {
   font-weight: 500;
 }
+
+.ReactTable .rt-tr-group {
+  flex: 0 0 auto;
+  height: 45px;
+}
+
+// .ReactTable .rt-tbody {
+//   background-color: 
+// }
+
+
+.ReactTable .rt-tbody .rt-tr-group:last-child {
+  box-shadow: 0 2px 15px 0 rgba(0,0,0,0.15);
+  z-index: 0;
+}
+
+.ReactTable .rt-tbody .rt-tr-group {
+  z-index: 1;
+  background: @blank-white;
+}
+
+.ReactTable .rt-thead.-header {
+  z-index: 2;
+}
+
+.ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
+  background: rgb(254, 247, 184, .75);
+}

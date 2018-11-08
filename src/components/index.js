@@ -347,19 +347,18 @@ class BalanceView extends React.Component {
           navigation={this.props.title.navigation}
         />
         <ReactTable
-          filterable
           style={heightLock}
           data={this.props.tableData.body.list}
           resolveData={data => data.toArray().map(row => row)}
           columns={columns}
-          defaultPageSize={100}
+          defaultPageSize={this.props.tableData.body.list.size}
           className="-striped -highlight"
           showPaginationBottom={false}
           getTheadThProps={() => {
             return { style: { outline: "none" } };
           }}
           getTrProps={() => {
-            return { style: { height: "45px" } };
+            return { style: {} };
           }}
           getTdProps={(state, rowInfo, column, instance) => {
             let props = {};
