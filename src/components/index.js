@@ -38,7 +38,6 @@ const staticColumns = new Map([
   ["time_entry_minutes", true],
   ["basis_minutes", true],
   ["hourly_rate", true],
-  ["status", true]
 ]);
 
 import Select from "@material-ui/core/Select";
@@ -352,7 +351,7 @@ class BalanceView extends React.Component {
           resolveData={data => data.toArray().map(row => row)}
           columns={columns}
           defaultPageSize={this.props.tableData.body.list.size}
-          className="-striped -highlight"
+          className="-highlight"
           showPaginationBottom={false}
           getTheadThProps={() => {
             return { style: { outline: "none" } };
@@ -376,7 +375,7 @@ class BalanceView extends React.Component {
             if (staticColumns.has(column.id)) {
               style = Object.assign(style, { color: "rgba(119, 119, 119, 0.75)" });
             } else {
-              style = Object.assign(style, { padding: 0 });
+              style = Object.assign(style, { padding: 0, backgroundColor: "rgba(60,19,69,.05)" });
             }
 
             // if (!staticColumns.has(column.id)) {
