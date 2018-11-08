@@ -38,31 +38,38 @@ export const InvoiceStatusCell = ({ status, onChange, projectId, className }) =>
   </div>
 );
 
-export const MonetaryStaticCell = ({ value, className, tabable }) => {
+export const MonetaryStaticCell = React.forwardRef((props, ref) => {
+  const { value, className, tabable } = props;
   const monataryFormatter = new Intl.NumberFormat("nb");
   const tabIndex = tabable ? 1 : -1;
 
   return (
-    <div className={className ? className : "static-cell"} tabIndex={tabIndex}>
+    <div ref={ref} className={className ? className : "static-cell"} tabIndex={tabIndex}>
       {monataryFormatter.format(value.toFixed(value % 1 ? 2 : 0))}
     </div>
   );
-};
+});
 
 export const TextStaticCell = ({ value }) => {
   return <div>{value}</div>;
 };
 
-export const DurationStaticCell = ({ value, decimals, onClick, className, tabable }) => {
+export const DurationStaticCell = React.forwardRef((props, ref) => {
+  const { value, decimals, onClick, className, tabable } = props;
   const numDecimals = input => (input === undefined || input === null ? 1 : input);
   const durationFormatter = new Intl.NumberFormat("nb");
   const tabIndex = tabable ? 1 : -1;
   return (
-    <div onClick={onClick} className={className ? className : "static-cell"} tabIndex={tabIndex}>
+    <div
+      ref={ref}
+      onClick={onClick}
+      className={className ? className : "static-cell"}
+      tabIndex={tabIndex}
+    >
       {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
     </div>
   );
-};
+});
 
 class InputCell extends React.Component {
   constructor(props) {
@@ -170,6 +177,12 @@ export class EditableCell extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.renderInputCell && !this.state.renderInputCell) {
+      this.props.children.ref.current.focus();
+    }
+  }
+
   toggleInputCell = () => {
     this.setState({ renderInputCell: this.state.renderInputCell ? false : true });
   };
@@ -181,6 +194,7 @@ export class EditableCell extends React.Component {
 
     return (
       <div
+        onClick={() => this.props.children.ref.current.focus()}
         onDoubleClick={this.toggleInputCell}
         className={`editable-cell-wrapper ${className}`}
         onKeyPressCapture={e => {
