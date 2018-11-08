@@ -182,7 +182,7 @@ class BalanceView extends React.Component {
         ),
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
-          const staticCellRef = React.createRef()
+          const staticCellRef = React.createRef();
           return (
             <EditableCell
               projectId={projectId}
@@ -193,7 +193,12 @@ class BalanceView extends React.Component {
               inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <DurationStaticCell ref={staticCellRef} value={value} className={"editable-cell"} tabable={1} />
+              <DurationStaticCell
+                ref={staticCellRef}
+                value={value}
+                className={"editable-cell"}
+                tabable={1}
+              />
             </EditableCell>
           );
         }
@@ -219,7 +224,7 @@ class BalanceView extends React.Component {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
           );
-          const staticCellRef = React.createRef()
+          const staticCellRef = React.createRef();
           return (
             <EditableCell
               projectId={projectId}
@@ -230,7 +235,12 @@ class BalanceView extends React.Component {
               inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <DurationStaticCell ref={staticCellRef} value={value} className={"editable-cell"} tabable={1} />
+              <DurationStaticCell
+                ref={staticCellRef}
+                value={value}
+                className={"editable-cell"}
+                tabable={1}
+              />
             </EditableCell>
           );
         }
@@ -241,7 +251,7 @@ class BalanceView extends React.Component {
         Footer: <MonetaryStaticCell value={this.props.tableData.footer.expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
-          const staticCellRef = React.createRef()
+          const staticCellRef = React.createRef();
           return (
             <EditableCell
               projectId={projectId}
@@ -252,7 +262,12 @@ class BalanceView extends React.Component {
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <MonetaryStaticCell ref={staticCellRef} value={value} className={"editable-cell"} tabable={1} />
+              <MonetaryStaticCell
+                ref={staticCellRef}
+                value={value}
+                className={"editable-cell"}
+                tabable={1}
+              />
             </EditableCell>
           );
         }
@@ -263,7 +278,7 @@ class BalanceView extends React.Component {
         Footer: <MonetaryStaticCell value={this.props.tableData.footer.subcontractor_expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
-          const staticCellRef = React.createRef()
+          const staticCellRef = React.createRef();
           return (
             <EditableCell
               projectId={projectId}
@@ -274,7 +289,12 @@ class BalanceView extends React.Component {
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <MonetaryStaticCell ref={staticCellRef} value={value} className={"editable-cell"} tabable={1} />
+              <MonetaryStaticCell
+                ref={staticCellRef}
+                value={value}
+                className={"editable-cell"}
+                tabable={1}
+              />
             </EditableCell>
           );
         }
@@ -287,7 +307,7 @@ class BalanceView extends React.Component {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
           );
-          const staticCellRef = React.createRef()
+          const staticCellRef = React.createRef();
           return (
             <EditableCell
               projectId={projectId}
@@ -298,7 +318,12 @@ class BalanceView extends React.Component {
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
             >
-              <MonetaryStaticCell ref={staticCellRef} value={value} className={"editable-cell"} tabable={1} />
+              <MonetaryStaticCell
+                ref={staticCellRef}
+                value={value}
+                className={"editable-cell"}
+                tabable={1}
+              />
             </EditableCell>
           );
         }
