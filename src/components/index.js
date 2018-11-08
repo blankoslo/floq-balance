@@ -37,7 +37,7 @@ const staticColumns = new Map([
   ["responsible", true],
   ["time_entry_minutes", true],
   ["basis_minutes", true],
-  ["hourly_rate", true],
+  ["hourly_rate", true]
 ]);
 
 import Select from "@material-ui/core/Select";
