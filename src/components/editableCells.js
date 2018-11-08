@@ -14,29 +14,32 @@ export const statusLabelMap = new Map([
   [null, "N/A"]
 ]);
 
-export const InvoiceStatusCell = ({ status, onChange, projectId, className }) => (
-  <div className={className ? className : "static-cell"}>
-    {status !== null ? (
-      <NativeSelect
-        value={status}
-        onChange={e => onChange(projectId, e.target.value)}
-        inputProps={{ tabIndex: 1 }}
-      >
-        {Array.from(statusLabelMap).map(([key, value]) => {
-          return key === null ? (
-            undefined
-          ) : (
-            <option key={key} value={key}>
-              {value}
-            </option>
-          );
-        })}
-      </NativeSelect>
-    ) : (
-      "N/A"
-    )}
-  </div>
-);
+export const InvoiceStatusCell = ({ status, onChange, projectId }) => {
+  const className = status !== null ? "status-cell" : "static-cell";
+  return (
+    <div className={className}>
+      {status !== null ? (
+        <NativeSelect
+          value={status}
+          onChange={e => onChange(projectId, e.target.value)}
+          inputProps={{ tabIndex: 1 }}
+        >
+          {Array.from(statusLabelMap).map(([key, value]) => {
+            return key === null ? (
+              undefined
+            ) : (
+              <option key={key} value={key}>
+                {value}
+              </option>
+            );
+          })}
+        </NativeSelect>
+      ) : (
+        "N/A"
+      )}
+    </div>
+  );
+};
 
 export const MonetaryStaticCell = React.forwardRef((props, ref) => {
   const { value, className, tabable } = props;

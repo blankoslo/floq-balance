@@ -4,10 +4,6 @@
   border-right: none;
 }
 
-.ReactTable.-striped .rt-tr.-odd {
-  background: fade(@blank-purple-dark, 5%);
-}
-
 .ReactTable .rt-thead .rt-th.-sort-desc,
 .ReactTable .rt-thead .rt-td.-sort-desc {
   box-shadow: inset 0 -3px 0 0 @blank-yellow;
@@ -27,13 +23,8 @@
   height: 45px;
 }
 
-// .ReactTable .rt-tbody {
-//   background-color: 
-// }
-
-
 .ReactTable .rt-tbody .rt-tr-group:last-child {
-  box-shadow: 0 2px 15px 0 rgba(0,0,0,0.15);
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.15);
   z-index: 0;
 }
 
@@ -47,5 +38,17 @@
 }
 
 .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
-  background: rgb(254, 247, 184, .75);
+  background: rgb(254, 247, 184, 0.75);
+
+  .editable-cell-wrapper {
+    background: fade(@blank-purple-dark, 5%);
+  }
+
+  .editable-cell {
+    font-weight: 600;
+  }
+
+  .status-cell {
+    background: fade(@blank-purple-dark, 5%);
+  }
 }

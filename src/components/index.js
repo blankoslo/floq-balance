@@ -380,7 +380,7 @@ class BalanceView extends React.Component {
             if (staticColumns.has(column.id)) {
               style = Object.assign(style, { color: "rgba(119, 119, 119, 0.75)" });
             } else {
-              style = Object.assign(style, { padding: 0, backgroundColor: "rgba(60,19,69,.05)" });
+              style = Object.assign(style, { padding: 0 });
             }
 
             // if (!staticColumns.has(column.id)) {
