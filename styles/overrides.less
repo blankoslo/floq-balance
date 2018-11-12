@@ -51,4 +51,16 @@
   .status-cell {
     background: fade(@blank-purple-dark, 5%);
   }
+
+  .time-entry-minutes-cell {
+    position: relative;
+    & > i::before {
+      content: "description";
+      font-size: 1.3em;
+      position: absolute;
+      color: fade(@blank-purple-dark, 50%);
+      left: 46%;
+      bottom: -50%;
+    }
+  }
 }

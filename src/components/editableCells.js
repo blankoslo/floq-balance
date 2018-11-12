@@ -1,5 +1,8 @@
 import React from "react";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import Select from "@material-ui/core/Select";
+import classNames from "classnames";
+import MenuItem from "@material-ui/core/MenuItem";
+import { withStyles } from "@material-ui/core/styles";
 
 const isValidDecimalKey = keyCode => (keyCode >= 48 && keyCode <= 57) || keyCode === 44;
 const isSubmitKey = keyCode => keyCode === 13;
@@ -7,19 +10,51 @@ const isTabKey = keyCode => keyCode === 9;
 const isEscKey = keyCode => keyCode === 27;
 
 export const statusLabelMap = new Map([
-  ["not_done", "Ikke ferdig"],
-  ["not_ok", "Ikke godkjent"],
+  ["not_done", "Uferdig"],
+  ["not_ok", "Ikke GK"],
   ["ok", "Godkjent"],
   ["sent", "Sendt"],
   [null, "N/A"]
 ]);
 
+const statusColorMap = new Map([
+  ["not_done", "rgb(125, 125, 125)"],
+  ["not_ok", "rgb(254, 56, 110)"],
+  ["ok", "#12EB81"],
+  ["sent", "rgb(102, 0, 255)"]
+]);
+
+const styles = {
+  root: {
+    display: "flex",
+    border: "1px solid black",
+    backgroundColor: "none",
+    width: 125,
+    textAlign: "center",
+    fontWeight: 500,
+    borderRadius: 5,
+    padding: 2,
+    flexDirection: "row-reverse"
+  }
+};
+
+const BlankSelect = withStyles(styles)(props => {
+  const { classes, children, className, ...other } = props;
+  return (
+    <Select className={classNames(classes.root, className)} {...other}>
+      {children}
+    </Select>
+  );
+});
+
 export const InvoiceStatusCell = ({ status, onChange, projectId }) => {
   const className = status !== null ? "status-cell" : "static-cell";
+  const statusColor = statusColorMap.get(status);
   return (
     <div className={className}>
       {status !== null ? (
-        <NativeSelect
+        <BlankSelect
+          style={{ color: statusColor, borderColor: statusColor }}
           value={status}
           onChange={e => onChange(projectId, e.target.value)}
           inputProps={{ tabIndex: 1 }}
@@ -28,12 +63,12 @@ export const InvoiceStatusCell = ({ status, onChange, projectId }) => {
             return key === null ? (
               undefined
             ) : (
-              <option key={key} value={key}>
+              <MenuItem key={key} value={key}>
                 {value}
-              </option>
+              </MenuItem>
             );
           })}
-        </NativeSelect>
+        </BlankSelect>
       ) : (
         "N/A"
       )}
@@ -70,6 +105,7 @@ export const DurationStaticCell = React.forwardRef((props, ref) => {
       tabIndex={tabIndex}
     >
       {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
+      <i className="material-icons" />
     </div>
   );
 });

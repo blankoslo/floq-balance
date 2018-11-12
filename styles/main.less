@@ -1,6 +1,7 @@
 @import "reset.less";
 @import "cells.less";
 @import "overrides.less";
+@import "colors.less";
 
 @font-face {
   font-family: "Roboto";
@@ -109,15 +110,24 @@ table.balance-table {
 }
 
 .balance-navigation {
-  height: 45px;
+  height: 75px;
+  font-size: 1.3em;
   display: flex;
   direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  color: @blank-white;
+  background-color: @blank-purple;
 
   & .month-year-title h2 {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 4px;
+  }
+
+  & .material-icons {
+    color: @blank-white;
+    font-weight: 500;
+    font-size: 2.5em;
   }
 }
