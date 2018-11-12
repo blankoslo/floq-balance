@@ -366,7 +366,7 @@ class BalanceView extends React.Component {
       }
     ];
 
-    const heightLock = { height: window.innerHeight - 64 - 45 };
+    const heightLock = { height: window.innerHeight - 64 - 77 };
 
     return (
       <div>
