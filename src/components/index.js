@@ -402,15 +402,9 @@ class BalanceView extends React.Component {
               style = Object.assign(style, { justifyContent: "flex-end", paddingRight: "10px" });
             }
 
-            if (staticColumns.has(column.id)) {
-              style = Object.assign(style, { color: "rgba(119, 119, 119, 0.75)" });
-            } else {
+            if (!staticColumns.has(column.id)) {
               style = Object.assign(style, { padding: 0 });
             }
-
-            // if (!staticColumns.has(column.id)) {
-            //   props = Object.assign(props, { tabIndex: 1 });
-            // }
 
             return Object.assign(props, { style: style });
           }}
