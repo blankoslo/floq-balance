@@ -82,3 +82,29 @@
   justify-content: center;
   align-items: center;
 }
+
+.table-total-summary {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: @blank-purple;
+  padding-bottom: 15px;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0px 25px;
+    color: white;
+
+    & > div:first-child {
+      margin-bottom: 10px;
+    }
+
+    & > div:last-child {
+      font-weight: 500;
+      font-size: 1.3em;
+    }
+  }
+}

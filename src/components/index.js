@@ -11,6 +11,7 @@ import {
   TextStaticCell,
   statusLabelMap
 } from "./editableCells";
+import TotalSummary from "./table/footer";
 
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
@@ -112,7 +113,6 @@ class BalanceView extends React.Component {
       {
         accessor: "net_turnover_customer",
         Header: "Netto omsetning kunde",
-        Footer: <MonetaryStaticCell value={this.props.tableData.footer.net_turnover} />,
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <MonetaryStaticCell value={value} />;
@@ -121,7 +121,6 @@ class BalanceView extends React.Component {
       {
         accessor: "hourly_rate_customer",
         Header: "OT Kunde",
-        Footer: <MonetaryStaticCell value={this.props.tableData.footer.hourly_rate} decimals={2} />,
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <MonetaryStaticCell value={value} />;
@@ -156,9 +155,6 @@ class BalanceView extends React.Component {
       {
         accessor: "time_entry_minutes",
         Header: "Timeføring",
-        Footer: (
-          <DurationStaticCell value={this.props.tableData.footer.time_entry_minutes} hours={true} />
-        ),
         Cell: cellInfo => {
           const { value, projectId } = this.extractCommonCellProps(cellInfo);
           return (
@@ -166,7 +162,7 @@ class BalanceView extends React.Component {
               value={value}
               hours={true}
               decimals={1}
-              className={"time-entry-minutes-cell"}
+              className={"static-cell time-entry-minutes-cell"}
               onClick={() => {
                 this.props.tableData.body.getMonthlyTimeTrackingReport(projectId);
               }}
@@ -177,9 +173,6 @@ class BalanceView extends React.Component {
       {
         accessor: "write_off_minutes",
         Header: "Avskrivning",
-        Footer: (
-          <DurationStaticCell value={this.props.tableData.footer.write_off_minutes} hours={true} />
-        ),
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -206,9 +199,6 @@ class BalanceView extends React.Component {
       {
         accessor: "basis_minutes",
         Header: "Grunnlag",
-        Footer: (
-          <DurationStaticCell value={this.props.tableData.footer.basis_minutes} hours={true} />
-        ),
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <DurationStaticCell value={value} hours={true} decimals={1} />;
@@ -217,9 +207,6 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_minutes",
         Header: "Fak. timetall",
-        Footer: (
-          <DurationStaticCell value={this.props.tableData.footer.invoice_minutes} hours={true} />
-        ),
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -248,7 +235,6 @@ class BalanceView extends React.Component {
       {
         accessor: "expense_money",
         Header: "Utgifter",
-        Footer: <MonetaryStaticCell value={this.props.tableData.footer.expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -275,7 +261,6 @@ class BalanceView extends React.Component {
       {
         accessor: "subcontractor_money",
         Header: "UL",
-        Footer: <MonetaryStaticCell value={this.props.tableData.footer.subcontractor_expense} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -302,7 +287,6 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_money",
         Header: "Honorar",
-        Footer: <MonetaryStaticCell value={this.props.tableData.footer.fee} />,
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -366,7 +350,7 @@ class BalanceView extends React.Component {
       }
     ];
 
-    const heightLock = { height: window.innerHeight - 64 - 77 };
+    const heightLock = { height: window.innerHeight - 64 - 77 - 61 };
 
     return (
       <div>
@@ -375,6 +359,7 @@ class BalanceView extends React.Component {
           selectedMonth={this.props.title.month}
           navigation={this.props.title.navigation}
         />
+        <TotalSummary data={this.props.tableData.footer} />
         <ReactTable
           style={heightLock}
           data={this.props.tableData.body.list}
