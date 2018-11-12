@@ -105,6 +105,7 @@ export const DurationStaticCell = React.forwardRef((props, ref) => {
       tabIndex={tabIndex}
     >
       {durationFormatter.format((value / 60).toFixed((value / 60) % 1 ? numDecimals(decimals) : 0))}
+      <i className="material-icons" />
     </div>
   );
 });
