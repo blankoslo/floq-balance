@@ -37,6 +37,9 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
           ? (value.invoice_balance_money - value.expense_money - value.subcontractor_money) /
               (value.time_entry_minutes / 60) || 0
           : 0;
+
+        const basis_minutes = value.time_entry_minutes - value.write_off_minutes;
+
         return result.push({
           projectId: value.project,
           customerCode: projects.data.get(key).customer.id,
@@ -48,7 +51,8 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
           invoice_minutes: value.invoice_balance_minutes,
           invoice_money: value.invoice_balance_money,
           write_off_minutes: value.write_off_minutes,
-          basis_minutes: value.time_entry_minutes - value.write_off_minutes,
+          basis_minutes: basis_minutes,
+          basis_invoice_minutes_deviation: Boolean(basis_minutes - value.invoice_balance_minutes),
           expense_money: value.expense_money,
           subcontractor_money: value.subcontractor_money,
           hourly_rate: hourlyRateProject,
