@@ -200,8 +200,17 @@ class BalanceView extends React.Component {
         accessor: "basis_minutes",
         Header: "Grunnlag",
         Cell: cellInfo => {
-          const { value } = this.extractCommonCellProps(cellInfo);
-          return <DurationStaticCell value={value} hours={true} decimals={1} />;
+          const { data, value, rowIdx } = this.extractCommonCellProps(cellInfo);
+          const deviate = data.get(rowIdx)["basis_invoice_minutes_deviation"];
+          const className = deviate ? "cell-warning" : "";
+          return (
+            <DurationStaticCell
+              className={`static-cell ${className}`}
+              value={value}
+              hours={true}
+              decimals={1}
+            />
+          );
         }
       },
       {
@@ -212,6 +221,10 @@ class BalanceView extends React.Component {
             cellInfo
           );
           const staticCellRef = React.createRef();
+          const deviate = data.get(rowIdx)["basis_invoice_minutes_deviation"];
+          console.log(deviate);
+          const className = deviate ? "cell-warning" : "";
+
           return (
             <EditableCell
               projectId={projectId}
@@ -223,9 +236,9 @@ class BalanceView extends React.Component {
               input={data.get(cellInfo.index)["input"][columnId]}
             >
               <DurationStaticCell
+                className={`editable-cell ${className}`}
                 ref={staticCellRef}
                 value={value}
-                className={"editable-cell"}
                 tabable={1}
               />
             </EditableCell>
