@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router";
 
-const BalanceViewTitle = props => (
+const MonthNavigation = props => (
   <div className="balance-navigation">
     <Link className="mdl-button mdl-js-button" to={props.navigation.previous}>
       <i className="material-icons">arrow_back</i>
@@ -18,10 +18,10 @@ const BalanceViewTitle = props => (
   </div>
 );
 
-BalanceViewTitle.propTypes = {
+MonthNavigation.propTypes = {
   selectedYear: PropTypes.string.isRequired,
   selectedMonth: PropTypes.string.isRequired,
   navigation: PropTypes.object.isRequired
 };
 
-export default BalanceViewTitle;
+export default MonthNavigation;

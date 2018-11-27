@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { isValidElement } from "react";
-import BalanceViewTitle from "./title";
+import MonthNavigation from "./title";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {
@@ -11,7 +11,7 @@ import {
   TextStaticCell,
   statusLabelMap
 } from "./editableCells";
-import TotalSummary from "./table/footer";
+import MonthAggregates from "./table/footer";
 
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
@@ -90,6 +90,7 @@ class BalanceView extends React.Component {
       {
         accessor: "customerCode",
         Header: "Kunde",
+        className: "cell-rt-js",
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <TextStaticCell value={value} />;
@@ -105,6 +106,7 @@ class BalanceView extends React.Component {
       {
         accessor: "gross_turnover_customer",
         Header: "Brutto omsetning kunde",
+        className: "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <MonetaryStaticCell value={value} />;
@@ -113,6 +115,7 @@ class BalanceView extends React.Component {
       {
         accessor: "net_turnover_customer",
         Header: "Netto omsetning kunde",
+        className: "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <MonetaryStaticCell value={value} />;
@@ -121,6 +124,7 @@ class BalanceView extends React.Component {
       {
         accessor: "hourly_rate_customer",
         Header: "OT Kunde",
+        className: "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <MonetaryStaticCell value={value} />;
@@ -129,6 +133,7 @@ class BalanceView extends React.Component {
       {
         accessor: "projectId",
         Header: "Engasjement",
+        className: "cell-rt-js",
         Cell: cellInfo => {
           const { value, projectId } = this.extractCommonCellProps(cellInfo);
           return <TextStaticCell value={value} />;
@@ -137,6 +142,7 @@ class BalanceView extends React.Component {
       {
         accessor: "responsible",
         Header: "Ansvarlig",
+        className: "cell-rt-js",
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <TextStaticCell value={value["initials"]} />;
@@ -155,6 +161,7 @@ class BalanceView extends React.Component {
       {
         accessor: "time_entry_minutes",
         Header: "Timeføring",
+        className: "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { value, projectId } = this.extractCommonCellProps(cellInfo);
           return (
@@ -173,6 +180,7 @@ class BalanceView extends React.Component {
       {
         accessor: "write_off_minutes",
         Header: "Avskrivning",
+        className: "cell-rt-js cell-rt-js-static",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -199,6 +207,7 @@ class BalanceView extends React.Component {
       {
         accessor: "basis_minutes",
         Header: "Grunnlag",
+        className: "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, value, rowIdx } = this.extractCommonCellProps(cellInfo);
           const deviate = data.get(rowIdx)["basis_invoice_minutes_deviation"];
@@ -216,6 +225,7 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_minutes",
         Header: "Fak. timetall",
+        className: "cell-rt-js cell-rt-js-static",
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -248,6 +258,7 @@ class BalanceView extends React.Component {
       {
         accessor: "expense_money",
         Header: "Utgifter",
+        className: "cell-rt-js cell-rt-js-static",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -274,6 +285,7 @@ class BalanceView extends React.Component {
       {
         accessor: "subcontractor_money",
         Header: "UL",
+        className: "cell-rt-js cell-rt-js-static",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -300,6 +312,7 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_money",
         Header: "Honorar",
+        className: "cell-rt-js cell-rt-js-static",
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -328,6 +341,7 @@ class BalanceView extends React.Component {
       {
         accessor: "hourly_rate",
         Header: "OT",
+        className: "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { value } = this.extractCommonCellProps(cellInfo);
           return <MonetaryStaticCell value={value} />;
@@ -336,6 +350,7 @@ class BalanceView extends React.Component {
       {
         accessor: "status",
         Header: "Fak. Status",
+        className: "cell-rt-js cell-rt-js-static",
         Cell: cellInfo => {
           const { data, projectId, rowIdx } = this.extractCommonCellProps(cellInfo);
           return (
@@ -366,13 +381,15 @@ class BalanceView extends React.Component {
     const heightLock = { height: window.innerHeight - 64 - 77 - 61 };
 
     return (
-      <div>
-        <BalanceViewTitle
-          selectedYear={this.props.title.year}
-          selectedMonth={this.props.title.month}
-          navigation={this.props.title.navigation}
-        />
-        <TotalSummary data={this.props.tableData.footer} />
+      <div className="fade-in">
+        <div className="table-header-container">
+          <MonthNavigation
+            selectedYear={this.props.title.year}
+            selectedMonth={this.props.title.month}
+            navigation={this.props.title.navigation}
+          />
+          <MonthAggregates data={this.props.tableData.footer} />
+        </div>
         <ReactTable
           style={heightLock}
           data={this.props.tableData.body.list}
@@ -383,52 +400,6 @@ class BalanceView extends React.Component {
           showPaginationBottom={false}
           getTheadThProps={() => {
             return { style: { outline: "none" } };
-          }}
-          getTrProps={() => {
-            return { style: {} };
-          }}
-          getTdProps={(state, rowInfo, column, instance) => {
-            let props = {};
-            let style = {
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRight: "1px solid #dddddd"
-            };
-
-            if (numberColumns.has(column.id)) {
-              style = Object.assign(style, { justifyContent: "flex-end", paddingRight: "10px" });
-            }
-
-            if (!staticColumns.has(column.id)) {
-              style = Object.assign(style, { padding: 0 });
-            }
-
-            return Object.assign(props, { style: style });
-          }}
-          getTfootTdProps={(state, rowInfo, column, instance) => {
-            let style = {
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              borderRight: "1px solid #dddddd"
-            };
-
-            return { style: style };
-          }}
-          getTheadFilterThProps={(state, rowInfo, column, instance) => {
-            let style = { display: "flex" };
-            return { style: style };
-          }}
-          getTfootProps={() => {
-            return {
-              style: {
-                boxShadow: "rgba(119, 119, 119, 0.5) 0px -10px 13px -8px",
-                height: "45px",
-                fontWeight: "500",
-                letterSpacing: "2px"
-              }
-            };
           }}
         />
       </div>
