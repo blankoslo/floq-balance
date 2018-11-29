@@ -1,45 +1,15 @@
 import PropTypes from "prop-types";
-import React, { isValidElement } from "react";
+import React from "react";
 import MonthNavigation from "./title";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {
-  EditableCell,
-  MonetaryStaticCell,
-  InvoiceStatusCell,
-  DurationStaticCell,
-  TextStaticCell,
-  statusLabelMap
-} from "./editableCells";
+import { EditableCell } from "./cells/editableCell";
+import { InvoiceStatusCell, statusLabelMap } from "./cells/invoiceStatusCell";
+import { MonetaryStaticCell, DurationStaticCell, TextStaticCell } from "./cells/staticCells";
 import MonthAggregates from "./table/footer";
 
 const isValidAmount = input => input.match(/^((\d|[1-9]\d+)(\.\d{1,2})?|\.\d{1,2})$/);
 const isValidHours = input => input.match(/^((\d|[1-9]\d+)(\.5)?|\.5)$/);
-
-const numberColumns = new Map([
-  ["net_turnover_customer", true],
-  ["gross_turnover_customer", true],
-  ["hourly_rate_customer", true],
-  ["expense_money", true],
-  ["subcontractor_money", true],
-  ["invoice_money", true],
-  ["time_entry_minutes", true],
-  ["write_off_minutes", true],
-  ["basis_minutes", true],
-  ["invoice_minutes", true],
-  ["hourly_rate", true]
-]);
-const staticColumns = new Map([
-  ["customerCode", true],
-  ["gross_turnover_customer", true],
-  ["net_turnover_customer", true],
-  ["hourly_rate_customer", true],
-  ["projectId", true],
-  ["responsible", true],
-  ["time_entry_minutes", true],
-  ["basis_minutes", true],
-  ["hourly_rate", true]
-]);
 
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -66,7 +36,6 @@ const multipleSelectFilterMethod = (filter, row, valueKey) => {
   const filterMap = new Map(filter.value.map(value => [value, true]));
   if (valueKey && filterMap.has(row[filter.id][valueKey])) return true;
   if (filterMap.has(row[filter.id])) return true;
-
   return false;
 };
 
