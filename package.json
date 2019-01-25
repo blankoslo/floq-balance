@@ -6,7 +6,7 @@
     "start": "webpack-dev-server  --config ./config/webpack.dev.js",
     "dist": "webpack --config ./config/webpack.prod.js",
     "lint": "eslint src test",
-    "test": "mocha --require babel-core/register --recursive ./test",
+    "test": "mocha --require @babel/register --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-core": "^6.18.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
