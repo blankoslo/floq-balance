@@ -6,14 +6,9 @@ module.exports = merge(
   {
     mode: "production",
     entry: ["./src/index.js"],
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        compress: {
-          warnings: false
-        }
-      })
-    ]
+    optimization: {
+      minimize: true
+    }
   },
   common
 );
