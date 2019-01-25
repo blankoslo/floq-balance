@@ -104,8 +104,11 @@ class BalanceView extends React.Component {
         Header: "Engasjement",
         className: "cell-rt-js",
         Cell: cellInfo => {
-          const { value, projectId } = this.extractCommonCellProps(cellInfo);
-          return <TextStaticCell value={value} />;
+          const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
+            cellInfo
+          );
+          const hoverText = data.get(rowIdx)["projectName"];
+          return <TextStaticCell value={value} hoverText={hoverText} />;
         }
       },
       {
@@ -201,7 +204,6 @@ class BalanceView extends React.Component {
           );
           const staticCellRef = React.createRef();
           const deviate = data.get(rowIdx)["basis_invoice_minutes_deviation"];
-          console.log(deviate);
           const className = deviate ? "cell-warning" : "";
 
           return (
@@ -364,7 +366,7 @@ class BalanceView extends React.Component {
           data={this.props.tableData.body.list}
           resolveData={data => data.toArray().map(row => row)}
           columns={columns}
-          defaultPageSize={this.props.tableData.body.list.size}
+          defaultPageSize={this.props.tableData.body.list.size + 4}
           className="-highlight"
           showPaginationBottom={false}
           getTheadThProps={() => {

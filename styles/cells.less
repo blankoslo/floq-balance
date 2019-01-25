@@ -133,3 +133,37 @@
   justify-content: flex-end !important;
   padding-right: 10px !important;
 }
+
+.tooltip {
+  position: absolute;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.tooltip_tail {
+  position: absolute;
+  top: -0.95em;
+  left: 4.6em;
+  height: 0.5em;
+  width: 0.5em;
+  background-color: @blank-pink;
+  transform: rotate(45deg);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip_buble {
+  position: absolute;
+  top: -1.8em;
+  left: 6em;
+  color: @blank-purple-dark;
+  padding: 0.5em 0.5em;
+  border-radius: 0.5em;
+  background-color: @blank-pink;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip-cell {
+  cursor: help;
+}

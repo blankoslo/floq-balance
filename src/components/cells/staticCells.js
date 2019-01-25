@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 export const MonetaryStaticCell = React.forwardRef((props, ref) => {
   const { value, className, tabable } = props;
@@ -30,6 +31,43 @@ export const DurationStaticCell = React.forwardRef((props, ref) => {
   );
 });
 
-export const TextStaticCell = ({ value }) => {
-  return <div>{value}</div>;
+const Tooltip = ({ text }) => {
+  return (
+    <div className="tooltip">
+      <div className="tooltip_tail" />
+      <div className="tooltip_buble">{text}</div>
+    </div>
+  );
 };
+
+export class TextStaticCell extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hover: false
+    };
+  }
+
+  handleMouseOver = e => {
+    this.setState({ hover: true });
+  };
+
+  handleMouseOut = e => {
+    this.setState({ hover: false });
+  };
+
+  render() {
+    const { hoverText, value } = this.props;
+    const className = classNames("text-cell", { "tooltip-cell": hoverText !== undefined });
+    return (
+      <div
+        className={className}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+      >
+        {value}
+        {this.state.hover && hoverText && <Tooltip text={hoverText} />}
+      </div>
+    );
+  }
+}
