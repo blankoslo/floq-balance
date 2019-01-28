@@ -2,30 +2,27 @@
 @import "cells.less";
 @import "overrides.less";
 @import "colors.less";
-
 @font-face {
   font-family: "Roboto";
-  src: url("https://fonts.googleapis.com/css?family=Roboto:100, 300, 400, 700");
-  font-weight: normal;
-  font-style: normal;
+  src: url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700");
 }
 
 @errorColor: red;
 @backgroundPanelColor: #c3c3c3;
 @inputColor: #eee;
-
 @purple: #414cb7;
 @gray: #9b9b9b;
 @dark-gray: #646464;
-
 body {
   font-family: "Roboto", sans-serif;
 }
 
 /** Copied h1-h6 font-sizes from Chrome 51*/
+
 h1 {
   font-size: 2em;
 }
+
 h2 {
   font-size: 1.5em;
 }
@@ -82,7 +79,6 @@ table.balance-table {
         text-align: center;
         width: 90%;
         box-shadow: inset 1px 1px 1px 0px grey;
-
         &.field-error {
           border: 1px solid red;
         }
@@ -109,25 +105,43 @@ table.balance-table {
   }
 }
 
-.balance-navigation {
+.table-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: @blank-white;
+  background-color: @blank-purple;
+}
+
+.month-navigation {
   height: 75px;
   font-size: 1.3em;
   display: flex;
   direction: row;
   align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 1em;
+}
+
+.month-navigation__month-year-title {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  min-width: 620px;
+}
+
+.month-navigation__arrow-button {
+  display: flex;
   color: @blank-white;
-  background-color: @blank-purple;
-
-  & .month-year-title h2 {
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 4px;
+  font-size: 2.3em;
+  background-color: fade(@blank-purple-dark, 30%);
+  padding: 0.1em;
+  border-radius: 1.2em;
+  & > i {
+    font-size: 0.6em;
   }
+}
 
-  & .material-icons {
-    color: @blank-white;
-    font-weight: 500;
-    font-size: 2.5em;
-  }
+.month-navigation__arrow-button:hover {
+  background-color: fade(@blank-purple-dark, 60%);
 }

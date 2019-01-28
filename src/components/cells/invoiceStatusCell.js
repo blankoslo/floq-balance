@@ -50,7 +50,7 @@ const styles = {
     justifyContent: "flex-end",
     "&:focus-within": {
       borderWidth: "2px !important",
-      backgroundColor: "red"
+      backgroundColor: "rgba(102, 0, 255, 0.25)"
     }
   },
   select: {
