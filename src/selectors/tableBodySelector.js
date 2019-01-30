@@ -42,6 +42,7 @@ const getTableBody = (projects, hoursPerProject, input, hourlyRate, grossTurnove
 
         return result.push({
           projectId: value.project,
+          projectName: projects.data.get(key).name,
           customerCode: projects.data.get(key).customer.id,
           gross_turnover_customer: grossTurnover.data.get(projects.data.get(key).customer.id, 0),
           net_turnover_customer: netTurnover.data.get(projects.data.get(key).customer.id, 0),

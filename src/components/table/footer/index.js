@@ -21,7 +21,7 @@ const ColumnTotal = props => {
   );
 };
 
-const TotalSummary = props => {
+const MonthAggregates = props => {
   const { data } = props;
   return (
     <div className={"table-total-summary"}>
@@ -38,8 +38,8 @@ const TotalSummary = props => {
   );
 };
 
-TotalSummary.propTypes = {
+MonthAggregates.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default TotalSummary;
+export default MonthAggregates;
