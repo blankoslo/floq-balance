@@ -16,6 +16,8 @@ import tableBodySelector from "../selectors/tableBodySelector";
 import footerSelector from "../selectors/footerSelector";
 import filterFieldsSelector from "../selectors/filterFieldsSelector";
 import IndexComponent from "../components/index";
+import * as api from "../apiclient";
+import moment from "moment";
 
 class App extends Component {
   constructor(props) {
@@ -59,8 +61,32 @@ class App extends Component {
     this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
   };
 
-  onStatusChange = (project, status) =>
+  onStatusChange = (project, status) => {
     this.props.upsertStatus(project, this.props.title.endDate, status);
+
+    if (status === "not_done") {
+      const lastDayOfPreviousMonth = moment(this.props.title.endDate)
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
+
+      api.lockEmployeeHours({
+        in_project: project,
+        in_start: this.props.title.startDate,
+        in_end: this.props.title.endDate,
+        in_commit: lastDayOfPreviousMonth,
+        in_creator: 0
+      });
+    } else {
+      api.lockEmployeeHours({
+        in_project: project,
+        in_start: this.props.title.startDate,
+        in_end: this.props.title.endDate,
+        in_commit: this.props.title.endDate,
+        in_creator: 0
+      });
+    }
+  };
 
   onInputChange = (project, key, value) => this.props.changeInput(project, key, value);
 
