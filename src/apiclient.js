@@ -68,6 +68,19 @@ export const lockEmployeeHours = body =>
     body: JSON.stringify(body)
   });
 
+export const authenticateUser = email =>
+  fetch(`${baseURL}/employees?select=id,first_name,last_name&email=ilike.${email}`, {
+    method: "GET",
+    headers: dataHeaders
+  })
+    .then(response => response.json())
+    .then(response => {
+      if (response.length === 1) {
+        return response[0];
+      }
+      return response;
+    });
+
 /* API routine for initating monthly timetracking report download  */
 
 const reportingHeaders = {

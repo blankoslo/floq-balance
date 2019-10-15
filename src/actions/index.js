@@ -9,6 +9,7 @@ export const UPSERT_WRITE_OFF = "UPSERT_WRITE_OFF";
 export const UPSERT_EXPENSE = "UPSERT_EXPENSE";
 export const UPSERT_INVOICE_STATUS = "UPSERT_INVOICE_STATUS";
 export const CHANGE_INPUT = "CHANGE_INPUT";
+export const AUTHENTICATE_USER = "AUTHENTICATE_USER";
 
 export const apiError = message => ({
   type: API_ERROR,
@@ -74,4 +75,9 @@ export const changeInput = (project, key, value) => ({
   project,
   key,
   value
+});
+
+export const authenticateUser = email => ({
+  type: AUTHENTICATE_USER,
+  payload: api.authenticateUser(email)
 });

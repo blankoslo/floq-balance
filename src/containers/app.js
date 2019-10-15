@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  authenticateUser,
   getProjects,
   getHoursPerProject,
   upsertInvoiceBalance,
@@ -23,6 +24,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    props.authenticateUser(window.userEmail);
     props.getProjects();
     props.getHoursPerProject(props.title.startDate, props.title.endDate);
   }
@@ -75,7 +77,7 @@ class App extends Component {
         in_start: this.props.title.startDate,
         in_end: this.props.title.endDate,
         in_commit: lastDayOfPreviousMonth,
-        in_creator: 0
+        in_creator: this.props.user.data.id
       });
     } else {
       api.lockEmployeeHours({
@@ -83,7 +85,7 @@ class App extends Component {
         in_start: this.props.title.startDate,
         in_end: this.props.title.endDate,
         in_commit: this.props.title.endDate,
-        in_creator: 0
+        in_creator: this.props.user.data.id
       });
     }
   };
@@ -127,11 +129,13 @@ class App extends Component {
 
 App.propTypes = {
   // mapStateToProps
+  user: PropTypes.object.isRequired,
   tableBody: PropTypes.object.isRequired,
   title: PropTypes.object.isRequired,
   footer: PropTypes.object.isRequired,
 
   // mapDispatchToProps
+  authenticateUser: PropTypes.func.isRequired,
   getProjects: PropTypes.func.isRequired,
   getHoursPerProject: PropTypes.func.isRequired,
   upsertInvoiceBalance: PropTypes.func.isRequired,
@@ -142,6 +146,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  user: state.user,
   tableBody: tableBodySelector(state, ownProps),
   title: titleSelector(state, ownProps),
   footer: footerSelector(state, ownProps),
@@ -149,6 +154,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = {
+  authenticateUser,
   getProjects,
   getHoursPerProject,
   upsertInvoiceBalance,
