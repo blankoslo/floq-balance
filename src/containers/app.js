@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  authenticateUser,
   getProjects,
   getHoursPerProject,
   upsertInvoiceBalance,
@@ -16,11 +17,14 @@ import tableBodySelector from "../selectors/tableBodySelector";
 import footerSelector from "../selectors/footerSelector";
 import filterFieldsSelector from "../selectors/filterFieldsSelector";
 import IndexComponent from "../components/index";
+import * as api from "../apiclient";
+import moment from "moment";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
+    props.authenticateUser(window.userEmail);
     props.getProjects();
     props.getHoursPerProject(props.title.startDate, props.title.endDate);
   }
@@ -59,8 +63,32 @@ class App extends Component {
     this.props.upsertInvoiceBalance(project, this.props.title.endDate, minutes, money);
   };
 
-  onStatusChange = (project, status) =>
+  onStatusChange = (project, status) => {
     this.props.upsertStatus(project, this.props.title.endDate, status);
+
+    if (status === "not_done") {
+      const lastDayOfPreviousMonth = moment(this.props.title.endDate)
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
+
+      api.lockEmployeeHours({
+        in_project: project,
+        in_start: this.props.title.startDate,
+        in_end: this.props.title.endDate,
+        in_commit: lastDayOfPreviousMonth,
+        in_creator: this.props.user.data.id
+      });
+    } else {
+      api.lockEmployeeHours({
+        in_project: project,
+        in_start: this.props.title.startDate,
+        in_end: this.props.title.endDate,
+        in_commit: this.props.title.endDate,
+        in_creator: this.props.user.data.id
+      });
+    }
+  };
 
   onInputChange = (project, key, value) => this.props.changeInput(project, key, value);
 
@@ -101,11 +129,13 @@ class App extends Component {
 
 App.propTypes = {
   // mapStateToProps
+  user: PropTypes.object.isRequired,
   tableBody: PropTypes.object.isRequired,
   title: PropTypes.object.isRequired,
   footer: PropTypes.object.isRequired,
 
   // mapDispatchToProps
+  authenticateUser: PropTypes.func.isRequired,
   getProjects: PropTypes.func.isRequired,
   getHoursPerProject: PropTypes.func.isRequired,
   upsertInvoiceBalance: PropTypes.func.isRequired,
@@ -116,6 +146,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
+  user: state.user,
   tableBody: tableBodySelector(state, ownProps),
   title: titleSelector(state, ownProps),
   footer: footerSelector(state, ownProps),
@@ -123,6 +154,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = {
+  authenticateUser,
   getProjects,
   getHoursPerProject,
   upsertInvoiceBalance,
