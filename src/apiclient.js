@@ -61,6 +61,26 @@ export const upsertInvoiceStatus = body =>
     body: JSON.stringify(body)
   }).then(response => response.json());
 
+export const lockEmployeeHours = body =>
+  fetch(`${baseURL}/rpc/lock_employee_hours`, {
+    method: "POST",
+    headers: dataHeaders,
+    body: JSON.stringify(body)
+  });
+
+export const authenticateUser = email =>
+  fetch(`${baseURL}/employees?select=id,first_name,last_name&email=ilike.${email}`, {
+    method: "GET",
+    headers: dataHeaders
+  })
+    .then(response => response.json())
+    .then(response => {
+      if (response.length === 1) {
+        return response[0];
+      }
+      return response;
+    });
+
 /* API routine for initating monthly timetracking report download  */
 
 const reportingHeaders = {
