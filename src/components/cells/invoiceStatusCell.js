@@ -93,7 +93,9 @@ export const InvoiceStatusCell = ({ status, onChange, projectId, isAdmin }) => {
             }}
             value={status}
             onChange={e => onChange(projectId, e.target.value)}
-            inputProps={{tabIndex: 1}}
+            inputProps={{
+              tabIndex: 1
+            }}
             isAdmin={isAdmin}
           >
             {Array.from(statusLabelMap).map(([key, value]) => {
@@ -112,10 +114,6 @@ export const InvoiceStatusCell = ({ status, onChange, projectId, isAdmin }) => {
       </div>
     );
   } else {
-    return (
-      <div className={className}>
-        {statusLabelMap.get(status)}
-      </div>
-    );
+    return <div className={className}>{statusLabelMap.get(status)}</div>;
   }
 };

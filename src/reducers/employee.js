@@ -1,4 +1,4 @@
-import { GET_LOGGED_IN_EMPLOYEE} from "../actions/index";
+import { GET_LOGGED_IN_EMPLOYEE } from "../actions/index";
 
 export default (state = { loading: true, isAdmin: undefined }, action) => {
   switch (action.type) {

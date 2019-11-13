@@ -153,7 +153,8 @@ class BalanceView extends React.Component {
         accessor: "write_off_minutes",
         Header: "Avskrivning",
         className: this.props.isAdmin
-          ? "cell-rt-js cell-rt-js-static" : "cell-rt-js cell-rt-js-numeric-content",
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -200,7 +201,8 @@ class BalanceView extends React.Component {
         accessor: "invoice_minutes",
         Header: "Fak. timetall",
         className: this.props.isAdmin
-          ? "cell-rt-js cell-rt-js-static" : "cell-rt-js cell-rt-js-numeric-content",
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -234,7 +236,8 @@ class BalanceView extends React.Component {
         accessor: "expense_money",
         Header: "Utgifter",
         className: this.props.isAdmin
-          ? "cell-rt-js cell-rt-js-static" : "cell-rt-js cell-rt-js-numeric-content",
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -263,7 +266,8 @@ class BalanceView extends React.Component {
         accessor: "subcontractor_money",
         Header: "UL",
         className: this.props.isAdmin
-          ? "cell-rt-js cell-rt-js-static" : "cell-rt-js cell-rt-js-numeric-content",
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -292,7 +296,8 @@ class BalanceView extends React.Component {
         accessor: "invoice_money",
         Header: "Honorar",
         className: this.props.isAdmin
-          ? "cell-rt-js cell-rt-js-static" : "cell-rt-js cell-rt-js-numeric-content",
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
