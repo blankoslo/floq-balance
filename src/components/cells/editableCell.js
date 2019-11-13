@@ -223,41 +223,46 @@ export class EditableCell extends React.Component {
   }
 
   toggleInputCell = () => {
-    this.setState({ renderInputCell: this.state.renderInputCell ? false : true });
+    this.setState({ renderInputCell: !this.state.renderInputCell });
   };
 
   render() {
-    const className = this.state.renderInputCell
-      ? "editable-cell-wrapper-input"
-      : "editable-cell-wrapper-static";
+    console.log(this.props);
+    if (this.props.isAdmin) {
+      const className = this.state.renderInputCell
+        ? "editable-cell-wrapper-input"
+        : "editable-cell-wrapper-static";
 
-    return (
-      <div
-        onClick={() => this.props.children.ref.current.focus()}
-        onDoubleClick={this.toggleInputCell}
-        className={`editable-cell-wrapper ${className}`}
-        onKeyPressCapture={e => {
-          if (isSubmitKey(e.charCode)) {
-            this.toggleInputCell();
-            e.preventDefault();
-          }
-        }}
-      >
-        {this.state.renderInputCell ? (
-          <InputCell
-            toggleInputCell={this.toggleInputCell}
-            inputValidator={this.props.inputValidator}
-            onInputChange={this.props.onInputChange}
-            onValueChange={this.props.onValueChange}
-            projectId={this.props.projectId}
-            columnId={this.props.columnId}
-            value={this.props.value}
-            input={this.props.input}
-          />
-        ) : (
-          this.props.children
-        )}
-      </div>
-    );
+      return (
+        <div
+          onClick={() => this.props.isAdmin && this.props.children.ref.current.focus()}
+          onDoubleClick={this.toggleInputCell}
+          className={`editable-cell-wrapper ${className}`}
+          onKeyPressCapture={e => {
+            if (this.props.isAdmin && isSubmitKey(e.charCode)) {
+              this.toggleInputCell();
+              e.preventDefault();
+            }
+          }}
+        >
+          {this.state.renderInputCell ? (
+            <InputCell
+              toggleInputCell={this.toggleInputCell}
+              inputValidator={this.props.inputValidator}
+              onInputChange={this.props.onInputChange}
+              onValueChange={this.props.onValueChange}
+              projectId={this.props.projectId}
+              columnId={this.props.columnId}
+              value={this.props.value}
+              input={this.props.input}
+            />
+          ) : (
+            this.props.children
+          )}
+        </div>
+      );
+    } else {
+      return this.props.children;
+    }
   }
 }

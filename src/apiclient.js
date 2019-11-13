@@ -117,3 +117,12 @@ const imitateFileDownload = (data, filename, type) => {
     }, 0);
   }
 };
+
+export const getLoggedInEmployee = () =>
+  fetch(`${baseURL}/rpc/employees_roles`, {
+    method: "POST",
+    body: `{ "email_param": "${window.userEmail}" }`,
+    headers: dataHeaders
+  })
+    .then(response => response.json())
+    .then(employees => employees[0]);

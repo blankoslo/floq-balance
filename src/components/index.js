@@ -152,7 +152,9 @@ class BalanceView extends React.Component {
       {
         accessor: "write_off_minutes",
         Header: "Avskrivning",
-        className: "cell-rt-js cell-rt-js-static",
+        className: this.props.isAdmin
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -165,11 +167,12 @@ class BalanceView extends React.Component {
               value={value}
               inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
+              isAdmin={this.props.isAdmin}
             >
               <DurationStaticCell
                 ref={staticCellRef}
                 value={value}
-                className={"editable-cell"}
+                className={this.props.isAdmin ? "editable-cell" : "static-cell"}
                 tabable={1}
               />
             </EditableCell>
@@ -197,7 +200,9 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_minutes",
         Header: "Fak. timetall",
-        className: "cell-rt-js cell-rt-js-static",
+        className: this.props.isAdmin
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -215,9 +220,10 @@ class BalanceView extends React.Component {
               value={value}
               inputValidator={isValidHours}
               input={data.get(cellInfo.index)["input"][columnId]}
+              isAdmin={this.props.isAdmin}
             >
               <DurationStaticCell
-                className={`editable-cell ${className}`}
+                className={this.props.isAdmin ? `editable-cell ${className}` : "static-cell"}
                 ref={staticCellRef}
                 value={value}
                 tabable={1}
@@ -229,7 +235,9 @@ class BalanceView extends React.Component {
       {
         accessor: "expense_money",
         Header: "Utgifter",
-        className: "cell-rt-js cell-rt-js-static",
+        className: this.props.isAdmin
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -242,11 +250,12 @@ class BalanceView extends React.Component {
               value={value}
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
+              isAdmin={this.props.isAdmin}
             >
               <MonetaryStaticCell
                 ref={staticCellRef}
                 value={value}
-                className={"editable-cell"}
+                className={this.props.isAdmin ? "editable-cell" : "static-cell"}
                 tabable={1}
               />
             </EditableCell>
@@ -256,7 +265,9 @@ class BalanceView extends React.Component {
       {
         accessor: "subcontractor_money",
         Header: "UL",
-        className: "cell-rt-js cell-rt-js-static",
+        className: this.props.isAdmin
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value } = this.extractCommonCellProps(cellInfo);
           const staticCellRef = React.createRef();
@@ -269,11 +280,12 @@ class BalanceView extends React.Component {
               value={value}
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
+              isAdmin={this.props.isAdmin}
             >
               <MonetaryStaticCell
                 ref={staticCellRef}
                 value={value}
-                className={"editable-cell"}
+                className={this.props.isAdmin ? "editable-cell" : "static-cell"}
                 tabable={1}
               />
             </EditableCell>
@@ -283,7 +295,9 @@ class BalanceView extends React.Component {
       {
         accessor: "invoice_money",
         Header: "Honorar",
-        className: "cell-rt-js cell-rt-js-static",
+        className: this.props.isAdmin
+          ? "cell-rt-js cell-rt-js-static"
+          : "cell-rt-js cell-rt-js-numeric-content",
         Cell: cellInfo => {
           const { data, columnId, projectId, value, rowIdx } = this.extractCommonCellProps(
             cellInfo
@@ -298,11 +312,12 @@ class BalanceView extends React.Component {
               value={value}
               inputValidator={isValidAmount}
               input={data.get(cellInfo.index)["input"][columnId]}
+              isAdmin={this.props.isAdmin}
             >
               <MonetaryStaticCell
                 ref={staticCellRef}
                 value={value}
-                className={"editable-cell"}
+                className={this.props.isAdmin ? "editable-cell" : "static-cell"}
                 tabable={1}
               />
             </EditableCell>
@@ -329,6 +344,7 @@ class BalanceView extends React.Component {
               status={data.get(rowIdx)["status"]}
               onChange={this.props.tableData.body.onStatusChange}
               projectId={projectId}
+              isAdmin={this.props.isAdmin}
             />
           );
         },
@@ -380,7 +396,8 @@ class BalanceView extends React.Component {
 
 BalanceView.propTypes = {
   tableData: PropTypes.object.isRequired,
-  title: PropTypes.object.isRequired
+  title: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired
 };
 
 export default BalanceView;
