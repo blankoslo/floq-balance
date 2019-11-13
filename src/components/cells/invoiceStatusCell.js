@@ -59,7 +59,8 @@ const styles = {
 };
 
 const BlankSelect = withStyles(styles)(props => {
-  const { classes, children, className, ...other } = props;
+  const { classes, children, className, isAdmin, ...other } = props;
+
   return (
     <MuiThemeProvider theme={theme}>
       <Select
@@ -76,35 +77,45 @@ const BlankSelect = withStyles(styles)(props => {
   );
 });
 
-export const InvoiceStatusCell = ({ status, onChange, projectId }) => {
+export const InvoiceStatusCell = ({ status, onChange, projectId, isAdmin }) => {
   const className = status !== null ? "status-cell" : "static-cell";
   const statusColor = statusColorMap.get(status);
-  return (
-    <div className={className}>
-      {status !== null ? (
-        <BlankSelect
-          style={{
-            color: statusColor,
-            border: `1px solid ${statusColor}`,
-            borderRadius: 5
-          }}
-          value={status}
-          onChange={e => onChange(projectId, e.target.value)}
-          inputProps={{ tabIndex: 1 }}
-        >
-          {Array.from(statusLabelMap).map(([key, value]) => {
-            return key === null ? (
-              undefined
-            ) : (
-              <MenuItem key={key} value={key}>
-                {value}
-              </MenuItem>
-            );
-          })}
-        </BlankSelect>
-      ) : (
-        "N/A"
-      )}
-    </div>
-  );
+
+  if (isAdmin) {
+    return (
+      <div className={className}>
+        {status !== null ? (
+          <BlankSelect
+            style={{
+              color: statusColor,
+              border: `1px solid ${statusColor}`,
+              borderRadius: 5
+            }}
+            value={status}
+            onChange={e => onChange(projectId, e.target.value)}
+            inputProps={{tabIndex: 1}}
+            isAdmin={isAdmin}
+          >
+            {Array.from(statusLabelMap).map(([key, value]) => {
+              return key === null ? (
+                undefined
+              ) : (
+                <MenuItem key={key} value={key}>
+                  {value}
+                </MenuItem>
+              );
+            })}
+          </BlankSelect>
+        ) : (
+          "N/A"
+        )}
+      </div>
+    );
+  } else {
+    return (
+      <div className={className}>
+        {statusLabelMap.get(status)}
+      </div>
+    );
+  }
 };

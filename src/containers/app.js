@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   authenticateUser,
+  getLoggedInEmployee,
   getProjects,
   getHoursPerProject,
   upsertInvoiceBalance,
@@ -25,6 +26,7 @@ class App extends Component {
     super(props);
 
     props.authenticateUser(window.userEmail);
+    props.getLoggedInEmployee();
     props.getProjects();
     props.getHoursPerProject(props.title.startDate, props.title.endDate);
   }
@@ -122,6 +124,7 @@ class App extends Component {
           footer: this.props.footer.data
         }}
         title={this.props.title}
+        isAdmin={this.props.isAdmin}
       />
     );
   }
@@ -130,6 +133,7 @@ class App extends Component {
 App.propTypes = {
   // mapStateToProps
   user: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   tableBody: PropTypes.object.isRequired,
   title: PropTypes.object.isRequired,
   footer: PropTypes.object.isRequired,
@@ -150,11 +154,13 @@ const mapStateToProps = (state, ownProps) => ({
   tableBody: tableBodySelector(state, ownProps),
   title: titleSelector(state, ownProps),
   footer: footerSelector(state, ownProps),
-  filterFieldValues: filterFieldsSelector(state, ownProps)
+  filterFieldValues: filterFieldsSelector(state, ownProps),
+  isAdmin: state.employee.isAdmin
 });
 
 const mapDispatchToProps = {
   authenticateUser,
+  getLoggedInEmployee,
   getProjects,
   getHoursPerProject,
   upsertInvoiceBalance,
