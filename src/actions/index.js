@@ -10,6 +10,7 @@ export const UPSERT_EXPENSE = "UPSERT_EXPENSE";
 export const UPSERT_INVOICE_STATUS = "UPSERT_INVOICE_STATUS";
 export const CHANGE_INPUT = "CHANGE_INPUT";
 export const AUTHENTICATE_USER = "AUTHENTICATE_USER";
+export const GET_LOGGED_IN_EMPLOYEE = "GET_LOGGED_IN_EMPLOYEE";
 
 export const apiError = message => ({
   type: API_ERROR,
@@ -80,4 +81,9 @@ export const changeInput = (project, key, value) => ({
 export const authenticateUser = email => ({
   type: AUTHENTICATE_USER,
   payload: api.authenticateUser(email)
+});
+
+export const getLoggedInEmployee = () => ({
+  type: GET_LOGGED_IN_EMPLOYEE,
+  payload: api.getLoggedInEmployee()
 });
