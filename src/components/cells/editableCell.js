@@ -227,7 +227,6 @@ export class EditableCell extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     if (this.props.isAdmin) {
       const className = this.state.renderInputCell
         ? "editable-cell-wrapper-input"
